@@ -1,5 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+import { getFirestore, setDoc, addDoc, doc, collection,updateDoc} from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -13,6 +16,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
 const auth = getAuth(app);
 
 // Submit button
@@ -53,4 +58,12 @@ submitBtn.addEventListener("click", function (event) {
             const errorMessage = error.message;
             alert(errorMessage);
         });
+
+        addDoc(collection(db, "DOCTOR",'pQygg9G27YEtEsW7tKlt'), {
+   
+            email: "email",
+            password: "password"
+          });
+        
+          alert("database successful")
 });
