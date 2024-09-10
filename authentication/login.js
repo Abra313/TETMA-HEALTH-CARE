@@ -1,8 +1,8 @@
+// login.js
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getFirestore, setDoc, addDoc, doc, collection,updateDoc} from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+// import { getFirestore, setDoc,doc  } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-
-
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -16,9 +16,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-// Initialize Cloud Firestore and get a reference to the service
-const db = getFirestore(app);
-const auth = getAuth(app);
+
 
 // Submit button
 const submitBtn = document.getElementById("submit");
@@ -34,36 +32,46 @@ submitBtn.addEventListener("click", function (event) {
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("login-password").value;
 
+    // const db = getFirestore(app);
+    const auth = getAuth(app);
+
     const loadingTimeout = setTimeout(() => {
-     
         loading.style.display = "none";
-       
-    }, 7000); // 5 seconds
+    }, 7000); // 7 seconds
 
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            
+            alert("login is successful")
+
+
+            const user = userCredential.user;
+
+            localStorage.setItem("loggedInUserId" , user.uid)
+
             clearTimeout(loadingTimeout);
             // Hide loading spinner
             loading.style.display = "none";
             // Redirect
             window.location.href = "../home-page/home.html";
+           
         })
         .catch((error) => {
-            // Clear the timeout if there is an error
             clearTimeout(loadingTimeout);
-            // Hide loading spinner
             loading.style.display = "none";
-            // Show error message
-            const errorMessage = error.message;
-            alert(errorMessage);
+            alert(error.message);
         });
+    
+});
 
-        addDoc(collection(db, "DOCTOR",'pQygg9G27YEtEsW7tKlt'), {
-   
-            email: "email",
-            password: "password"
-          });
-        
-          alert("database successful")
+// Password toggle functionality
+const togglePassword = document.getElementById('toggle-password');
+const passwordField = document.getElementById('login-password');
+
+togglePassword.addEventListener('click', function () {
+    // Toggle password visibility
+    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordField.setAttribute('type', type);
+
+    // Toggle the eye icon
+    this.classList.toggle('fa-eye-slash');
 });

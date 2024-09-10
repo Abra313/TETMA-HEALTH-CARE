@@ -1,7 +1,6 @@
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -16,39 +15,63 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const auth=getAuth(app)
+// Get elements
+const loadingSpinner = document.getElementById('loading');
+const submitBtn = document.getElementById('submit');
+const db = getFirestore(app);
+const auth = getAuth(app);
+const passwordField = document.getElementById('signup-password'); // Ensure this line is present
 
-//  submit button
-const submitBtn = document.getElementById("submit")
+// Show loading spinner
+function showLoading() {
+    loadingSpinner.style.display = 'block';
+}
 
-submitBtn.addEventListener("click",function (event){
-    event.preventDefault()
+// Hide loading spinner
+function hideLoading() {
+    loadingSpinner.style.display = 'none';
+}
 
-    // input
-
-    const email = document.getElementById("signup-email").value
-    const password = document.getElementById("signup-password").value
-
-
-    alert("submit button clicked")
-
-    createUserWithEmailAndPassword(auth,email, password)
-  .then((userCredential) => {
-    // Signed up 
-    const user = userCredential.user;
-    alert("Creating Account...")
-    window.location.href="login.html"
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    alert(errorMessage)
-    // ..
-  });
-
-
-
+// Add event listener for submit button
+submitBtn.addEventListener("click", function (event) {
+    event.preventDefault();
     
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+    const name = document.getElementById('signup-name').value; // Correctly get the value of 'signup-name'
 
-})
+    showLoading();
+    
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+        const user = userCredential.user;
+        const userData = {
+            name: name,
+            email: email,
+            password: password
+        };
+
+        const docRef = doc(db, "DOCTOR", user.uid);
+        setDoc(docRef, userData)
+        .then(() => {
+            hideLoading();
+            window.location.href = "login.html";
+        })
+        .catch((error) => {
+            hideLoading();
+            alert("Error saving user data: " + error.message);
+        });
+    })
+    .catch((error) => {
+        hideLoading();
+        alert("Error creating user: " + error.message);
+    });
+});
+
+// Password toggle functionality
+const togglePassword = document.getElementById('toggle-password');
+togglePassword.addEventListener('click', function () {
+    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordField.setAttribute('type', type);
+    this.classList.toggle('fa-eye-slash');
+});

@@ -1,68 +1,91 @@
-/* Basic styling for both forms */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+*{
+    padding: 0;
     margin: 0;
+    box-sizing: border-box;
+
 }
 
+
+:root {
+    --primary-color: #3498db; /* Blue */
+    
+    --text-color1: #333; /* Dark gray */
+    --text-color2:#000000; /* black */
+    --background-color1: #f4f4f4; /* Light gray */
+    --background-color2: #ffffff; /* white */
+    
+}
+body {
+    background-color: var(--background-color1);
+    min-height: 100vh;
+}
+img{
+    width: 100px;
+    border-radius: 50%;
+}
 .form-container {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    width: 300px;
+    background:var(--background-color2);
+    /* padding: 2rem; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   
+   height: 100vh;
+   
 }
 
 h2 {
     margin-bottom: 1rem;
+    font-family:sans-serif;
+    font-size: 2rem;
+}
+small{
+    color: var(--text-color1);
+    font-family:sans-serif ;
 }
 
 label {
     display: block;
     margin: 0.5rem 0;
+    font-family: sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
 }
-
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="text"] {
     width: 100%;
     padding: 0.5rem;
     margin-bottom: 1rem;
     border: 1px solid #ddd;
     border-radius: 3px;
+    outline: none;
+    padding: 17px 20px;
 }
-
 button {
     width: 100%;
     padding: 0.75rem;
-    background-color: #007bff;
+    background-color: var(--primary-color);
     border: none;
     color: #fff;
-    border-radius: 3px;
+    padding: 17px 40px;
+    border-radius: 20px;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #0056b3;
-}
 
 p {
     margin-top: 1rem;
+    color: var(--text-color1);
+    font-family:sans-serif ;
 }
 
 a {
-    color: #007bff;
+    color: var(--primary-color);
     text-decoration: none;
 }
 
-a:hover {
-    text-decoration: underline;
-}
-
-/* Loading Spinner */
 .loading {
     position: fixed;
     top: 0;
@@ -76,4 +99,13 @@ a:hover {
     align-items: center;
     font-size: 1.5rem;
     z-index: 1000;
+}
+input[type="password"]{
+    position: relative;
+}
+i{
+    position: absolute;
+    top: 71%;
+    left: 87%;
+    position: fixed;
 }

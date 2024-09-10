@@ -1,0 +1,114 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    list-style: none;
+}
+
+:root {
+    --primary-color: #3498db; /* Blue */
+    --text-color1: #333; /* Dark gray */
+    --text-color2: #000000; /* Black */
+    --background-color1: #f4f4f4; /* Light gray */
+    --background-color2: #ffffff; /* White */
+}
+
+body {
+    background-color: var(--background-color1);
+    min-height: 100vh;
+   
+}
+.slice-wrapper{
+   
+    height: 100vh;
+}
+
+.skip{
+    text-decoration: none;
+    position:absolute;
+    left: 90%;
+    top:5%;
+    font-family: sans-serif;
+    color: var(--primary-color);
+}
+
+img {
+    width: 350px;
+    border-radius: 50%;
+   
+    animation: scaleIn 1s ease-in-out; /* Scale-in animation */
+}
+
+.card-items {
+    user-select: none;
+    animation: fadeIn 2s ease-in-out; 
+   
+
+}
+
+.img-slice {
+    margin-top: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    animation: slideIn 1s ease-in-out; /* Slide-in animation from bottom */
+}
+
+.slice-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-items h2 {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    margin-top: 7%;
+    font-size: 1.8rem;
+    color: var(--text-color2);
+    animation: fadeIn 2s ease-in-out; /* Fade-in animation */
+}
+
+span {
+    color: var(--primary-color);
+}
+
+.card-items p {
+    margin-top: 7%;
+    text-align: center;
+    color: var(--text-color1);
+    font-family: sans-serif;
+    animation: fadeIn 2s ease-in-out; /* Fade-in animation */
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
