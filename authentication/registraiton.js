@@ -20,16 +20,20 @@ const loadingSpinner = document.getElementById('loading');
 const submitBtn = document.getElementById('submit');
 const db = getFirestore(app);
 const auth = getAuth(app);
-const passwordField = document.getElementById('signup-password'); // Ensure this line is present
+const passwordField = document.getElementById('signup-password');
 
 // Show loading spinner
 function showLoading() {
-    loadingSpinner.style.display = 'block';
+    if (loadingSpinner) {
+        loadingSpinner.style.display = 'block';
+    }
 }
 
 // Hide loading spinner
 function hideLoading() {
-    loadingSpinner.style.display = 'none';
+    if (loadingSpinner) {
+        loadingSpinner.style.display = 'none';
+    }
 }
 
 // Add event listener for submit button
@@ -38,7 +42,7 @@ submitBtn.addEventListener("click", function (event) {
     
     const email = document.getElementById('signup-email').value;
     const password = document.getElementById('signup-password').value;
-    const name = document.getElementById('signup-name').value; // Correctly get the value of 'signup-name'
+    const name = document.getElementById('signup-name').value;
 
     showLoading();
     
@@ -48,7 +52,7 @@ submitBtn.addEventListener("click", function (event) {
         const userData = {
             name: name,
             email: email,
-            password: password
+            // Password is NOT stored here
         };
 
         const docRef = doc(db, "DOCTOR", user.uid);

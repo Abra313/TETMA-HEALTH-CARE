@@ -1,0 +1,116 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+}
+
+
+:root {
+    --primary-color: #3498db; /* Blue */
+    --text-color1: #333; /* Dark gray */
+    --text-color2:#000000; /* black */
+    --background-color1: #f4f4f4; /* Light gray */
+    --background-color2: #ffffff; /* white */
+    
+}
+body{
+    background-color: var(--background-color1);
+   min-height: 100vh;
+}
+
+.profile-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid green;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-left: 15%;
+    font-family: sans-serif;
+    color:var(--text-color2) ;
+    margin-top: 20%;
+}
+
+p {
+    font-size: 16px;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+    margin-left: 3%;
+    text-align: center;
+    font-family: sans-serif;
+
+}
+
+#uploadimg {
+    margin-bottom: 20px;
+    /* margin-left: 30%; */
+    margin-top: 10%;
+}
+
+#uploadimg input[type="file"] {
+    display: block;
+    margin: 0 auto;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-family: sans-serif;
+}
+
+input[type="text"],
+input[type="tel"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+   
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color:var(--primary-color);
+    border-radius: 20px;
+    padding: 17px 40px;
+}
+
+/* button:hover {
+    background-color:var(--primary-color);
+    border-radius: 20px;
+} */
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
