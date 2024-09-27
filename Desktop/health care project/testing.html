@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Continuous Image Marquee</title>
+  <style>
+    .marquee-container {
+      width: 100%; 
+      height: 200px; /* Adjust as needed for image height */
+      overflow: hidden; /* Hide the overflowing content */
+      background-color: #f1f1f1;
+      position: relative;
+    }
+
+    .marquee-content {
+      display: flex; /* Use flex to easily align the images horizontally */
+      position: absolute;
+      white-space: nowrap;
+    }
+
+    .marquee-content img {
+      width: 200px; /* Adjust image width */
+      height: auto; /* Maintain aspect ratio */
+      margin-right: 10px; /* Space between images */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="marquee-container">
+    <div class="marquee-content" id="marquee">
+      <img src="image1.jpg" alt="Image 1">
+      <img src="image2.jpg" alt="Image 2">
+      <img src="image3.jpg" alt="Image 3">
+      <img src="image4.jpg" alt="Image 4">
+      <!-- Duplicate the images to ensure continuous scroll -->
+      <img src="image1.jpg" alt="Image 1">
+      <img src="image2.jpg" alt="Image 2">
+      <img src="image3.jpg" alt="Image 3">
+      <img src="image4.jpg" alt="Image 4">
+    </div>
+  </div>
+
+  <script>
+    const marquee = document.getElementById('marquee');
+    const marqueeContainer = document.querySelector('.marquee-container');
+    let position = 0;
+    const speed = 1; // Speed of the movement
+
+    function moveMarquee() {
+      position -= speed;
+      marquee.style.transform = `translateX(${position}px)`; // Apply the movement
+
+      // Reset position when the entire first set of images is out of view
+      if (Math.abs(position) >= marquee.offsetWidth / 2) {
+        position = 0;
+      }
+
+      requestAnimationFrame(moveMarquee); // Continue the animation
+    }
+
+    // Start the animation when the page loads
+    window.onload = moveMarquee;
+  </script>
+
+</body>
+</html>
