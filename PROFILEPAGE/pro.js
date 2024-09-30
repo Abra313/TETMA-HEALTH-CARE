@@ -1,37 +1,20 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
-import { getFirestore, doc, updateDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js';
-import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
+// import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
+// import { getFirestore, doc, updateDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
+// import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js';
+// import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
+// pro.js
+import { auth, db, storage, doc, updateDoc, getDoc, ref, uploadBytes, getDownloadURL, onAuthStateChanged } from "../firebaseConfig.js";
 
-// Your Firebase project configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyDNjWv2TRRAHE8wfmIY8cfCRBGma1wUX3I",
-    authDomain: "tetma-health-care.firebaseapp.com",
-    projectId: "tetma-health-care",
-    storageBucket: "tetma-health-care.appspot.com",
-    messagingSenderId: "132306558594",
-    appId: "1:132306558594:web:fd0c3fd954ce2532d09e9b"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const firestore = getFirestore(app);
-const storage = getStorage(app);
-const auth = getAuth(app);
-
-// Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {
     // Get the current user
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-            const doctorRef = doc(firestore, 'DOCTOR', user.uid);
+            const doctorRef = doc(db, 'DOCTOR', user.uid);
             const doctorDoc = await getDoc(doctorRef);
 
             // Populate the form with existing data or create a new doctor profile
             const data = doctorDoc.exists() ? doctorDoc.data() : {};
-            document.getElementById('speciatyInput').value = data.specialty || '';
-            document.getElementById('workingHoursInput').value = data.workingHours || '';
-            document.getElementById('yearsInput').value = data.years || '';
+            document.getElementById('specialtyInput').value = data.specialty || ''; 
             document.getElementById('phoneInput').value = data.phone || '';
             document.getElementById('genderInput').value = data.gender || '';
             document.getElementById('addressInput').value = data.address || '';
@@ -49,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const file = event.target.files[0];
                 if (file) {
                     const reader = new FileReader();
-                    reader.onload = function(e) {
+                    reader.onload = (e) => {
                         preview.src = e.target.result;
                         preview.style.display = 'block';
                     };
@@ -67,9 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const gender = formData.get('gender');
                 const address = formData.get('address');
                 const about = formData.get('about');
-                const specialty = formData.get('specialty'); // Ensure specialty is captured
-                const workingHours = formData.get('workingHours'); // Ensure workingHours is captured
-                const years = formData.get('years'); // Ensure years is captured
+                const specialty = formData.get('specialty');
                 const file = imageInput.files[0];
 
                 try {
@@ -86,8 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         phone,
                         gender,
                         specialty,
-                        workingHours,
-                        years,
                         address,
                         about,
                     };
@@ -99,11 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Update the profile data in the "DOCTOR" collection
                     await updateDoc(doctorRef, updateData);
-
                     alert('Profile updated successfully!');
                 } catch (error) {
-                    // console.error("Error updating profile:", error);
-                    // alert('Failed to update profile: ' + error.message);
+                    console.error("Error updating profile:", error);
+                    alert('Failed to update profile: ' + error.message);
                 }
             });
         } else {

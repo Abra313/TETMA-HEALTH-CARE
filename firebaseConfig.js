@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore, setDoc, doc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { getAuth,onAuthStateChanged , createUserWithEmailAndPassword, signInWithEmailAndPassword ,sendPasswordResetEmail} from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { getFirestore, setDoc, doc, collection, getDocs,getDoc,updateDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -18,6 +19,11 @@ const app = initializeApp(firebaseConfig);
 // Get elements
 const db = getFirestore(app);
 const auth = getAuth(app);
+// Initialize Firebase
+
+const firestore = getFirestore(app);
+const storage = getStorage(app);
+
 
 export{
   getDocs,
@@ -27,5 +33,14 @@ export{
     setDoc, 
     doc, 
     createUserWithEmailAndPassword,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    updateDoc,
+    getDoc,
+    ref,
+    uploadBytes,
+    getDownloadURL,
+    onAuthStateChanged,
+    storage
+
 }
