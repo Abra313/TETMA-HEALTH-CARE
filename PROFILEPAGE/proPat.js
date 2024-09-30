@@ -1,28 +1,15 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
-import { getFirestore, doc, updateDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js';
-import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
+// import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
+// import { getFirestore, doc, updateDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
+// import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js';
+// import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
+import { auth, db, storage, doc, updateDoc, getDoc, ref, uploadBytes, getDownloadURL, onAuthStateChanged } from "../firebaseConfig.js";
 
-// Your Firebase project configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyDNjWv2TRRAHE8wfmIY8cfCRBGma1wUX3I",
-    authDomain: "tetma-health-care.firebaseapp.com",
-    projectId: "tetma-health-care",
-    storageBucket: "tetma-health-care.appspot.com",
-    messagingSenderId: "132306558594",
-    appId: "1:132306558594:web:fd0c3fd954ce2532d09e9b"
-};
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const firestore = getFirestore(app);
-const storage = getStorage(app);
-const auth = getAuth(app);
 
 // Get the current user
 onAuthStateChanged(auth, async (user) => {
     if (user) {
-        const patientRef = doc(firestore, 'PATIENT', user.uid);
+        const patientRef = doc(db, 'PATIENT', user.uid);
         const patientDoc = await getDoc(patientRef);
 
         // Populate the form with existing data or create a new patient profile

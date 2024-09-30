@@ -1,22 +1,5 @@
 // login.js
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-// import { getFirestore, setDoc,doc  } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDNjWv2TRRAHE8wfmIY8cfCRBGma1wUX3I",
-  authDomain: "tetma-health-care.firebaseapp.com",
-  projectId: "tetma-health-care",
-  storageBucket: "tetma-health-care.appspot.com",
-  messagingSenderId: "132306558594",
-  appId: "1:132306558594:web:fd0c3fd954ce2532d09e9b"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
+import{ signInWithEmailAndPassword, auth} from '../firebaseConfig.js'
 
 // Submit button
 const submitBtn = document.getElementById("submit");
@@ -32,8 +15,6 @@ submitBtn.addEventListener("click", function (event) {
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("login-password").value;
 
-    // const db = getFirestore(app);
-    const auth = getAuth(app);
 
     const loadingTimeout = setTimeout(() => {
         loading.style.display = "none";
