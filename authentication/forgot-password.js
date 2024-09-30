@@ -1,20 +1,8 @@
 // Import Firebase modules
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDNjWv2TRRAHE8wfmIY8cfCRBGma1wUX3I",
-  authDomain: "tetma-health-care.firebaseapp.com",
-  projectId: "tetma-health-care",
-  storageBucket: "tetma-health-care.appspot.com",
-  messagingSenderId: "132306558594",
-  appId: "1:132306558594:web:fd0c3fd954ce2532d09e9b"
-};
+import {auth,sendPasswordResetEmail }from "../firebaseConfig.js";
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+
 
 // Get the form and message elements
 const form = document.getElementById('forgot-password-form');
