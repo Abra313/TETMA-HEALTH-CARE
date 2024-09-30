@@ -1,3 +1,6 @@
+
+
+
 // Sample data for doctor and statistics
 const doctorDetails = {
     name: "Dr. Johnny Wilson",
@@ -25,7 +28,13 @@ const appointmentData = [
         day: 'Tue',
         date: '6 Oct',
         times: ['6:30 PM', '7:00 PM', '7:30 PM']
-    }
+    },
+    {
+        day: 'Tue',
+        date: '6 Oct',
+        times: ['6:30 PM', '7:00 PM', '7:30 PM']
+    },
+    
 ];
 
 // Create and style elements function
@@ -120,7 +129,7 @@ function displayAppointments() {
             border: '1px solid grey',
             borderRadius: '45px',
             width: '140px',
-            height: '70px',
+            // height: '65px',
             margin: '5px',
             display: 'flex',
             flexDirection: 'column',
@@ -131,13 +140,14 @@ function displayAppointments() {
 
         // Create the day as a <p> tag
         const dayElement = createElement('p', '', appointment.day, {
-            fontSize: '15px' // Set font size for the day
+            fontSize: '18px', // Set font size for the day
+            fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif'
         });
         dateButton.appendChild(dayElement);
 
         // Create the date as an <h2> tag
         const dateElement = createElement('h2', '', appointment.date, {
-            fontSize: '18px' // Set font size for the date
+            fontSize: '21px' // Set font size for the date
         });
         dateButton.appendChild(dateElement);
 

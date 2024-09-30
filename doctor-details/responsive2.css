@@ -89,15 +89,18 @@
     }
     .bntdate{
         display: flex;
+        /* flex-direction: row; */
+        /* row-gap: 40px; */
         align-items: center;
-        justify-content: center;
-        gap: 20px;
+        justify-content: space-between;
+        /* gap: 20px; */
+        width: 130%;
     }
     .bntdate > button{
         border: 1px solid grey;
-        border-radius: 45px;
-        width: 140px;
-        height: 70px;
+        border-radius: 50px;
+        width: 170px;
+        height: 60px;
         margin: 0;
     }
     .datemonth > p {
