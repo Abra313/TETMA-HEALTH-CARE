@@ -35,7 +35,7 @@ const appointmentData = [
         times: ['8:30 PM', '8:00 PM', '8:30 PM']
     },
     
-];
+]; 
 
 // Create and style elements function
 function createElement(tag, className, textContent, styles = {}) {
