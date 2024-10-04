@@ -1,28 +1,11 @@
-// login.js
+import { signInWithEmailAndPassword, auth, db, doc, getDoc, setDoc } from '../firebaseConfig.js';
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-// import { getFirestore, setDoc,doc  } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDNjWv2TRRAHE8wfmIY8cfCRBGma1wUX3I",
-  authDomain: "tetma-health-care.firebaseapp.com",
-  projectId: "tetma-health-care",
-  storageBucket: "tetma-health-care.appspot.com",
-  messagingSenderId: "132306558594",
-  appId: "1:132306558594:web:fd0c3fd954ce2532d09e9b"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-
-// Submit button
-const submitBtn = document.getElementById("submit");
+// Get the form element
+const loginForm = document.getElementById("login-form");
 const loading = document.getElementById("loading");
 
-submitBtn.addEventListener("click", function (event) {
+// Add event listener to the form
+loginForm.addEventListener("submit", async function (event) {
     event.preventDefault();
 
     // Show loading spinner
@@ -32,35 +15,53 @@ submitBtn.addEventListener("click", function (event) {
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("login-password").value;
 
-    // const db = getFirestore(app);
-    const auth = getAuth(app);
+    // Store the email in session storage
+    sessionStorage.setItem("loggedInEmail", email);
+    console.log("Email stored in session storage:", email);
 
     const loadingTimeout = setTimeout(() => {
         loading.style.display = "none";
     }, 7000); // 7 seconds
 
-    signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            alert("login is successful")
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        alert("Login is successful");
 
+        const user = userCredential.user;
+        localStorage.setItem("loggedInUserId", user.uid);
+        
+        
+        const patientDocRef = doc(db, 'PATIENT', user.uid); 
+        const patientData = {
+            email: email,
+            uid: user.uid,
+            
+        };
 
-            const user = userCredential.user;
+        
+        await setDoc(patientDocRef, patientData, { merge: true });
+        console.log("Patient data stored in Firestore:", patientData);
 
-            localStorage.setItem("loggedInUserId" , user.uid)
-
-            clearTimeout(loadingTimeout);
-            // Hide loading spinner
-            loading.style.display = "none";
-            // Redirect
-            window.location.href = "/home-page/home.html";
+        //
+        const patientDoc = await getDoc(patientDocRef);
+        if (patientDoc.exists()) {
            
-        })
-        .catch((error) => {
-            clearTimeout(loadingTimeout);
-            loading.style.display = "none";
-            alert(error.message);
-        });
-    
+            sessionStorage.setItem("patientData", JSON.stringify(patientDocDoc.data()));
+            console.log("Patient Data retrieved from Firestore:", patientDoc.data());
+        } else {
+            console.log("No such document in patient collection!");
+        }
+
+        clearTimeout(loadingTimeout);
+        // Hide loading spinner
+        loading.style.display = "none";
+        // Redirect
+        window.location.href = "../home-page/home.html";
+    } catch (error) {
+        clearTimeout(loadingTimeout);
+        loading.style.display = "none";
+        alert(error.message);
+    }
 });
 
 // Password toggle functionality

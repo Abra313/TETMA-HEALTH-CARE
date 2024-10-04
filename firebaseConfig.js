@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getAuth,onAuthStateChanged , createUserWithEmailAndPassword, signInWithEmailAndPassword ,sendPasswordResetEmail} from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore, setDoc, doc, collection, getDocs,getDoc,updateDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { getFirestore, setDoc, doc, collection, getDocs, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js';
 
 // Your web app's Firebase configuration
@@ -19,15 +19,23 @@ const app = initializeApp(firebaseConfig);
 // Get elements
 const db = getFirestore(app);
 const auth = getAuth(app);
-// Initialize Firebase
-
-const firestore = getFirestore(app);
 const storage = getStorage(app);
 
+// Function to get user data by email
+export const getUserDataByEmail = async (email) => {
+    const userRef = doc(db, "users", email); // Adjust this line based on your Firestore structure
+    const userDoc = await getDoc(userRef);
+    if (userDoc.exists()) {
+        return userDoc.data();
+    } else {
+        throw new Error("No such user found!");
+    }
+};
 
-export{
-  getDocs,
-  collection,
+// Export Firebase services
+export {
+    getDocs,
+    collection,
     db,
     auth, 
     setDoc, 
@@ -42,5 +50,4 @@ export{
     getDownloadURL,
     onAuthStateChanged,
     storage
-
-}
+};
