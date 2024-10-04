@@ -1,11 +1,11 @@
-// login.js
-import{ signInWithEmailAndPassword, auth} from '../firebaseConfig.js'
+import { signInWithEmailAndPassword, auth, db, doc, getDoc, setDoc } from '../firebaseConfig.js';
 
-// Submit button
-const submitBtn = document.getElementById("submit");
+// Get the form element
+const loginForm = document.getElementById("login-form");
 const loading = document.getElementById("loading");
 
-submitBtn.addEventListener("click", function (event) {
+// Add event listener to the form
+loginForm.addEventListener("submit", async function (event) {
     event.preventDefault();
 
     // Show loading spinner
@@ -15,34 +15,53 @@ submitBtn.addEventListener("click", function (event) {
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("login-password").value;
 
+    // Store the email in session storage
+    sessionStorage.setItem("loggedInEmail", email);
+    console.log("Email stored in session storage:", email);
 
     const loadingTimeout = setTimeout(() => {
         loading.style.display = "none";
     }, 7000); // 7 seconds
 
-    signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            alert("login is successful")
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        alert("Login is successful");
 
+        const user = userCredential.user;
+        localStorage.setItem("loggedInUserId", user.uid);
+        
+        // Prepare user data to store in the "doctors" collection in Firestore
+        const doctorDocRef = doc(db, 'DOCTOR', user.uid); // Adjust 'doctors' to your collection name
+        const doctorData = {
+            email: email,
+            uid: user.uid,
+            // Add other doctor-specific data as needed
+        };
 
-            const user = userCredential.user;
+        // Store doctor data in Firestore
+        await setDoc(doctorDocRef, doctorData, { merge: true });
+        console.log("Doctor data stored in Firestore:", doctorData);
 
-            localStorage.setItem("loggedInUserId" , user.uid);
-            console.log(user);
+        // Fetch doctor data from Firestore
+        const doctorDoc = await getDoc(doctorDocRef);
+        if (doctorDoc.exists()) {
+            // Store doctor data in session storage
+            sessionStorage.setItem("doctorData", JSON.stringify(doctorDoc.data()));
+            console.log("Doctor Data retrieved from Firestore:", doctorDoc.data());
+        } else {
+            console.log("No such document in doctors collection!");
+        }
 
-            clearTimeout(loadingTimeout);
-            // Hide loading spinner
-            loading.style.display = "none";
-            // Redirect
-            window.location.href = "../home-page/home.html";
-           
-        })
-        .catch((error) => {
-            clearTimeout(loadingTimeout);
-            loading.style.display = "none";
-            alert(error.message);
-        });
-    
+        clearTimeout(loadingTimeout);
+        // Hide loading spinner
+        loading.style.display = "none";
+        // Redirect
+        window.location.href = "../home-page/home.html";
+    } catch (error) {
+        clearTimeout(loadingTimeout);
+        loading.style.display = "none";
+        alert(error.message);
+    }
 });
 
 // Password toggle functionality
