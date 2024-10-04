@@ -1,4 +1,313 @@
+import { collection, db, addDoc } from "../firebaseConfig.js";
 
+
+// const doctors = [
+//     {
+//         name: "Dr. Johnny Wilson",
+//         specialty: "Dentist",
+//         location: "New York, United States",
+//         experience: "10+",
+//         rating: "4.9+",
+//         reviews: "4,789",
+//         about: "Experienced and dedicated dental professional.",
+//         yearsOfExperience: "12",
+//         workingHours: ["Mon-Fri: 9am - 5pm"],
+//         address: "123 Main St, New York, NY",
+//         messages: [],
+//         password: "D3ntal$2024",
+//         email: "johnny.wilson@example.com",
+//         patients: [
+//             { name: "Alice Johnson", age: 30, condition: "Cavity" },
+//             { name: "Bob Smith", age: 45, condition: "Root Canal" },
+//             { name: "Carol White", age: 28, condition: "Teeth Whitening" },
+//         ],
+//         profilePicture: "https://example.com/profiles/dr-johnny-wilson.jpg",
+//         appointments: [
+//             { date: "2024-10-10", time: "10:00 AM", patient: "Alice Johnson", status: "Confirmed" },
+//             { date: "2024-10-11", time: "2:00 PM", patient: "Bob Smith", status: "Pending" },
+//             { date: "2024-10-12", time: "11:30 AM", patient: "Carol White", status: "Cancelled" },
+//         ]
+//     },
+//     {
+//         name: "Dr. Emma Smith",
+//         specialty: "Pediatrician",
+//         location: "New York, United States",
+//         experience: "8+",
+//         rating: "4.8+",
+//         reviews: "2,345",
+//         about: "Caring pediatrician focused on children's health.",
+//         yearsOfExperience: "8",
+//         workingHours: ["Mon-Fri: 10am - 6pm"],
+//         address: "456 Elm St, New York, NY",
+//         messages: [],
+//         password: "P3di@tric2024",
+//         email: "emma.smith@example.com",
+//         patients: [
+//             { name: "Liam Anderson", age: 6, condition: "Flu" },
+//             { name: "Sophia Brown", age: 4, condition: "Checkup" },
+//             { name: "Mason Lee", age: 10, condition: "Allergies" },
+//         ],
+//         profilePicture: "https://example.com/profiles/dr-emma-smith.jpg",
+//         appointments: [
+//             { date: "2024-10-15", time: "1:00 PM", patient: "Liam Anderson", status: "Confirmed" },
+//             { date: "2024-10-16", time: "3:00 PM", patient: "Sophia Brown", status: "Pending" },
+//             { date: "2024-10-17", time: "11:00 AM", patient: "Mason Lee", status: "Confirmed" },
+//         ]
+//     },
+//     {
+//         name: "Dr. Olivia Brown",
+//         specialty: "Cardiologist",
+//         location: "New York, United States",
+//         experience: "15+",
+//         rating: "4.7+",
+//         reviews: "1,500",
+//         about: "Expert in cardiovascular health.",
+//         yearsOfExperience: "15",
+//         workingHours: ["Mon-Fri: 8am - 4pm"],
+//         address: "789 Maple Ave, New York, NY",
+//         messages: [],
+//         password: "C@rdio2024!",
+//         email: "olivia.brown@example.com",
+//         patients: [
+//             { name: "David Green", age: 60, condition: "Heart Disease" },
+//             { name: "Eva Harris", age: 55, condition: "Hypertension" },
+//             { name: "Jacob Wilson", age: 70, condition: "Arrhythmia" },
+//         ],
+//         profilePicture: "https://example.com/profiles/dr-olivia-brown.jpg",
+//         appointments: [
+//             { date: "2024-10-20", time: "9:30 AM", patient: "David Green", status: "Confirmed" },
+//             { date: "2024-10-21", time: "1:30 PM", patient: "Eva Harris", status: "Pending" },
+//             { date: "2024-10-22", time: "2:30 PM", patient: "Jacob Wilson", status: "Cancelled" },
+//         ]
+//     },
+//     {
+//         name: "Dr. Liam Johnson",
+//         specialty: "Dermatologist",
+//         location: "New York, United States",
+//         experience: "9+",
+//         rating: "4.6+",
+//         reviews: "1,200",
+//         about: "Specializes in skin conditions and treatments.",
+//         yearsOfExperience: "9",
+//         workingHours: ["Mon-Fri: 9am - 5pm"],
+//         address: "101 Pine St, New York, NY",
+//         messages: [],
+//         password: "D3rm@2024!",
+//         email: "liam.johnson@example.com",
+//         patients: [
+//             { name: "Grace Lee", age: 34, condition: "Acne" },
+//             { name: "Oliver Martin", age: 22, condition: "Eczema" },
+//             { name: "Chloe Clark", age: 29, condition: "Psoriasis" },
+//         ],
+//         profilePicture: "https://example.com/profiles/dr-liam-johnson.jpg",
+//         appointments: [
+//             { date: "2024-10-25", time: "10:30 AM", patient: "Grace Lee", status: "Confirmed" },
+//             { date: "2024-10-26", time: "12:00 PM", patient: "Oliver Martin", status: "Pending" },
+//             { date: "2024-10-27", time: "3:00 PM", patient: "Chloe Clark", status: "Confirmed" },
+//         ]
+//     },
+//     {
+//         name: "Dr. Noah Davis",
+//         specialty: "Neurologist",
+//         location: "New York, United States",
+//         experience: "12+",
+//         rating: "4.9+",
+//         reviews: "3,000",
+//         about: "Focused on neurological disorders and treatments.",
+//         yearsOfExperience: "12",
+//         workingHours: ["Mon-Fri: 9am - 5pm"],
+//         address: "202 Birch Rd, New York, NY",
+//         messages: [],
+//         password: "Neuro$2024",
+//         email: "noah.davis@example.com",
+//         patients: [
+//             { name: "Emma Scott", age: 40, condition: "Migraine" },
+//             { name: "Aiden Taylor", age: 35, condition: "Parkinson's" },
+//             { name: "Ella Davis", age: 50, condition: "Multiple Sclerosis" },
+//         ],
+//         profilePicture: "https://example.com/profiles/dr-noah-davis.jpg",
+//         appointments: [
+//             { date: "2024-10-30", time: "9:00 AM", patient: "Emma Scott", status: "Confirmed" },
+//             { date: "2024-10-31", time: "1:00 PM", patient: "Aiden Taylor", status: "Pending" },
+//             { date: "2024-11-01", time: "3:00 PM", patient: "Ella Davis", status: "Cancelled" },
+//         ]
+//     },
+//     {
+//         name: "Dr. Ava Garcia",
+//         specialty: "Orthopedic Surgeon",
+//         location: "New York, United States",
+//         experience: "11+",
+//         rating: "4.8+",
+//         reviews: "2,800",
+//         about: "Specializes in bone and joint health.",
+//         yearsOfExperience: "11",
+//         workingHours: ["Mon-Fri: 8am - 4pm"],
+//         address: "303 Cedar Blvd, New York, NY",
+//         messages: [],
+//         password: "Ortho2024#",
+//         email: "ava.garcia@example.com",
+//         patients: [
+//             { name: "James King", age: 65, condition: "Hip Replacement" },
+//             { name: "Mia Garcia", age: 50, condition: "Knee Pain" },
+//             { name: "Lucas Martinez", age: 42, condition: "Fracture" },
+//         ],
+//         profilePicture: "https://example.com/profiles/dr-ava-garcia.jpg",
+//         appointments: [
+//             { date: "2024-11-05", time: "9:30 AM", patient: "James King", status: "Confirmed" },
+//             { date: "2024-11-06", time: "11:00 AM", patient: "Mia Garcia", status: "Pending" },
+//             { date: "2024-11-07", time: "2:00 PM", patient: "Lucas Martinez", status: "Confirmed" },
+//         ]
+//     },
+//     {
+//         name: "Dr. Sophia Martinez",
+//         specialty: "General Practitioner",
+//         location: "New York, United States",
+//         experience: "7+",
+//         rating: "4.5+",
+//         reviews: "2,100",
+//         about: "Provides comprehensive health care.",
+//         yearsOfExperience: "7",
+//         workingHours: ["Mon-Fri: 9am - 5pm"],
+//         address: "404 Oak St, New York, NY",
+//         messages: [],
+//         password: "GenPrac@2024",
+//         email: "sophia.martinez@example.com",
+//         patients: [
+//             { name: "Michael Johnson", age: 30, condition: "Fever" },
+//             { name: "Emily Smith", age: 27, condition: "Checkup" },
+//             { name: "Benjamin Brown", age: 38, condition: "Headache" },
+//         ],
+//         profilePicture: "https://example.com/profiles/dr-sophia-martinez.jpg",
+//         appointments: [
+//             { date: "2024-11-10", time: "10:00 AM", patient: "Michael Johnson", status: "Confirmed" },
+//             { date: "2024-11-11", time: "1:30 PM", patient: "Emily Smith", status: "Pending" },
+//             { date: "2024-11-12", time: "3:00 PM", patient: "Benjamin Brown", status: "Confirmed" },
+//         ]
+//     },
+//     {
+//         name: "Dr. Jackson Lee",
+//         specialty: "Psychiatrist",
+//         location: "New York, United States",
+//         experience: "6+",
+//         rating: "4.4+",
+//         reviews: "1,000",
+//         about: "Focused on mental health and well-being.",
+//         yearsOfExperience: "6",
+//         workingHours: ["Mon-Fri: 9am - 5pm"],
+//         address: "505 Spruce St, New York, NY",
+//         messages: [],
+//         password: "MindCare2024!",
+//         email: "jackson.lee@example.com",
+//         patients: [
+//             { name: "Sophie White", age: 28, condition: "Anxiety" },
+//             { name: "Liam Black", age: 33, condition: "Depression" },
+//             { name: "Isabella Gray", age: 22, condition: "Stress" },
+//         ],
+//         profilePicture: "https://example.com/profiles/dr-jackson-lee.jpg",
+//         appointments: [
+//             { date: "2024-11-15", time: "10:00 AM", patient: "Sophie White", status: "Confirmed" },
+//             { date: "2024-11-16", time: "2:00 PM", patient: "Liam Black", status: "Pending" },
+//             { date: "2024-11-17", time: "11:00 AM", patient: "Isabella Gray", status: "Confirmed" },
+//         ]
+//     },
+//     {
+//         name: "Dr. Mia Anderson",
+//         specialty: "Endocrinologist",
+//         location: "New York, United States",
+//         experience: "8+",
+//         rating: "4.3+",
+//         reviews: "800",
+//         about: "Specializes in hormonal and metabolic disorders.",
+//         yearsOfExperience: "8",
+//         workingHours: ["Mon-Fri: 10am - 6pm"],
+//         address: "606 Willow Rd, New York, NY",
+//         messages: [],
+//         password: "Endo@2024",
+//         email: "mia.anderson@example.com",
+//         patients: [
+//             { name: "Daniel Young", age: 50, condition: "Diabetes" },
+//             { name: "Emma Wilson", age: 45, condition: "Thyroid Issues" },
+//             { name: "Oliver Smith", age: 36, condition: "Obesity" },
+//         ],
+//         profilePicture: "https://example.com/profiles/dr-mia-anderson.jpg",
+//         appointments: [
+//             { date: "2024-11-20", time: "10:30 AM", patient: "Daniel Young", status: "Confirmed" },
+//             { date: "2024-11-21", time: "1:30 PM", patient: "Emma Wilson", status: "Pending" },
+//             { date: "2024-11-22", time: "3:00 PM", patient: "Oliver Smith", status: "Confirmed" },
+//         ]
+//     },
+//     {
+//         name: "Dr. Lucas Thompson",
+//         specialty: "Ophthalmologist",
+//         location: "New York, United States",
+//         experience: "10+",
+//         rating: "4.7+",
+//         reviews: "1,200",
+//         about: "Expert in eye health and vision care.",
+//         yearsOfExperience: "10",
+//         workingHours: ["Mon-Fri: 9am - 5pm"],
+//         address: "707 Walnut St, New York, NY",
+//         messages: [],
+//         password: "Vision2024*",
+//         email: "lucas.thompson@example.com",
+//         patients: [
+//             { name: "Charlotte Lee", age: 34, condition: "Cataracts" },
+//             { name: "Amelia Brown", age: 29, condition: "Glaucoma" },
+//             { name: "Henry Green", age: 60, condition: "Macular Degeneration" },
+//         ],
+//         profilePicture: "https://example.com/profiles/dr-lucas-thompson.jpg",
+//         appointments: [
+//             { date: "2024-11-25", time: "9:00 AM", patient: "Charlotte Lee", status: "Confirmed" },
+//             { date: "2024-11-26", time: "1:00 PM", patient: "Amelia Brown", status: "Pending" },
+//             { date: "2024-11-27", time: "3:00 PM", patient: "Henry Green", status: "Confirmed" },
+//         ]
+//     },
+//     {
+//         name: "Dr. Amelia Taylor",
+//         specialty: "Cardiologist",
+//         location: "New York, United States",
+//         experience: "14+",
+//         rating: "4.8+",
+//         reviews: "1,900",
+//         about: "Dedicated to heart health and prevention.",
+//         yearsOfExperience: "14",
+//         workingHours: ["Mon-Fri: 8am - 4pm"],
+//         address: "808 Ash St, New York, NY",
+//         messages: [],
+//         password: "Cardio*2024",
+//         email: "amelia.taylor@example.com",
+//         patients: [
+//             { name: "Ella Martin", age: 65, condition: "Heart Failure" },
+//             { name: "Liam Walker", age: 55, condition: "Coronary Artery Disease" },
+//             { name: "Sophia Hall", age: 70, condition: "Arrhythmia" },
+//         ],
+//         profilePicture: "https://example.com/profiles/dr-amelia-taylor.jpg",
+//         appointments: [
+//             { date: "2024-12-01", time: "9:00 AM", patient: "Ella Martin", status: "Confirmed" },
+//             { date: "2024-12-02", time: "2:00 PM", patient: "Liam Walker", status: "Pending" },
+//             { date: "2024-12-03", time: "11:00 AM", patient: "Sophia Hall", status: "Confirmed" },
+//         ]
+//     },
+//     // Add more doctors here as needed
+// ];
+
+
+
+
+// async function pushDoctorsToFirestore() {
+//     for (const doctor of doctors) {
+//         try {
+//             // Add a new document with a generated ID in the DOCTOR collection
+//             await addDoc(collection(db, "DOCTOR"), doctor);
+//             console.log(`Doctor added: ${doctor.name}`);
+//         } catch (error) {
+//             console.error("Error adding doctor: ", error);
+//         }
+//     }
+// }
+
+// // Call the function to push doctors
+// pushDoctorsToFirestore();
 
 
 // Sample data for doctor and statistics
@@ -9,7 +318,7 @@ const doctorDetails = {
     patients: "7,500+",
     experience: "10+",
     rating: "4.9+",
-    reviews: "4,789"
+    reviews: "4,789",
 };
 
 // Sample data for appointment days and times
