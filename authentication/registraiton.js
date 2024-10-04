@@ -11,7 +11,7 @@ async function updateDoctorDocuments() {
         // Create an updated user data object
         const updatedData = {
             ...userData,
-            yearOfExperience: userData.yearOfExperience || 0,
+            // yearOfExperience: userData.yearOfExperience || 0,
             rating: userData.rating !== undefined ? userData.rating : 0, // Set default rating
             reviews: Array.isArray(userData.reviews) ? userData.reviews : [], // Ensure reviews is an array
             appointments: Array.isArray(userData.appointments) ? userData.appointments : [], // Ensure appointments is an array
@@ -62,7 +62,7 @@ submitBtn.addEventListener("click", function (event) {
     const name = document.getElementById('signup-name').value;
     
     // Add your new fields here
-    const yearOfExperience = parseInt(document.getElementById('year-experience').value) || 0; // Assuming there's an input field for years of experience
+    // const yearOfExperience = parseInt(document.getElementById('year-experience').value) || 0; // Assuming there's an input field for years of experience
     const rating = 0; // Assuming there's an input field for rating
     const reviews = []; // Initialize as an empty array
     const appointments = []; // Initialize as an empty array
@@ -76,7 +76,7 @@ submitBtn.addEventListener("click", function (event) {
         const userData = {
             name: name,
             email: email,
-            yearOfExperience: yearOfExperience,
+            // yearOfExperience: yearOfExperience,
             rating: rating,
             reviews: reviews,
             appointments: appointments,

@@ -1,0 +1,369 @@
+* {
+    padding: 0%;
+    margin: 0%;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+/*styling of the body*/
+body { 
+    background-color: #ffffff;
+    font-family: "Poppins", sans-serif;
+}
+:root {
+    --primary-color: #3498db;  /* blue */
+    --text-color1: #333333e1; /* dark-grey */
+    --text-color2: #000000; /* black */
+    --background-color1: #f4f4f4; /* light-grey */
+    --background-color2: #ffffff; /* white */
+}
+/*styling of all the divs with the class name 'see-all'*/
+.see-all >a{
+    color: var(--primary-color);
+}
+/*styling of all the h3*/
+h3{
+    color: #585454;
+}
+
+.body {
+    margin: 1.0rem 1.2rem;
+}
+
+/*styling of the header*/
+header {
+    position: fixed; /* Fixed position to stay on top of the viewport */
+    top: 0;           /* Stick to the top */
+    left: 0;
+    width: 100%;      /* Ensure it spans the entire width of the screen */
+    border-color: transparent;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    font-size: 24px;
+    z-index: 1000;      /* Ensures it stays on top of other content */
+    transition: background-color 0.3s ease;
+}
+ .location p {
+    color: var(--text-color1);
+    font-size: large;
+    align-items: flex-start;
+ }
+
+ .locationP {
+    text-align: left;
+ }
+ .locationIcon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+ }
+
+ .select-location {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-color1);
+    font-size: large;
+ }
+ .select-location>img {
+    height: 35px;
+    width: 35px;
+ }
+
+ .menu {
+    font-size: large;
+    color: var(--text-color1);
+ }
+
+
+
+
+ .dropdown {
+    display: inline-block;
+    position: relative;
+    margin-top: 0px;
+}
+
+.dropdown-toggle {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    /* width: 150px;  */
+}
+
+.chevron {
+    display: inline-block;
+    margin-left: 0px;
+    transition: transform 0.3s ease; /* Smooth transition for rotation */
+}
+
+.dropdown-list {
+    display: none; /* Hidden by default */
+    position: absolute;
+    background-color: #f9f9f9;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+.dropdown-list li {
+    padding: 10px;
+    cursor: pointer;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+}
+
+.dropdown-list li:hover {
+    background-color: #f1f1f1;
+}
+
+/* Rotate the chevron when active */
+.rotate {
+    transform: rotate(180deg);
+}
+
+ .notification-img >img{
+    background-color: #968d8d;
+    border-radius: 35px;
+    padding: 9px;
+ }
+
+ .search-setting{
+    display: flex;
+    width: 100%;
+    gap: 5px;
+    align-items: center;
+    margin: 100px 0 0 0;
+ }
+
+ .searchDiv{
+    align-items: center;
+    width: 100%;
+ }
+
+ .searchDiv >img{
+    position: absolute;
+    padding: 10px;
+ }
+ #input-search {
+    padding: 10px 45px;
+    border: none;
+    border: 1px solid #968d8d;
+    border-radius: 7px;
+    font-size: large;
+    width: 100%;
+ }
+ #slider img {
+    background-color: var(--primary-color);
+    padding: 10px;
+    border-radius: 5px;
+    height: 40px;
+    width: 40px;
+ }
+ .upcoming-section{
+    margin-block: 20px;
+ }
+.upcoming-schedule-div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 30px;
+}
+.upcoming-schedule{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-color1);
+}
+.upcoming-schedule>p:last-child{
+    background-color: #0026ffce;
+    border-radius: 50px;
+    padding: 4px 10px;
+    color: #fff;
+}
+
+#card1 {
+    background-color: var(--primary-color);
+    padding: 15px 15px;
+    border-radius: 10px;
+    color: white;
+}
+#twodivs{
+    display: flex;
+    justify-content: space-between;
+}
+#dctrprofile{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#dctrcnct > img{
+    height: 55px;
+}
+
+#dctrprofile > img{
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+}
+
+#datetime{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0026ffce;
+    padding: 10px 0px;
+    margin-top: 14px;
+    border-radius: 8px;
+}
+
+#datetime p {
+    font-size: 0.8rem;
+}
+
+#date{
+    display: flex;
+    align-items: center;
+   border-right: 0.5px solid white;
+   gap: 5px;
+    padding: 0 10px;
+}
+
+
+#timeIcon{
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    gap: 5px;
+}
+ #specialty {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    margin-block: 20px;
+}
+
+#DS-icon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* overflow: hidden; */
+    gap: 20px;
+    overflow-x: scroll;
+    text-align: center;
+}
+
+.specialty-item {
+    gap: 1000px;
+    align-items: center;
+}
+
+.specialty-item img {
+    gap: 50px;
+}
+
+.dental {
+    background-color: #e4dcdc;
+    border-radius: 50rem;
+    padding: 10px;
+    height: 45px;
+    width: 45px;
+
+}
+
+.specialty-item text {
+    overflow-x: hidden;
+}
+.dental img {
+    height: 20px;
+    width: 20px;
+}
+.nearby {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-block: 2rem;
+}
+#hospital-img {
+    margin-bottom: 50px;
+}
+
+.marquee-container {
+    width: 100%; 
+    height: 200px; 
+    overflow: hidden; 
+    position: relative;
+}
+
+.marquee-content {
+    display: flex; 
+    position: absolute;
+    white-space: nowrap;
+}
+.marquee-content img {
+    width: 200px;
+    height: auto; 
+    margin-right: 10px; 
+    border-radius: 10px;
+} 
+
+ /* Styling the footer */
+ footer {
+    background-color: #f1f1f1;
+    padding: 0px 10px;
+    /* text-align: center; */
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+
+/* Main container div */
+.footer-container {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 30px;
+    padding: 5px;
+}
+
+/* Each icon and text container */
+.icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Hover effect for icon and text container */
+.icon-container:hover {
+    transform: scale(1.1); /* Keep the scale at 1 (no resizing) */
+    opacity: 0.8; /* Slightly reduce opacity to give a hover effect */
+}
+
+/* Styling the icons */
+.icon-container img {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s ease;
+}
+
+/* Styling the text */
+.icon-container a {
+    text-decoration: none;
+    color: black;
+    font-size: 15px;
+    margin-top: 2px;
+}
+
+.icon-container a:hover{
+    color: #04176d;
+}
+.icon-container a:active {
+    color: #051b81;
+}

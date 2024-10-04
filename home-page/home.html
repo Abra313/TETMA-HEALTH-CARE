@@ -3,43 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TETMA HEALTH CARE</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="shortcut icon" href="../authentication/aseeet/images/hospital-logo-design-vector-medical-cross.png" type="image/x-icon">
+    <title>Document</title>
+    <script type="module" src="health.js" defer>
+
+        // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBykKM5Ug64pa7Bf2LLVb14C7LMErHWhwM",
+  authDomain: "fir-health-care-6fca6.firebaseapp.com",
+  projectId: "fir-health-care-6fca6",
+  storageBucket: "fir-health-care-6fca6.appspot.com",
+  messagingSenderId: "865138569268",
+  appId: "1:865138569268:web:ce7e7c295f4e96f8809a61"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+    </script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="health.css">
 </head>
 <body>
-    <!-- Hero Section -->
-    <section id="hero">
-        <div class="hero-content">
-            <h1>Welcome to Our Website</h1>
-            <p>Your journey starts here. Discover amazing content and features.</p>
-            <a href="#learn-more" class="cta-button">Learn More</a>
+   <section class="body">
+    <header id="header">
+      <div class="location">
+        <p class="locationP
+        ">Location</p>
+      </div>
+      <div class="locationIcon">
+        <div class="select-location">
+          <img src="../aseeet/images/carbon--location-filled.png" alt="">
+          <p id="selectedItemText"></p>
+          <div class="dropdown">
+            <button class="dropdown-toggle">
+                <span class="menu">Menu</span> <!-- This will be replaced by the selected item -->
+                <img src="../aseeet/images/chevron-down-regular-24.png" alt="" class="chevron">
+            </button>
+            <ul class="dropdown-list">
+                <li>Item 1</li>
+                <li>Item 2</li>
+                <li>Item 3</li>
+            </ul>
         </div>
-    </section>
-
-    <!-- Info Section -->
-    <section id="learn-more">
-        <div class="info-container">
-            <div class="info-card">
-                <h2>Feature One</h2>
-                <p>Detailed information about feature one. It is really great and useful.</p>
-            </div>
-            <div class="info-card">
-                <h2>Feature Two</h2>
-                <p>Detailed information about feature two. It's another amazing aspect of our site.</p>
-            </div>
-            <div class="info-card">
-                <h2>Feature Three</h2>
-                <p>Detailed information about feature three. You’ll love exploring this feature.</p>
-            </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 Your Website. All rights reserved.</p>
-    </footer>
-
-    <script src="scripts.js"></script>
+        <div class="notification-img">
+          <img src="../aseeet/images/bell-solid-24.png" alt="">
+        </div>
+      </div>
+    </header>
+    <main>
+      <section class="search-setting">
+        <div class="searchDiv">
+          <img src="../aseeet/images/search-regular-24.png" alt="">
+          <input type="search" name="" id="input-search" placeholder="Search">
+        </div>
+        
+        <div id="slider">
+          <img src="../aseeet/images/f7--slider-horizontal-3.svg" alt="" height="50px" width="50px" >
+        </div>
+      </section>
+      <section class="upcoming-section">
+        <div class="upcoming-schedule-div">
+          <div class="upcoming-schedule">
+            <h3>Upcoming Schedule</h3>
+          </div>
+          <div>
+            <p class="see-all"><a href="#">See All</a></p>
+          </div>
+      </section>
+      <section id="card1">
+        <div id="twodivs">
+          <div id="dctrprofile">
+            <img src="../aseeet/images/new pics 114.JPG" alt="">
+            <div id="dctrtext">
+              <p style="font-weight: 500;">Dr. Nosheen Khan</p>
+            <p style="font-weight: 300;">Dentist Consultation</p>
+            </div>
+          </div>
+          <div id="dctrcnct">
+            <img src="../aseeet/images/telephone.png" alt="">
+          </div>
+        </div>
+        <div id="datetime">
+          <div id="date">
+            <img src="../aseeet/images/calendar.png" height="20px" width="20px" alt="calendar-icon">
+            <p id="date-time">Monday, 22 May</p>
+          </div>
+          <div id="timeIcon">
+            <img src="../aseeet/images/carbon--time.svg" alt="" height="20px" width="20px" alt="">
+            <p id="time"></p>
+          </div>
+        </div>
+      </section>
+      <section id="specialty-section">
+          <div id="specialty">
+            <div id="doctor-specialty"> 
+              <h3>Doctor Specialty</h3>
+            </div>
+            <div class="see-all"><a href="#">See All</a></div>
+          </div>
+            <div id="DS-icon"> </div>
+      </section>
+      <section>
+        <div class="nearby">
+          <div class="nearby-hospitals">
+            <h3>Nearby Hospitals</h3>
+          </div>
+          <div class="see-all">
+            <a href="#">See All</a>
+          </div>
+      </section>
+      <section id="hospital-img">
+        <div id="marquee">
+        <div class="marquee-container">
+          <div class="marquee-content" >
+            <img src="../aseeet/images/john-hopkins-hospital.jpeg" alt="Img 1">
+            <img src="../aseeet/images/second-hospital.jpeg" alt="Img 2">
+            <img src="../aseeet/images/third-hospital.jpeg" alt="Im3">
+            <img src="../aseeet/images/fourth-hospital.jpeg" alt="Img 4">
+            <!-- Duplicate the images to ensure continuous scroll -->
+            <img src="../aseeet/images/john-hopkins-hospital.jpeg" alt="Img 1">
+            <img src="../aseeet/images/second-hospital.jpeg" alt="Img 2">
+            <img src="../aseeet/images/third-hospital.jpeg" alt="Img 3">
+            <img src="../aseeet/images/fourth-hospital.jpeg" alt="img 4">
+          </div>
+        </div>
+      </div>
+      </section>
+    </main>
+   </section>
+   <footer id="footer">
+  </footer>
+  <script type="module" src="../utils/getUser.js"></script>
 </body>
 </html>

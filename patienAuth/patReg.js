@@ -1,8 +1,38 @@
-// import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-// import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-// import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { db, auth, setDoc, doc, createUserWithEmailAndPassword, collection, getDocs } from "../firebaseConfig.js";
 
-import { db, auth, setDoc, doc, createUserWithEmailAndPassword } from "../firebaseConfig.js";
+
+async function updatePatientDocuments() {
+    const patientCollection = collection(db, "PATIENT");
+    const snapshot = await getDocs(patientCollection);
+
+    const updatePromises = snapshot.docs.map(async (doc) => {
+        const userData = doc.data();
+        
+        // Create an updated user data object
+        const updatedData = {
+            ...userData,
+            // yearOfExperience: userData.yearOfExperience || 0,
+            rating: userData.rating !== undefined ? userData.rating : 0, // Set default rating
+            reviews: Array.isArray(userData.reviews) ? userData.reviews : [], // Ensure reviews is an array
+            appointments: Array.isArray(userData.appointments) ? userData.appointments : [], // Ensure appointments is an array
+            patients: Array.isArray(userData.patients) ? userData.patients : [] // Ensure patients is an array
+        };
+
+        // Update the document with the new fields
+        await setDoc(doc.ref, updatedData);
+    });
+
+    // Wait for all updates to complete
+    await Promise.all(updatePromises);
+    console.log("All documents updated successfully.");
+}
+
+// Call the update function
+updatePatientDocuments().catch(error => {
+    console.error("Error updating documents: ", error);
+});
+
+updatePatientDocuments();
 
 // Get elements
 const loadingSpinner = document.getElementById('loading');
@@ -11,53 +41,68 @@ const passwordField = document.getElementById('signup-password');
 
 // Show loading spinner
 function showLoading() {
-    loadingSpinner.style.display = 'block';
+    if (loadingSpinner) {
+        loadingSpinner.style.display = 'block';
+    }
 }
 
 // Hide loading spinner
 function hideLoading() {
-    loadingSpinner.style.display = 'none';
+    if (loadingSpinner) {
+        loadingSpinner.style.display = 'none';
+    }
 }
 
 // Add event listener for submit button
-submitBtn.addEventListener("click", async (event) => {
+submitBtn.addEventListener("click", function (event) {
     event.preventDefault();
-
+    
     const email = document.getElementById('signup-email').value;
     const password = document.getElementById('signup-password').value;
     const name = document.getElementById('signup-name').value;
+    
+    // Add your new fields here
+    // const yearOfExperience = parseInt(document.getElementById('year-experience').value) || 0; // Assuming there's an input field for years of experience
+   
+    const appointments = []; // Initialize as an empty array
+   
 
     showLoading();
-
-    try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
         const user = userCredential.user;
-
-        // Prepare user data to save in Firestore
         const userData = {
             name: name,
             email: email,
-            // Do not store the password here
+            // yearOfExperience: yearOfExperience,
+           
+            appointments: appointments,
+           
+            // Password is NOT stored here
         };
 
-        // Save user data in Firestore under the PATIENT collection
         const docRef = doc(db, "PATIENT", user.uid);
-        await setDoc(docRef, userData);
-        
+        setDoc(docRef, userData)
+        .then(() => {
+            hideLoading();
+            window.location.href = "login.html";
+        })
+        .catch((error) => {
+            hideLoading();
+            alert("Error saving user data: " + error.message);
+        });
+    })
+    .catch((error) => {
         hideLoading();
-        alert("Account created successfully! Please log in.");
-        window.location.href = "patSig.html";
-    } catch (error) {
-        hideLoading();
-        alert("Error: " + error.message);
-        console.log("Error:" + error.message);
-    }
+        alert("Error creating user: " + error.message);
+    });
 });
 
 // Password toggle functionality
 const togglePassword = document.getElementById('toggle-password');
-togglePassword.addEventListener('click', () => {
+togglePassword.addEventListener('click', function () {
     const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
     passwordField.setAttribute('type', type);
-    togglePassword.classList.toggle('fa-eye-slash'); 
+    this.classList.toggle('fa-eye-slash');
 });
