@@ -1,3 +1,17 @@
+const header = document.getElementById('header');
+
+// Add an event listener for the scroll event
+window.addEventListener('scroll', () => {
+    // If the page is scrolled 50px or more, change the header's background color
+    if (window.scrollY > 50) {
+        header.style.backgroundColor = 'rgba(0, 38, 255, 100)'; // Add a color, e.g., semi-transparent black
+        header.style.color = 'white';
+    } else {
+        header.style.backgroundColor = 'transparent'; // Reset to transparent when scrolled back to top
+    }
+});
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const dropdownToggle = document.querySelector('.dropdown-toggle');
     const dropdownList = document.querySelector('.dropdown-list');

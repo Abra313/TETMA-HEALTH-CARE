@@ -27,7 +27,8 @@ submitBtn.addEventListener("click", function (event) {
 
             const user = userCredential.user;
 
-            localStorage.setItem("loggedInUserId" , user.uid)
+            localStorage.setItem("loggedInUserId" , user.uid);
+            console.log(user);
 
             clearTimeout(loadingTimeout);
             // Hide loading spinner

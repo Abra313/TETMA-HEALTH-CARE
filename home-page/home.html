@@ -31,9 +31,10 @@ const app = initializeApp(firebaseConfig);
 </head>
 <body>
    <section class="body">
-    <header>
+    <header id="header">
       <div class="location">
-        <p id="location">Location</p>
+        <p class="locationP
+        ">Location</p>
       </div>
       <div class="locationIcon">
         <div class="select-location">
@@ -41,7 +42,7 @@ const app = initializeApp(firebaseConfig);
           <p id="selectedItemText"></p>
           <div class="dropdown">
             <button class="dropdown-toggle">
-                <span id="menu">Menu</span> <!-- This will be replaced by the selected item -->
+                <span class="menu">Menu</span> <!-- This will be replaced by the selected item -->
                 <img src="../aseeet/images/chevron-down-regular-24.png" alt="" class="chevron">
             </button>
             <ul class="dropdown-list">
