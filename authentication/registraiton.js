@@ -1,25 +1,42 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { db, auth, setDoc, doc, createUserWithEmailAndPassword, collection, getDocs } from "../firebaseConfig.js";
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDNjWv2TRRAHE8wfmIY8cfCRBGma1wUX3I",
-  authDomain: "tetma-health-care.firebaseapp.com",
-  projectId: "tetma-health-care",
-  storageBucket: "tetma-health-care.appspot.com",
-  messagingSenderId: "132306558594",
-  appId: "1:132306558594:web:fd0c3fd954ce2532d09e9b"
-};
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+async function updateDoctorDocuments() {
+    const doctorsCollection = collection(db, "DOCTOR");
+    const snapshot = await getDocs(doctorsCollection);
+
+    const updatePromises = snapshot.docs.map(async (doc) => {
+        const userData = doc.data();
+        
+        // Create an updated user data object
+        const updatedData = {
+            ...userData,
+            // yearOfExperience: userData.yearOfExperience || 0,
+            rating: userData.rating !== undefined ? userData.rating : 0, // Set default rating
+            reviews: Array.isArray(userData.reviews) ? userData.reviews : [], // Ensure reviews is an array
+            appointments: Array.isArray(userData.appointments) ? userData.appointments : [], // Ensure appointments is an array
+            patients: Array.isArray(userData.patients) ? userData.patients : [] // Ensure patients is an array
+        };
+
+        // Update the document with the new fields
+        await setDoc(doc.ref, updatedData);
+    });
+
+    // Wait for all updates to complete
+    await Promise.all(updatePromises);
+    console.log("All documents updated successfully.");
+}
+
+// Call the update function
+updateDoctorDocuments().catch(error => {
+    console.error("Error updating documents: ", error);
+});
+
+updateDoctorDocuments();
 
 // Get elements
 const loadingSpinner = document.getElementById('loading');
 const submitBtn = document.getElementById('submit');
-const db = getFirestore(app);
-const auth = getAuth(app);
 const passwordField = document.getElementById('signup-password');
 
 // Show loading spinner
@@ -43,6 +60,13 @@ submitBtn.addEventListener("click", function (event) {
     const email = document.getElementById('signup-email').value;
     const password = document.getElementById('signup-password').value;
     const name = document.getElementById('signup-name').value;
+    
+    // Add your new fields here
+    // const yearOfExperience = parseInt(document.getElementById('year-experience').value) || 0; // Assuming there's an input field for years of experience
+    const rating = 0; // Assuming there's an input field for rating
+    const reviews = []; // Initialize as an empty array
+    const appointments = []; // Initialize as an empty array
+    const patients = []; // Initialize as an empty array
 
     showLoading();
     
@@ -52,6 +76,11 @@ submitBtn.addEventListener("click", function (event) {
         const userData = {
             name: name,
             email: email,
+            // yearOfExperience: yearOfExperience,
+            rating: rating,
+            reviews: reviews,
+            appointments: appointments,
+            patients: patients,
             // Password is NOT stored here
         };
 
