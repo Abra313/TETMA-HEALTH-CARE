@@ -35,20 +35,21 @@ header {
     top: 0;           /* Stick to the top */
     left: 0;
     width: 100%;      /* Ensure it spans the entire width of the screen */
+    border-color: transparent;
     color: white;
     padding: 5px 10px;
     text-align: center;
     font-size: 24px;
-    transition: background-color 0.3s ease; /* Smooth color change */
     z-index: 1000;      /* Ensures it stays on top of other content */
+    transition: background-color 0.3s ease;
 }
- .location p {
-    color: var(--text-color1);
+ .location {
+    color: var(--text-color1) !important;
     font-size: large;
     align-items: flex-start;
  }
 
- #location {
+ .locationP {
     text-align: left;
  }
  .locationIcon {
@@ -69,7 +70,7 @@ header {
     width: 35px;
  }
 
- #menu {
+ .menu {
     font-size: large;
     color: var(--text-color1);
  }
@@ -358,4 +359,46 @@ header {
     color: black;
     font-size: 15px;
     margin-top: 2px;
+}
+
+.icon-container a:hover{
+    color: #04176d;
+}
+.icon-container a:active {
+    color: #051b81;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe; /* White background */
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px; /* Padding inside the modal */
+    border: 1px solid #888; /* Border color */
+    width: 80%; /* Width of the modal */
+}
+
+.close {
+    color: #aaa; /* Close button color */
+    float: right; /* Right align */
+    font-size: 28px; /* Font size */
+    font-weight: bold; /* Font weight */
+}
+
+.close:hover,
+.close:focus {
+    color: black; /* Change color on hover/focus */
+    text-decoration: none; /* No underline */
+    cursor: pointer; /* Pointer cursor */
 }
