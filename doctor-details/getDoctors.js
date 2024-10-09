@@ -1,46 +1,3 @@
-// // Import Firebase functions
-// import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-// import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js';
-// import firebaseConfig from './firebaseConfig.js'; // Ensure this path is correct
-
-
-// // Initialize Firebase
-// const app = initializeApp(firebaseConfig);
-// const db = getFirestore(app);
-
-// // Function to retrieve doctors
-// async function getDoctors() {
-//   try {
-//     console.log('Fetching doctors...');
-//     const doctorsRef = collection(db, 'DOCTOR');
-//     const doctorsSnapshot = await getDocs(doctorsRef);
-    
-//     console.log('Doctors snapshot retrieved:', doctorsSnapshot);
-    
-//     const doctors = doctorsSnapshot.docs.map((doc) => ({
-//       id: doc.id,
-//       ...doc.data()
-//     }));
-
-//     console.log('Doctors data:', doctors);
-    
-//     const consoleElement = document.getElementById('doctors-console');
-//     if (consoleElement) {
-//       consoleElement.innerText = JSON.stringify(doctors, null, 2);
-//     } else {
-//       console.error('Element with ID "doctors-console" not found.');
-//     }
-//   } catch (error) {
-//     console.error('Error retrieving doctors:', error);
-//   }
-// }
-
-// // Call the function to retrieve and display doctors
-// getDoctors();
-
-
-
-
 // Import Firebase functions
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
@@ -60,7 +17,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // Function to retrieve doctors
-async function getDoctors() {
+export async function getDoctors() {
   try {
     console.log('Fetching doctors...');
     const doctorsRef = collection(db, 'DOCTOR');
@@ -73,13 +30,40 @@ async function getDoctors() {
       ...doc.data()
     }));
 
-    console.log('Doctors data:', doctors); // Log doctors data to the console
+    if (doctors.length > 0) {
+      console.log('Doctors data:', doctors); // Log doctors data to the console
+      sessionStorage.setItem('allDoctors', JSON.stringify(doctors));
+    } else {
+      console.log('No doctors found.');
+    }
   } catch (error) {
     console.error('Error retrieving doctors:', error);
   }
 }
 
 // Call the function to retrieve doctors
-getDoctors();
+// getDoctors();
 
+// Function to get stored doctors from session storage
+export const getStoredDoctors = () => {
+  const storedDoctors = sessionStorage.getItem("allDoctors");
+  if (storedDoctors) {
+    const result = JSON.parse(storedDoctors);
+    return result;
+  } else {
+    console.error('Doctors not found in session storage.');
+    alert('Doctors not found');
+  }
+};
+
+export const getSingleDoctor = (email) => {
+  const allDocs = getStoredDoctors();
+  const doctor =  allDocs.find((array) => array.email == email);
+  console.log(doctor);
+  return doctor
+};
+
+
+// Call to retrieve and log stored doctors
+const docs = getStoredDoctors();
 

@@ -1,5 +1,9 @@
 import { getUser } from "../utils/getUser.js";
+import { getDoctors, getStoredDoctors, getSingleDoctor } from "../doctor-details/getDoctors.js";
 
+
+//get all doctor details from firestore
+const allDoctors = getDoctors();
 const loggedInUser = getUser("doctorData");
 const header = document.getElementById('header');
 
