@@ -114,7 +114,7 @@ loginForm.addEventListener("submit", async function (event) {
             // Directly get the first matching doctor document
             const doctorDoc = doctorSnapshot.docs[0];
             const doctorData = doctorDoc.data();
-            sessionStorage.setItem("doctorData", JSON.stringify(doctorData)); // Store the complete doctor details
+            sessionStorage.setItem("userDetails", JSON.stringify(doctorData)); // Store the complete doctor details
             console.log("Doctor Data retrieved from Firestore:", doctorData);
             
             // Redirect to the doctor's home page
@@ -131,9 +131,9 @@ loginForm.addEventListener("submit", async function (event) {
                 console.log("Patient found with the provided email.");
                 
                 // You can add additional code here if you want to store patient data
-                // const patientDoc = patientSnapshot.docs[0];
-                // const patientData = patientDoc.data();
-                // sessionStorage.setItem("patientData", JSON.stringify(patientData));
+                const patientDoc = patientSnapshot.docs[0];
+                const patientData = patientDoc.data();
+                sessionStorage.setItem("userDetails", JSON.stringify(patientData));
 
                 window.location.href = "../home-page/home.html";
                 alert("Patient login is successful");

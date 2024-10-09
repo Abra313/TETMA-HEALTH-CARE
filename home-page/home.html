@@ -3,145 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script type="module" src="health.js" defer>
-
-        // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyBykKM5Ug64pa7Bf2LLVb14C7LMErHWhwM",
-  authDomain: "fir-health-care-6fca6.firebaseapp.com",
-  projectId: "fir-health-care-6fca6",
-  storageBucket: "fir-health-care-6fca6.appspot.com",
-  messagingSenderId: "865138569268",
-  appId: "1:865138569268:web:ce7e7c295f4e96f8809a61"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-    </script>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="health.css">
-<script defer type="module" src="../doctor-details/getDoctors.js"></script>
+    <title>Health Care App</title>
+    <link rel="stylesheet" href="health.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-   <section class="body">
-    <header id="header">
-      <div class="location">
-        <p class="locationP
-        ">Location</p>
-      </div>
-      <div class="locationIcon">
-        <div class="select-location">
-          <img src="../aseeet/images/carbon--location-filled.png" alt="">
-          <p id="selectedItemText"></p>
-          <div class="dropdown">
-            <button class="dropdown-toggle">
-                <span class="menu">Menu</span> <!-- This will be replaced by the selected item -->
-                <img src="../aseeet/images/chevron-down-regular-24.png" alt="" class="chevron">
-            </button>
-            <ul class="dropdown-list">
-                <li>Item 1</li>
-                <li>Item 2</li>
-                <li>Item 3</li>
-            </ul>
-        </div>
-        </div>
-        <div class="notification-img">
-          <img src="../aseeet/images/bell-solid-24.png" alt="">
-        </div>
-      </div>
-    </header>
-    <main>
-      <section class="search-setting">
-        <div class="searchDiv">
-          <img src="../aseeet/images/search-regular-24.png" alt="">
-          <input type="search" name="" id="input-search" placeholder="Search">
-        </div>
-        
-        <div id="slider">
-          <img src="../aseeet/images/f7--slider-horizontal-3.svg" alt="" height="50px" width="50px" >
-        </div>
-      </section>
-      <section class="upcoming-section">
-        <div class="upcoming-schedule-div">
-          <div class="upcoming-schedule">
-            <h3>Upcoming Schedule</h3>
-          </div>
-          <div>
-            <p class="see-all"><a href="#">See All</a></p>
-          </div>
-      </section>
-      <section id="card1">
-        <div id="twodivs">
-          <div id="dctrprofile">
-            <img src="../aseeet/images/new pics 114.JPG" alt="">
-            <div id="dctrtext">
-              <p style="font-weight: 500;">Dr. Nosheen Khan</p>
-            <p style="font-weight: 300;">Dentist Consultation</p>
+    <section class="body">
+        <header id="header">
+            <div class="location">
+                <p class="location"></p>
             </div>
-          </div>
-          <div id="dctrcnct">
-            <img src="../aseeet/images/telephone.png" alt="">
-          </div>
-        </div>
-        <div id="datetime">
-          <div id="date">
-            <img src="../aseeet/images/calendar.png" height="20px" width="20px" alt="calendar-icon">
-            <p id="date-time">Monday, 22 May</p>
-          </div>
-          <div id="timeIcon">
-            <img src="../aseeet/images/carbon--time.svg" alt="" height="20px" width="20px" alt="">
-            <p id="time"></p>
-          </div>
-        </div>
-      </section>
-      <section id="specialty-section">
-          <div id="specialty">
-            <div id="doctor-specialty"> 
-              <h3>Doctor Specialty</h3>
+            <div class="locationIcon">
+                <div class="select-location">
+                    <img src="../aseeet/images/carbon--location-filled.png" alt="">
+                    <p id="selectedItemText"></p>
+                    <div class="dropdown">
+                        <button class="dropdown-toggle">
+                            <span class="menu"></span>
+                            <img src="../aseeet/images/chevron-down-regular-24.png" alt="" class="chevron">
+                        </button>
+                        <ul class="dropdown-list">
+                            <li>Item 1</li>
+                            <li>Item 2</li>
+                            <li>Item 3</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="notification-img">
+                    <img src="../aseeet/images/bell-solid-24.png" alt="">
+                </div>
             </div>
-            <div class="see-all"><a href="#">See All</a></div>
-          </div>
-            <div id="DS-icon"> </div>
-      </section>
-      <section>
-        <div class="nearby">
-          <div class="nearby-hospitals">
-            <h3>Nearby Hospitals</h3>
-          </div>
-          <div class="see-all">
-            <a href="#">See All</a>
-          </div>
-      </section>
-      <section id="hospital-img">
-        <div id="marquee">
-        <div class="marquee-container">
-          <div class="marquee-content" >
-            <img src="../aseeet/images/john-hopkins-hospital.jpeg" alt="Img 1">
-            <img src="../aseeet/images/second-hospital.jpeg" alt="Img 2">
-            <img src="../aseeet/images/third-hospital.jpeg" alt="Im3">
-            <img src="../aseeet/images/fourth-hospital.jpeg" alt="Img 4">
-            <!-- Duplicate the images to ensure continuous scroll -->
-            <img src="../aseeet/images/john-hopkins-hospital.jpeg" alt="Img 1">
-            <img src="../aseeet/images/second-hospital.jpeg" alt="Img 2">
-            <img src="../aseeet/images/third-hospital.jpeg" alt="Img 3">
-            <img src="../aseeet/images/fourth-hospital.jpeg" alt="img 4">
-          </div>
-        </div>
-      </div>
-      </section>
-    </main>
-   </section>
-   <footer id="footer">
-  </footer>
-  <script type="module" src="../utils/getUser.js"></script>
+        </header>
+
+        <main>
+            <section class="search-setting">
+                <div class="searchDiv">
+                    <img src="../aseeet/images/search-regular-24.png" alt="">
+                    <input type="search" id="input-search" placeholder="Search">
+                </div>
+                  <!-- Hamburger icon -->
+                  <div id="slider">
+                    <img id="hamburger-icon" src="../aseeet/images/f7--slider-horizontal-3.svg" alt="Menu Icon" height="50px" width="50px">
+                </div>
+
+                <!-- The overlay that will be toggled -->
+                <div id="menu-overlay" class="hidden">
+                    <div class="menu-content">
+                        <span id="close-btn">&times;</span>
+                        <ul id="menu-options">
+                            <!-- These items will be dynamically populated by JS -->
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="upcoming-section">
+                <div class="upcoming-schedule-div">
+                    <div class="upcoming-schedule">
+                        <h3>Upcoming Schedule</h3>
+                    </div>
+                    <div>
+                        <p class="see-all"><a href="#">See All</a></p>
+                    </div>
+                </div>
+                <section id="twodivs"></section>
+            </section>
+
+            <section id="specialty-section">
+                <div id="specialty">
+                    <div id="doctor-specialty">
+                        <h3>Doctor Specialty</h3>
+                    </div>
+                    <div class="see-all"><a href="doctorspecialty.html">See All</a></div>
+                </div>
+                <div id="DS-icon"></div>
+            </section>
+
+            <section class="nearby">
+                <div class="nearby-hospitals">
+                    <h3>Nearby Hospitals</h3>
+                </div>
+                <div class="see-all">
+                    <a href="#">See All</a>
+                </div>
+            </section>
+
+            <section id="hospital-img">
+                <div class="marquee-container">
+                    <div class="marquee-content" id="marquee" >
+                      <img src="../aseeet/images/john-hopkins-hospital.jpeg" alt="Img 1">
+                      <img src="../aseeet/images/second-hospital.jpeg" alt="Img 2">
+                      <img src="../aseeet/images/third-hospital.jpeg" alt="Img 3">
+                      <img src="../aseeet/images/fourth-hospital.jpeg" alt="Img 4">
+                      <!-- Duplicate the images for continuous scroll -->
+                      <img src="../aseeet/images/john-hopkins-hospital.jpeg" alt="Img 1">
+                      <img src="../aseeet/images/second-hospital.jpeg" alt="Img 2">
+                      <img src="../aseeet/images/third-hospital.jpeg" alt="Img 3">
+                      <img src="../aseeet/images/fourth-hospital.jpeg" alt="Img 4">
+                    </div>
+                </div>
+            </section>
+        </main>
+    </section>
+    <footer id="footer"></footer>
+    <script type="module" src="./health.js" defer></script>
+    <script type="module" src="../doctor-details/getDoctors.js" defer></script>
+
+
 </body>
 </html>

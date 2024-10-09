@@ -1,6 +1,4 @@
 import { db, auth, setDoc, doc, createUserWithEmailAndPassword, collection, getDocs } from "../firebaseConfig.js";
-
-
 async function updatePatientDocuments() {
     const patientCollection = collection(db, "PATIENT");
     const snapshot = await getDocs(patientCollection);
@@ -8,10 +6,9 @@ async function updatePatientDocuments() {
     const updatePromises = snapshot.docs.map(async (doc) => {
         const userData = doc.data();
         
-        // Create an updated user data object
         const updatedData = {
             ...userData,
-            // yearOfExperience: userData.yearOfExperience || 0,
+           
             rating: userData.rating !== undefined ? userData.rating : 0, // Set default rating
             reviews: Array.isArray(userData.reviews) ? userData.reviews : [], // Ensure reviews is an array
             appointments: Array.isArray(userData.appointments) ? userData.appointments : [], // Ensure appointments is an array
@@ -59,12 +56,8 @@ submitBtn.addEventListener("click", function (event) {
     
     const email = document.getElementById('signup-email').value;
     const password = document.getElementById('signup-password').value;
-    const name = document.getElementById('signup-name').value;
-    
-    // Add your new fields here
-    // const yearOfExperience = parseInt(document.getElementById('year-experience').value) || 0; // Assuming there's an input field for years of experience
-   
-    const appointments = []; // Initialize as an empty array
+    const name = document.getElementById('signup-name').value;   
+    const appointments = []; 
    
 
     showLoading();
@@ -75,18 +68,15 @@ submitBtn.addEventListener("click", function (event) {
         const userData = {
             name: name,
             email: email,
-            // yearOfExperience: yearOfExperience,
-           
             appointments: appointments,
-           
-            // Password is NOT stored here
+
         };
 
         const docRef = doc(db, "PATIENT", user.uid);
         setDoc(docRef, userData)
         .then(() => {
             hideLoading();
-            window.location.href = "login.html";
+            window.location.href = "patienAuth/patSig.html";
         })
         .catch((error) => {
             hideLoading();

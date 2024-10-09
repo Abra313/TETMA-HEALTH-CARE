@@ -542,7 +542,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // const db = getFirestore(app);
 
-getDoctors();
 
 
 // Sample data for doctor and statistics
@@ -619,10 +618,16 @@ function displayDoctorDetails(doctorData) {
         width: '120px'
     });
     img.src = doctorData.imageUrl || 'channel-1.jpeg'; // Use a default image if none provided
+    let doctorCity = ""
+    if(doctorData.address){
+        doctorCity = doctorData.address
+    }else{
+        doctorCity = doctorData.address.map((array) =>{
+            return array.city;
+        }) 
+    }
 
-    const doctorCity = doctorData.address.map((array) =>{
-        return array.city;
-    })
+     
     
     const htext = createElement('div', 'htext');
     htext.appendChild(createElement('h1', '', doctorData.name));
@@ -773,7 +778,7 @@ export async function findDoctor(uid) {
 
 // Function to initialize the UI
 async function initUI(email) {
-    const doctorData = await getSingleDoctor('doctor13@example.com');
+    const doctorData = await getSingleDoctor(email);
     
     if (doctorData) {
         displayHeader();
@@ -787,5 +792,7 @@ async function initUI(email) {
 }
 
 // Call the initUI function with the specific UID
-const testEmail = 'doctor13@example.com'; // Replace this with a valid UID from your Firestore
-initUI(testEmail);
+const doctorEmail = sessionStorage.getItem("selectedDoctor");
+console.log(doctorEmail);
+initUI(doctorEmail);
+

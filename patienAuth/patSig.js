@@ -24,29 +24,28 @@ loginForm.addEventListener("submit", async function (event) {
     }, 7000); // 7 seconds
 
     try {
+        // Sign in the user with email and password
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         alert("Login is successful");
 
         const user = userCredential.user;
         localStorage.setItem("loggedInUserId", user.uid);
         
-        
         const patientDocRef = doc(db, 'PATIENT', user.uid); 
         const patientData = {
             email: email,
             uid: user.uid,
-            
+            // Add other patient-specific data as needed
         };
 
-        
+        // Store patient data in Firestore
         await setDoc(patientDocRef, patientData, { merge: true });
         console.log("Patient data stored in Firestore:", patientData);
 
-        //
+        // Fetch patient data from Firestore
         const patientDoc = await getDoc(patientDocRef);
         if (patientDoc.exists()) {
-           
-            sessionStorage.setItem("patientData", JSON.stringify(patientDocDoc.data()));
+            sessionStorage.setItem("patientData", JSON.stringify(patientDoc.data())); // Corrected variable name
             console.log("Patient Data retrieved from Firestore:", patientDoc.data());
         } else {
             console.log("No such document in patient collection!");
