@@ -1,4 +1,5 @@
 import { signInWithEmailAndPassword, auth, db, collection, query, where, getDocs,  addDoc } from '../firebaseConfig.js';
+import { getDoctors } from '../doctor-details/getDoctors.js';
 
 // const patients = [
 //     {
@@ -136,6 +137,8 @@ loginForm.addEventListener("submit", async function (event) {
                 sessionStorage.setItem("userDetails", JSON.stringify(patientData));
 
                 window.location.href = "../home-page/home.html";
+                getDoctors();
+
                 alert("Patient login is successful");
             } else {
                 console.log("No user found with the provided email in both collections.");

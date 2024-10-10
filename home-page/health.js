@@ -6,8 +6,7 @@ const loggedInUser = getUser();
 const header = document.getElementById('header');
 const placeholderImg = 'https://avatar.iran.liara.run/public/boy?username=Ash'
 
-//fetching all doctors from firestore
-getDoctors();
+
 
 // Change header background on scroll
 window.addEventListener('scroll', () => {
@@ -40,14 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderSpecialties();
 });
-
-
-  // Fetch doctor specialties from Firestore
-
-
-
-
-
 // DOM Elements
 const specialtyContainer = document.getElementById("DS-icon");
 const upcomingSchedule = document.querySelector('.upcoming-schedule');
@@ -217,68 +208,6 @@ async function renderSpecialties() {
         });
     });
 }
-
-const snapshot = await db.collection("doctorspecialty").get();
-return snapshot.docs.map(doc => doc.data().specialty);
-
-
-// Redirect user to the specialty page
-function redirectToSpecialtyPage(specialty) {
-const selectedSpecialty = specialty.toLowerCase();
-window.location.href = `doctorspecialty.html?specialty=${selectedSpecialty}`;
-}
-
-// Fetch specialties and handle search filtering
-async function initSearch() {
-const searchInput = document.getElementById('input-search');
-const specialtyContainer = document.querySelector('.dropdown-list');
-
-// Fetch all specialties
-const specialties = await fetchSpecialties();
-
-// Event listener for the search input
-searchInput.addEventListener('input', (e) => {
-  const query = e.target.value.toLowerCase(); // Get typed value and convert to lowercase
-  specialtyContainer.innerHTML = ''; // Clear previous results
-
-  // Filter specialties based on input
-  const filteredSpecialties = specialties.filter(specialty =>
-    specialty.toLowerCase().startsWith(query)
-  );
-
-  // Display matching specialties
-  filteredSpecialties.forEach(specialty => {
-    const listItem = document.createElement('li');
-    listItem.textContent = specialty;
-    specialtyContainer.appendChild(listItem);
-
-    // Add click event to each list item
-    listItem.addEventListener('click', () => {
-      searchInput.value = specialty; // Set input to the clicked specialty
-      specialtyContainer.innerHTML = ''; // Clear the dropdown
-      redirectToSpecialtyPage(specialty); // Redirect to the specialty page
-    });
-  });
-});
-
-// Event listener for the 'Enter' key
-searchInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    const query = searchInput.value.toLowerCase();
-    const matchingSpecialty = specialties.find(specialty => 
-      specialty.toLowerCase() === query
-    );
-
-    if (matchingSpecialty) {
-      redirectToSpecialtyPage(matchingSpecialty);
-    } else {
-      alert("No matching specialty found");
-    }
-  }
-});
-}
-
-initSearch();
 
 // Fetch doctors by selected specialty
 async function fetchDoctorsBySpecialty(specialty) {
