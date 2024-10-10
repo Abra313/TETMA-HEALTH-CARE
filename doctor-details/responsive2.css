@@ -56,7 +56,7 @@ hr {
 }
 
 .section3 > i {
-    color: blue;
+    color: #3498db;
     background-color: rgb(226, 217, 217);
     font-size: 8vw; /* Responsive font size */
     border-radius: 50px;
@@ -64,7 +64,7 @@ hr {
 }
 
 .section3 > h1 {
-    color: blue;
+    color: #3498db;
     display: flex;
     font-size: 20px; /* Responsive font size */
     align-items: center;
@@ -118,7 +118,7 @@ hr {
 }
 
 .bntdate > button:hover {
-    background-color: blue;
+    background-color:  #3498db;
     cursor: pointer;
     color: white;
 }
@@ -154,7 +154,7 @@ hr {
 }
 
 .butt:hover {
-    background-color: blue;
+    background-color:  #3498db;
     color: white;
 }
 
