@@ -667,91 +667,37 @@ function displayStatistics(doctorData) {
 }
 
 // Function to display appointment booking
-function displayAppointments() {
-    const appHeader = createElement('h3', 'app', 'Book Appointment');
-    document.body.appendChild(appHeader);
 
-    const allDate = createElement('div', 'allDate');
-    allDate.appendChild(createElement('p', '', 'Day'));
+const bookingForm = document.createElement('div');
+bookingForm.innerHTML = `
+<div class="container">
+    <h2 class="heading">Schedule an Appointment</h2>
+    <form>
+        <div class="form-group">
+            <label for="appointmentDate" class="label">Appointment Date</label>
+            <input type="date" id="appointmentDate" name="appointmentDate" class="input-date" required>
+        </div>
 
-    const bntdate = createElement('div', 'bntdate');
-    appointmentData.forEach(appointment => {
-        const dateButton = createElement('button', 'datemonth', '', {
-            border: '1px solid grey',
-            borderRadius: '45px',
-            width: '140px',
-            margin: '5px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer'
-        });
+        <div class="form-group">
+            <label for="appointmentTime" class="label">Appointment Time</label>
+            <input type="time" id="appointmentTime" name="appointmentTime" class="input-time" required>
+        </div>
 
-        // Create the day as a <p> tag
-        const dayElement = createElement('p', '', appointment.day, {
-            fontSize: '18px',
-            fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif'
-        });
-        dateButton.appendChild(dayElement);
+        <button type="submit" class="button">Schedule Appointment</button>
+    </form>
+    <p class="note">We will contact you to confirm your appointment.</p>
+</div>
+`
 
-        // Create the date as an <h2> tag
-        const dateElement = createElement('h2', '', appointment.date, {
-            fontSize: '21px'
-        });
-        dateButton.appendChild(dateElement);
+const body = document.querySelector('body');
+body.insertAdjacentElement("afterend", bookingForm);
 
-        bntdate.appendChild(dateButton);
-    });
-    allDate.appendChild(bntdate);
-    document.body.appendChild(allDate);
-
-    const timeSection = createElement('div', 'time');
-    timeSection.appendChild(createElement('p', '', 'Time'));
-    const tbnt = createElement('div', 'tbnt');
-
-    // Create default time buttons for the first day
-    appointmentData[0].times.forEach(time => {
-        const timeButton = createElement('button', 'butt', time, {
-            border: '1px solid grey',
-            padding: '10px',
-            borderRadius: '40px',
-            width: '32%',
-            fontSize: '20px',
-            cursor: 'pointer'
-        });
-        tbnt.appendChild(timeButton);
-    });
+bookingForm.addEventListener('submit', () => {
+    const inputDate = q
     
-    timeSection.appendChild(tbnt);
-    document.body.appendChild(timeSection);
+})
 
-    const customSchedule = createElement('div', 'cus');
-    customSchedule.appendChild(createElement('p', '', 'Want a custom Schedule?'));
-    const requestLink = createElement('a', 'req', 'Request Schedule', {
-        textDecoration: 'none',
-        cursor: 'pointer',
-        color: 'blue'
-    });
-    customSchedule.appendChild(requestLink);
-    document.body.appendChild(customSchedule);
 
-    const appointmentButton = createElement('button', 'bntapp', 'Make Appointment', {
-        marginLeft: '10%',
-        padding: '10px',
-        borderRadius: '30px',
-        width: '80%',
-        border: 'none',
-        marginBottom: '50px',
-        fontSize: '18px',
-        color: 'white',
-        cursor: 'pointer',
-        backgroundColor: 'blue'
-    });
-    document.body.appendChild(appointmentButton);
-}
-
-// Function to find a specific doctor by UID
 export async function findDoctor(uid) {
     try {
         console.log(`Fetching details for doctor with UID: ${uid}`);

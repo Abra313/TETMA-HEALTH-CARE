@@ -46,12 +46,15 @@ submitBtn.addEventListener("click", function (event) {
         };
 
         const docRef = doc(db, "PATIENT", user.uid);
-        return setDoc(docRef, userData);
-    })
-    .then(() => {
-        hideLoading();
-        // Redirect to the login page after successful account creation
-        window.location.href = "patSig.html"; // Change to your login page path
+        setDoc(docRef, userData)
+        .then(() => {
+            hideLoading();
+            window.location.href = "patienAuth/patSig.html";
+        })
+        .catch((error) => {
+            hideLoading();
+            alert("Error saving user data: " + error.message);
+        });
     })
     .catch((error) => {
         hideLoading();
