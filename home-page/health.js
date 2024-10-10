@@ -47,129 +47,49 @@ document.addEventListener('DOMContentLoaded', () => {
 const specialtyContainer = document.getElementById("DS-icon");
 const upcomingSchedule = document.querySelector('.upcoming-schedule');
 const docAppointmentProfile = document.getElementById('twodivs');
-const location = document.querySelector('.location');
+const locationElement = document.querySelector('.location');
 
-        // Get the elements
-        const hamburgerIcon = document.getElementById("hamburger-icon");
-        const menuOverlay = document.getElementById("menu-overlay");
-        const closeBtn = document.getElementById("close-btn");
-        const menuOptions = document.getElementById("menu-options");
-
-
-        // Initial mode and notification state
-        let isLightMode = true;
-        let isNotificationsOn = false;
-
-        // Menu toggle functionality
-        function updateMenuOptions() {
-            menuOptions.innerHTML = ''; // Clear previous options
-
-            // Toggle light/dark mode options
-            if (isLightMode) {
-                addMenuOption('Turn on dark mode', toggleDarkMode);
-            } else {
-                addMenuOption('Turn on light mode', toggleLightMode);
-            }
-
-            // Toggle notification options
-            if (isNotificationsOn) {
-                addMenuOption('Turn off notifications', toggleNotifications);
-            } else {
-                addMenuOption('Turn on notifications', toggleNotifications);
-            }
-        }
-
-        // Function to add menu option
-        function addMenuOption(text, onClickHandler) {
-            const li = document.createElement('li');
-            const a = document.createElement('a');
-            a.textContent = text;
-            a.addEventListener('click', onClickHandler);
-            li.appendChild(a);
-            menuOptions.appendChild(li);
-        }
-
-        // Light mode function
-        function toggleLightMode() {
-            document.body.classList.remove('dark-mode');
-            document.body.classList.add('light-mode');
-            isLightMode = true;
-            updateMenuOptions();
-        }
-
-        // Dark mode function
-        function toggleDarkMode() {
-            document.body.classList.remove('light-mode');
-            document.body.classList.add('dark-mode');
-            isLightMode = false;
-            updateMenuOptions();
-        }
-
-        // Notification toggle function
-        function toggleNotifications() {
-            isNotificationsOn = !isNotificationsOn;
-            alert(isNotificationsOn ? 'Notifications are ON' : 'Notifications are OFF');
-            updateMenuOptions();
-        }
-
-        // Show the menu when the hamburger icon is clicked
-        hamburgerIcon.addEventListener("click", () => {
-            menuOverlay.classList.remove("hidden");  // Show the overlay
-            menuOverlay.classList.add("active");     // Trigger the slide-in effect
-            updateMenuOptions(); // Update the menu each time it's opened
-        });
-
-        // Close the menu when the "X" button is clicked
-        closeBtn.addEventListener("click", () => {
-            menuOverlay.classList.add("hidden");
-            menuOverlay.classList.remove("active");
-        });
-
-        // Initial menu update
-        updateMenuOptions();
-
-// Set appointment details
-console.log(loggedInUser);
-const doctorDetails = loggedInUser?.appointments?.[0]?.doctorDetails;
-const docImg = doctorDetails?.doctorImg || placeholderImg;
-const appointmentDate = loggedInUser?.appointments?.[0]?.date || 'Monday, 22 May';
-const appointmentTime = loggedInUser?.appointments?.[0]?.time || '10:00 AM';
-
-// location.textContent = loggedInUser.address;
-// if (loggedInUser && loggedInUser.address) {
-//     location.textContent = loggedInUser.address;
-// } else {
-//     location.textContent = 'Address not available'; // Fallback text
-// }
-// console.log(location.textContent)
-docAppointmentProfile.innerHTML = `
-    <div id="doctor">
-            <div id="dctrprofile">
-        <img src="${docImg}" alt="">
-        <div id="dctrtext">
-            <p style="font-weight: 500;">${doctorDetails?.name || 'Dr. Nosheen Khan'}</p>
-            <p style="font-weight: 300;">${doctorDetails?.specialty || 'Dentist Consultation'}</p>
-        </div>
+// Check if the logged-in user exists
+if (loggedInUser) {
+    const doctorDetails = loggedInUser.appointments?.[0]?.doctorDetails;
+    const docImg = doctorDetails?.doctorImg || 'https://avatar.iran.liara.run/public/boy?username=Ash';
+    const appointmentDate = loggedInUser.appointments?.[0]?.date || 'Monday, 22 May';
+    const appointmentTime = loggedInUser.appointments?.[0]?.time || '10:00 AM';
+    
+    // Check if address exists before setting it
+    locationElement.textContent = loggedInUser.address || 'Address not available';
+    
+    docAppointmentProfile.innerHTML = `
+        <div id="dctrprofile">
+            <img src="${docImg}" alt="">
+            <div id="dctrtext">
+                <p style="font-weight: 500;">${doctorDetails?.name || 'Dr. Nosheen Khan'}</p>
+                <p style="font-weight: 300;">${doctorDetails?.specialty || 'Dentist Consultation'}</p>
+            </div>
         </div>
         <div id="dctrcnct">
             <img src="../aseeet/images/telephone.png" alt="">
         </div>
-    </div>
-    <div id="datetime">
-        <div id="date">
-            <img src="../aseeet/images/calendar.png" height="20px" width="20px" alt="calendar-icon">
-            <p id="date-time">${appointmentDate}</p>
+        <div id="datetime">
+            <div id="date">
+                <img src="../aseeet/images/calendar.png" height="20px" width="20px" alt="calendar-icon">
+                <p id="date-time">${appointmentDate}</p>
+            </div>
+            <div id="timeIcon">
+                <img src="../aseeet/images/carbon--time.svg" alt="" height="20px" width="20px" alt="">
+                <p id="time">${appointmentTime}</p>
+            </div>
         </div>
-        <div id="timeIcon">
-            <img src="../aseeet/images/carbon--time.svg" alt="" height="20px" width="20px" alt="">
-            <p id="time">${appointmentTime}</p>
-        </div>
-    </div>
-`;
-
-const appointmentCount = document.createElement('p');
-appointmentCount.innerText = loggedInUser.appointments.length;
-upcomingSchedule.appendChild(appointmentCount);
+    `;
+    
+    const appointmentCount = document.createElement('p');
+    appointmentCount.innerText = loggedInUser.appointments.length;
+    upcomingSchedule.appendChild(appointmentCount);
+} else {
+    // Handle the case where no user is logged in
+    locationElement.textContent = 'Please log in to see your appointments.';
+    docAppointmentProfile.innerHTML = '<p>No appointment details available.</p>';
+}
 
 // Fetch unique specialties from Firestore
 async function fetchSpecialties() {
@@ -294,11 +214,11 @@ window.onload = moveMarquee;
 
 // Footer Icon Setup
 const icons = [
-    { src: '../aseeet/images/home.svg.svg', text: 'Home', link: 'https://example.com/home' },
+    { src: '../aseeet/images/home.svg', text: 'Home', link: 'https://example.com/home' },
     { src: '../aseeet/images/carbon--location-filled.png', text: 'About', link: 'https://example.com/about' },
     { src: '../aseeet/images/mingcute-calendar-fill.svg', text: 'Services', link: 'https://example.com/services' },
     { src: '../aseeet/images/chat.svg', text: 'Contact', link: 'https://example.com/contact' },
-    { src: '../aseeet/images/profile-footer.svg', text: 'Help', link: 'https://example.com/help' }
+    { src: '../aseeet/images/profile-footer.svg', text: 'Help', link: '/PROFILEPAGE/pro.html' }
 ];
 
 const footer = document.getElementById('footer');

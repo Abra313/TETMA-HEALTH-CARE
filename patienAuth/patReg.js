@@ -1,35 +1,4 @@
-import { db, auth, setDoc, doc, createUserWithEmailAndPassword, collection, getDocs } from "../firebaseConfig.js";
-async function updatePatientDocuments() {
-    const patientCollection = collection(db, "PATIENT");
-    const snapshot = await getDocs(patientCollection);
-
-    const updatePromises = snapshot.docs.map(async (doc) => {
-        const userData = doc.data();
-        
-        const updatedData = {
-            ...userData,
-           
-            rating: userData.rating !== undefined ? userData.rating : 0, // Set default rating
-            reviews: Array.isArray(userData.reviews) ? userData.reviews : [], // Ensure reviews is an array
-            appointments: Array.isArray(userData.appointments) ? userData.appointments : [], // Ensure appointments is an array
-            patients: Array.isArray(userData.patients) ? userData.patients : [] // Ensure patients is an array
-        };
-
-        // Update the document with the new fields
-        await setDoc(doc.ref, updatedData);
-    });
-
-    // Wait for all updates to complete
-    await Promise.all(updatePromises);
-    console.log("All documents updated successfully.");
-}
-
-// Call the update function
-updatePatientDocuments().catch(error => {
-    console.error("Error updating documents: ", error);
-});
-
-updatePatientDocuments();
+import { db, auth, setDoc, doc, createUserWithEmailAndPassword } from "../firebaseConfig.js";
 
 // Get elements
 const loadingSpinner = document.getElementById('loading');
@@ -57,8 +26,6 @@ submitBtn.addEventListener("click", function (event) {
     const email = document.getElementById('signup-email').value;
     const password = document.getElementById('signup-password').value;
     const name = document.getElementById('signup-name').value;   
-    const appointments = []; 
-   
 
     showLoading();
     
@@ -68,24 +35,27 @@ submitBtn.addEventListener("click", function (event) {
         const userData = {
             name: name,
             email: email,
-            appointments: appointments,
-
+            password: password, // Handle this securely in production
+            appointments: [],
+            notifications: [],
+            messages: [],
+            about: "New patient.",
+            phoneNumber: 0,
+            address: [],
+            paymentHistory: []
         };
 
         const docRef = doc(db, "PATIENT", user.uid);
-        setDoc(docRef, userData)
-        .then(() => {
-            hideLoading();
-            window.location.href = "patienAuth/patSig.html";
-        })
-        .catch((error) => {
-            hideLoading();
-            alert("Error saving user data: " + error.message);
-        });
+        return setDoc(docRef, userData);
+    })
+    .then(() => {
+        hideLoading();
+        // Redirect to the login page after successful account creation
+        window.location.href = "patSig.html"; // Change to your login page path
     })
     .catch((error) => {
         hideLoading();
-        alert("Error creating user: " + error.message);
+        alert("Error: " + error.message);
     });
 });
 
@@ -96,3 +66,11 @@ togglePassword.addEventListener('click', function () {
     passwordField.setAttribute('type', type);
     this.classList.toggle('fa-eye-slash');
 });
+
+// Function to populate the database with mock data (for testing purposes)
+async function populateMockData() {
+    // Mock data can be defined here if needed in the future
+}
+
+// Uncomment to populate mock data (make sure to run it only once)
+// populateMockData();
