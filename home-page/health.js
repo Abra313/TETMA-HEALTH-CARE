@@ -7,8 +7,10 @@ const header = document.getElementById('header');
 const placeholderImg = 'https://avatar.iran.liara.run/public/boy?username=Ash'
 
 
+const doctors = getDoctors();
 
-// Change header background on scroll
+if(doctors){
+    // Change header background on scroll
 window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
         header.style.backgroundColor = 'rgba(0, 38, 255, 100)';
@@ -181,10 +183,13 @@ async function fetchSpecialties() {
 
     return Array.from(specialtiesSet);
 }
+//
 
+
+//fetching specialties instantly
+const specialties = await fetchSpecialties();
 // Render specialties in the UI
 async function renderSpecialties() {
-    const specialties = await fetchSpecialties();
     console.log(specialties)
 
     specialties.forEach((specialty) => {
@@ -325,3 +330,9 @@ icons.forEach(icon => {
 });
 
 footer.appendChild(footerContainer);
+
+}else{
+    console.log('calling doctors...')
+}
+
+
