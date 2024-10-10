@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore, setDoc, doc, collection, getDocs, getDoc, updateDoc, query, where, addDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { getFirestore, setDoc, doc, collection, getDocs, getDoc, updateDoc, query, where, addDoc,writeBatch } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js';
 
 // Your web app's Firebase configuration
@@ -52,5 +52,7 @@ export {
     storage,
     query,
     where,
+    writeBatch,
     addDoc
+    
 };

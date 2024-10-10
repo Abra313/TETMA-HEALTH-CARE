@@ -40,42 +40,49 @@ document.addEventListener('DOMContentLoaded', () => {
 const specialtyContainer = document.getElementById("DS-icon");
 const upcomingSchedule = document.querySelector('.upcoming-schedule');
 const docAppointmentProfile = document.getElementById('twodivs');
-const location = document.querySelector('.location');
+const locationElement = document.querySelector('.location');
 
-// Set appointment details
-const doctorDetails = loggedInUser?.appointments?.[0]?.doctorDetails;
-const docImg = doctorDetails?.doctorImg || 'https://avatar.iran.liara.run/public/boy?username=Ash';
-const appointmentDate = loggedInUser?.appointments?.[0]?.date || 'Monday, 22 May';
-const appointmentTime = loggedInUser?.appointments?.[0]?.time || '10:00 AM';
-console.log(location)
-
-location.textContent = loggedInUser.address;
-docAppointmentProfile.innerHTML = `
-    <div id="dctrprofile">
-        <img src="${docImg}" alt="">
-        <div id="dctrtext">
-            <p style="font-weight: 500;">${doctorDetails?.name || 'Dr. Nosheen Khan'}</p>
-            <p style="font-weight: 300;">${doctorDetails?.specialty || 'Dentist Consultation'}</p>
+// Check if the logged-in user exists
+if (loggedInUser) {
+    const doctorDetails = loggedInUser.appointments?.[0]?.doctorDetails;
+    const docImg = doctorDetails?.doctorImg || 'https://avatar.iran.liara.run/public/boy?username=Ash';
+    const appointmentDate = loggedInUser.appointments?.[0]?.date || 'Monday, 22 May';
+    const appointmentTime = loggedInUser.appointments?.[0]?.time || '10:00 AM';
+    
+    // Check if address exists before setting it
+    locationElement.textContent = loggedInUser.address || 'Address not available';
+    
+    docAppointmentProfile.innerHTML = `
+        <div id="dctrprofile">
+            <img src="${docImg}" alt="">
+            <div id="dctrtext">
+                <p style="font-weight: 500;">${doctorDetails?.name || 'Dr. Nosheen Khan'}</p>
+                <p style="font-weight: 300;">${doctorDetails?.specialty || 'Dentist Consultation'}</p>
+            </div>
         </div>
-    </div>
-    <div id="dctrcnct">
-        <img src="../aseeet/images/telephone.png" alt="">
-    </div>
-    <div id="datetime">
-        <div id="date">
-            <img src="../aseeet/images/calendar.png" height="20px" width="20px" alt="calendar-icon">
-            <p id="date-time">${appointmentDate}</p>
+        <div id="dctrcnct">
+            <img src="../aseeet/images/telephone.png" alt="">
         </div>
-        <div id="timeIcon">
-            <img src="../aseeet/images/carbon--time.svg" alt="" height="20px" width="20px" alt="">
-            <p id="time">${appointmentTime}</p>
+        <div id="datetime">
+            <div id="date">
+                <img src="../aseeet/images/calendar.png" height="20px" width="20px" alt="calendar-icon">
+                <p id="date-time">${appointmentDate}</p>
+            </div>
+            <div id="timeIcon">
+                <img src="../aseeet/images/carbon--time.svg" alt="" height="20px" width="20px" alt="">
+                <p id="time">${appointmentTime}</p>
+            </div>
         </div>
-    </div>
-`;
-
-const appointmentCount = document.createElement('p');
-appointmentCount.innerText = loggedInUser.appointments.length;
-upcomingSchedule.appendChild(appointmentCount);
+    `;
+    
+    const appointmentCount = document.createElement('p');
+    appointmentCount.innerText = loggedInUser.appointments.length;
+    upcomingSchedule.appendChild(appointmentCount);
+} else {
+    // Handle the case where no user is logged in
+    locationElement.textContent = 'Please log in to see your appointments.';
+    docAppointmentProfile.innerHTML = '<p>No appointment details available.</p>';
+}
 
 // Fetch unique specialties from Firestore
 async function fetchSpecialties() {
@@ -184,11 +191,11 @@ moveMarquee();
 
 // Footer Icon Setup
 const icons = [
-    { src: '../aseeet/images/home.svg.svg', text: 'Home', link: 'https://example.com/home' },
+    { src: '../aseeet/images/home.svg', text: 'Home', link: 'https://example.com/home' },
     { src: '../aseeet/images/carbon--location-filled.png', text: 'About', link: 'https://example.com/about' },
     { src: '../aseeet/images/mingcute-calendar-fill.svg', text: 'Services', link: 'https://example.com/services' },
     { src: '../aseeet/images/chat.svg', text: 'Contact', link: 'https://example.com/contact' },
-    { src: '../aseeet/images/profile-footer.svg', text: 'Help', link: 'https://example.com/help' }
+    { src: '../aseeet/images/profile-footer.svg', text: 'Help', link: '/PROFILEPAGE/pro.html' }
 ];
 
 const footer = document.getElementById('footer');

@@ -1,0 +1,64 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    list-style: none;
+}
+
+:root {
+    --primary-color: #3498db; /* Blue */
+    --text-color1: #333; /* Dark gray */
+    --text-color2: #000000; /* Black */
+    --background-color1: #f4f4f4; /* Light gray */
+    --background-color2: #ffffff; /* White */
+}
+
+body {
+    background-color: var(--background-color1);
+    min-height: 100vh;
+   
+}
+.location-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1%;
+    /* border: 1px solid black; */
+    padding: 4%;
+}
+#icon-container{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+i{
+    font-size: 1.3rem;
+}
+.Schedule-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1%;
+    /* border: 1px solid black; */
+    padding: 4%;
+
+}
+.upcoming{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+}
+.schedule-item {
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+}
+.Schedule-fig{
+    background-color: var(--primary-color);
+    columns: var(--background-color2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

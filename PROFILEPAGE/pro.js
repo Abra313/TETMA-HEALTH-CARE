@@ -1,8 +1,3 @@
-// import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
-// import { getFirestore, doc, updateDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
-// import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js';
-// import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
-// pro.js
 import { auth, db, storage, doc, updateDoc, getDoc, ref, uploadBytes, getDownloadURL, onAuthStateChanged } from "../firebaseConfig.js";
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -18,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('phoneInput').value = data.phone || '';
             document.getElementById('genderInput').value = data.gender || '';
             document.getElementById('addressInput').value = data.address || '';
+            document.getElementById('cityInput').value = data.city || '';
+            document.getElementById('countryInput').value = data.country || '';
             document.getElementById('aboutInput').value = data.about || '';
 
             const preview = document.getElementById('preview');
@@ -49,6 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const phone = formData.get('phone');
                 const gender = formData.get('gender');
                 const address = formData.get('address');
+                const city = formData.get('city');
+                const country = formData.get('country');
                 const about = formData.get('about');
                 const specialty = formData.get('specialty');
                 const file = imageInput.files[0];
@@ -68,6 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         gender,
                         specialty,
                         address,
+                        city,
+                        country,
                         about,
                     };
 
