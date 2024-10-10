@@ -6,8 +6,7 @@ const loggedInUser = getUser();
 const header = document.getElementById('header');
 const placeholderImg = 'https://avatar.iran.liara.run/public/boy?username=Ash'
 
-//fetching all doctors from firestore
-getDoctors();
+
 
 // Change header background on scroll
 window.addEventListener('scroll', () => {
@@ -40,9 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderSpecialties();
 });
-
-
-
 // DOM Elements
 const specialtyContainer = document.getElementById("DS-icon");
 const upcomingSchedule = document.querySelector('.upcoming-schedule');
@@ -235,6 +231,7 @@ icons.forEach(icon => {
     const iconImage = document.createElement('img');
     iconImage.src = icon.src;
     iconImage.alt = icon.text;
+    iconImage.className = "icon-svg"
 
     iconLink.appendChild(iconImage);
     
