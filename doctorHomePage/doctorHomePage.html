@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="/aseeet/images/hospital-logo-design-vector-medical-cross.png" type="image/x-icon">
 </head>
 <body>
+    
     <div class="location-wrapper">
         <div class="icon-container" id="icon-container">
             <i class="fa-solid fa-location-dot" style="color:#3498db; "></i>
@@ -21,7 +22,7 @@
     <div class="Schedule-wrapper">
        <div class="upcoming">
         <p>Upcoming Schedule</p>
-        <div class="Schedule-fig" id="Schedule-fig"><p>0</p></div>
+        <div class="Schedule-fig" id="Schedule-fig"><p></p></div>
         
        </div>
        <small>see all</small>
@@ -29,12 +30,10 @@
 
     <div class="Schedule-pro" id="Schedule-pro">
         <div class="profile" id="profile">
-            <div>
-                <i class="fa-solid fa-user" style="color: grey; font: 3rem;"></i>
+            <div class="info-wrapper">
+                <div id="image-container"></div>
                 <div class="info" id="info">
                     <p class="name" id="name"></p>
-                    <p class="specialty" id="specialty"></p>
-
                 </div>
             </div>
             <i class="fa-solid fa-phone" style="color: white; font: 2rem;"></i>
@@ -42,18 +41,29 @@
 
 
         <div class="date" id="date">
-            <div>
+            <div class="date-box">
                 <i class="fa-regular fa-calendar" style="color: white;"></i>
-                <p></p>
+                <p class="month" id="month"></p>
             </div>
-           <div>
+            <p style="color: white;">|</p>
+           <div class="date-box">
             <i class="fa-regular fa-clock" style="color: white;"></i>
-            <p></p>
+            <p class="time" id="time"></p>
            </div>
 
         </div>
 
     </div>
+    <div class="footer-nav">
+        <div class="nav-icon" id="home-icon"><i class="fa-solid fa-house"></i></div> <!-- Home Icon -->
+        <div class="nav-icon" id="location-icon"><i class="fa-solid fa-map-marker-alt"></i></div> <!-- Location Icon -->
+        <div class="nav-icon" id="booking-icon"><i class="fa-solid fa-calendar-check"></i></div> <!-- Booking Icon -->
+        <div class="nav-icon" id="chat-icon"><i class="fa-solid fa-comment-dots"></i></div> <!-- Chat Icon -->
+        <div class="nav-icon" id="profile-icon"><i class="fa-solid fa-user"></i></div> <!-- Profile Icon -->
+    </div>
+    
+
+    
 
 
 

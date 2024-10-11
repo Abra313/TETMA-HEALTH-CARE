@@ -83,10 +83,11 @@ small{
 
 }
 .profile{
-    border: 1px solid white;
+    /* border: 1px solid white; */
     height: 8vh;
     width: 90%;
     display: flex;
+    align-items: center;
     justify-content: space-between;
     padding: 5%;
 
@@ -102,4 +103,44 @@ small{
     align-items: center;
     padding: 4%;
     
+}
+.info-wrapper{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.info{
+    color: var(--background-color2);
+}
+.date-box{
+    display: flex;
+    color: var(--background-color2);
+    align-items: center;
+    
+}
+.month,
+.time{
+    padding-left: 5px;
+}
+
+.my-image {
+    
+    border-radius: 50%;
+}
+
+.footer-nav {
+    display: flex;
+    justify-content: space-around;
+    background-color: #f8f9fa; /* Light background color */
+    color: var(--primary-color);
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.nav-icon {
+    text-align: center;
+    cursor: pointer;
+    font-size: 24px; /* Icon size */
 }
