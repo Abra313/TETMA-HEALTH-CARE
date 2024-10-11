@@ -1,11 +1,31 @@
-function getUserData() {
-    return null; 
+// Import Firebase modules
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+import { getDatabase, ref, get, set } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
+
+// Firebase setup
+const firebaseConfig = {
+    apiKey: "AIzaSyDNjWv2TRRAHE8wfmIY8cfCRBGma1wUX3I",
+    authDomain: "tetma-health-care.firebaseapp.com",
+    projectId: "tetma-health-care",
+    storageBucket: "tetma-health-care.appspot.com",
+    messagingSenderId: "132306558594",
+    appId: "1:132306558594:web:fd0c3fd954ce2532d09e9b"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+// Function to get user data from Firebase
+async function getUserData(userId) {
+    const userRef = ref(database, 'users/' + userId);
+    const snapshot = await get(userRef);
+    return snapshot.val();
 }
 
-function updateLocation() {
+// Function to update location element
+function updateLocation(userData) {
     const locationElement = document.getElementById('location');
-    const userData = getUserData();
-
     if (userData && userData.address) {
         locationElement.textContent = userData.address; 
     } else {
@@ -13,8 +33,33 @@ function updateLocation() {
     }
 }
 
+// Get logged-in user from session storage
+const getUser = () => {
+    const loggedInUser = sessionStorage.getItem("userDetails");
+
+    if (!loggedInUser) {
+        console.log("No user found in session.");
+        return null;
+    }
+
+    try {
+        const userData = JSON.parse(loggedInUser); 
+        console.log("Logged in user:", userData); 
+        return userData; 
+    } catch (error) {
+        console.error("Error parsing user data:", error);
+        return null;
+    }
+};
+
 // Call the function to update the location
-updateLocation();
+(async () => {
+    const user = getUser();
+    if (user) {
+        const userData = await getUserData(user.id); // Assuming user.id contains the Firebase user ID
+        updateLocation(userData);
+    }
+})();
 
 // Schedule section
 const scheduleFig = document.getElementById('Schedule-fig');
@@ -39,7 +84,6 @@ function addImage() {
     const container = document.getElementById('image-container');
     const imageElement = document.createElement('img');
 
-    // Set the image source and attributes
     imageElement.src = "/aseeet/images/john-hopkins-hospital.jpeg";
     imageElement.alt = 'Johns Hopkins Hospital';
     imageElement.width = 50;
@@ -51,3 +95,15 @@ function addImage() {
 
 // Call the function to add the image
 addImage();
+
+// Function to write user data to Firebase
+function writeUserData(userId, name, address) {
+    const userRef = ref(database, 'users/' + userId);
+    set(userRef, {
+        username: name,
+        address: address
+    });
+}
+
+// Call the function to write user data (example usage)
+writeUserData('user_123', 'Johnson Williams', '123 Main St, Anytown');

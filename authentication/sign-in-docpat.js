@@ -9,5 +9,5 @@ signInDocElement.addEventListener('click', function() {
 
 signInPatElement.addEventListener('click', function() {
     
-    window.location.href = "/authentication/patienAuth/patSig.html"; 
+    window.location.href = "../patienAuth/patReg.html"; 
 });
