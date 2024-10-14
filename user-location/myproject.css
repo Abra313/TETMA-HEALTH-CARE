@@ -1,0 +1,226 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    /* justify-content: center; */
+    /* align-items: center; */
+
+    margin: 0;
+    padding: 0px;
+}
+#address
+{
+
+    /* position: absolute; */
+    /* margin-right:60px; */
+border: none;
+outline:  none;
+overflow:visible;
+flex-grow: 1; 
+}
+#div1{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+    margin-right: 70px;
+}
+#div1 > img{
+    border-radius: 50px;
+    border: 2px solid rgb(185, 176, 176);
+    padding: 10px;
+}
+.div-i > img{
+    margin-left: 10px;
+}
+#pos1{
+    border-radius: 10px;
+    /* position: relative; */
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 90%;
+    margin-top: 20px;
+    /* margin-left: 40px; */
+}
+/* #pos2{
+    margin-left: 4%;
+
+} */
+
+#app {
+    /* background: #fff; */
+    /* border-radius: 8px; */
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+    width: 100%;
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* flex-wrap: wrap; */
+    /* justify-content: center; */
+    /* border: 1px solid orchid; */
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+input[type="text"] {
+    /* width: calc(100% - 22px); */
+    padding: 10px; 
+    
+}
+
+#button {
+    display: flex;
+    align-items: center;
+    /* margin-left: 10%; */
+    gap: 20px;
+    margin-top: 35px;
+    justify-content: space-evenly;
+     background-color: #fff; 
+     outline: none;
+    /* color: rgb(142, 158, 217); */
+    /* border: 1px solid red; */
+    /* padding: 10px 15px; */
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 130px;
+
+    
+}
+hr{
+        width: 90%; /* Change the width */
+        margin: 20px; /* Center it */
+        padding: 1px solid white;
+        color: #fff;
+        background-color: rgb(242, 239, 239);
+        box-shadow:#fff;
+    
+    
+}
+
+
+.divi{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#pos3{
+    align-items: center;
+    justify-content: space-around;
+}
+#button > p {
+    color: rgb(16, 18, 20);
+    font-size:xx-large;
+    font-weight: 900;
+}
+#button i {
+    color: rgb(20, 141, 228); 
+   font-size: 25px;
+}
+
+
+
+
+#result {
+    margin-top: 20px;
+} 
+
+ #location {
+    font-size: 10px;
+    color: #333;
+}
+.suggestionBox {
+    display: flex; /* Use Flexbox for layout */
+    flex-direction: column; /* Arrange suggestions vertically */
+    width: 100%; /* Take full width of the parent container */
+    border: 1px solid #ccc; /* Optional: Add a border */
+    background: white; /* Optional: Background color */
+    position: absolute; /* Optional: Position it below the input */
+    z-index: 1000; /* Ensure it appears above other elements */
+    /* border: 1px solid red;
+    text-align: start; */
+    align-items: center;
+}
+
+.suggestion {
+    width: 100%; /* Make each suggestion take the full width */
+    padding: 10px; /* Add padding for better spacing */
+    box-sizing: border-box;
+    cursor: pointer; /* Change cursor on hover */
+}
+
+.suggestion:hover {
+    background-color: #f0f0f0; /* Optional: Highlight on hover */
+}
+
+ /* .suggestionBox{
+    height:5px;
+    
+} */
+/* .suggestionItem{
+    width: 100%; 
+ }  */
+
+.bigBox {
+    display: flex;
+    align-items: center; 
+    padding : 10px;
+    width: 300px;
+   
+}
+
+/* 
+.bigBox div {
+    display: flex; 
+    align-items: center; 
+} */
+.fa-circle-xmark{
+    margin-left: 30px;
+    color:  rgb(20, 141, 228);
+}
+
+@media screen and (max-width:428px) {
+    .suggestionBox {
+        display: flex; /* Use Flexbox for layout */
+        flex-direction: column; /* Arrange suggestions vertically */
+        width: 70px; /* Take full width of the parent container */
+        border: 1px solid #ccc; /* Optional: Add a border */
+        background: white; /* Optional: Background color */
+        position: absolute; /* Optional: Position it below the input */
+        z-index: 1000; /* Ensure it appears above other elements */
+        text-align: start; 
+        margin-top: 100px;
+        /* margin-top: 90px; */
+    }
+    .suggestionItem{
+        /* border: 4px solid yellow; */
+        /* width: 205px; */
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .suggestionsContainer{
+        border: 5px solid green;
+    }
+
+}
+#recent-search{
+    margin-right: 50%;
+}
+#result{
+    display: flex;
+    /* align-items: center; */
+}
+#result > i{
+    color:  rgb(20, 141, 228);
+    font-size: x-large;
+}

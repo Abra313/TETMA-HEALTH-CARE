@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="myproject.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <title>Document</title>
+</head>
+<body>
+     <div id="app">
+        <div id="div1">
+            <img src="arrow.svg" alt="">
+            <h4>Enter Your Location</h4>
+        </div>
+
+        <div id="pos1">
+            <div class="div-i">
+                <img src="search.svg" alt="" id="pos2">
+              
+            </div>
+           
+            <div class="bigBox">
+                <input type="text" id="address"/>
+                <i class="fa-sharp fa-solid fa-circle-xmark"></i>
+            </div>
+            </div>
+      
+      
+       <div id="button">
+        <div> <i class="fa-duotone fa-solid fa-location-arrow"></i></div> 
+            <div id="searchButton">Use my current Location</div>
+       </div> <hr>
+        
+        <div id="result">
+            <!-- <i class="fa-duotone fa-solid fa-location-arrow"></i> -->
+            <p id="location"></p>
+        </div> 
+
+        <div class="suggestionBox" style="display: none;">
+        
+        </div>
+        <!-- <div id="recent-search"> SEARCH RESULT</div> -->
+    </div>
+    <script src="app.js"></script>
+</body> 
+</html>
