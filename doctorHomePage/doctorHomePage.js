@@ -1,6 +1,7 @@
 // Import Firebase modules
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-import { getDatabase, ref, get, set } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
+import { getDatabase, ref, get } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js';
+import { getUser } from '../utils/getUser.js'; 
 
 // Firebase setup
 const firebaseConfig = {
@@ -16,94 +17,54 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// Function to get user data from Firebase
-async function getUserData(userId) {
-    const userRef = ref(database, 'users/' + userId);
-    const snapshot = await get(userRef);
-    return snapshot.val();
-}
+// Function to update user details section
+function updateUserDetails(userData) {
+    const nameElement = document.getElementById('name');
+    const profilePicElement = document.getElementById('profile-pic');
 
-// Function to update location element
-function updateLocation(userData) {
-    const locationElement = document.getElementById('location');
-    if (userData && userData.address) {
-        locationElement.textContent = userData.address; 
+    if (userData) {
+        nameElement.textContent = userData.username || 'No name available';
+        profilePicElement.src = userData.profilePic || '/path/to/default-pic.jpg'; // Set default image if none
+        console.log("User details updated:", userData);
     } else {
-        locationElement.textContent = 'No address available'; 
+        nameElement.textContent = 'No name available';
+        profilePicElement.src = '/path/to/default-pic.jpg';
+        console.log("No user data available.");
     }
 }
 
-// Get logged-in user from session storage
-const getUser = () => {
-    const loggedInUser = sessionStorage.getItem("userDetails");
+// Function to get upcoming schedule
+async function getUpcomingSchedule(userId) {
+    const scheduleRef = ref(database, 'appointments/' + userId); // Adjust this path as necessary
+    const snapshot = await get(scheduleRef);
 
-    if (!loggedInUser) {
-        console.log("No user found in session.");
-        return null;
+    if (snapshot.exists() && snapshot.val().length > 0) {
+        return snapshot.val().length; // Return the number of upcoming schedules
+    } else {
+        return 0; // No upcoming schedules
     }
+}
 
-    try {
-        const userData = JSON.parse(loggedInUser); 
-        console.log("Logged in user:", userData); 
-        return userData; 
-    } catch (error) {
-        console.error("Error parsing user data:", error);
-        return null;
-    }
-};
-
-// Call the function to update the location
+// Call the function to get user data from session storage
 (async () => {
-    const user = getUser();
+    const user = getUser(); // Use the getUser function
+    console.log("Retrieved user from session storage:", user);
+    
     if (user) {
-        const userData = await getUserData(user.id); // Assuming user.id contains the Firebase user ID
-        updateLocation(userData);
+        updateUserDetails(user);
+        
+        // Get upcoming schedule
+        const upcomingSchedule = await getUpcomingSchedule(user.id || 'xi1gFXzmfuSprt2MRIsTdXrDAst2'); // Use provided ID if no user ID
+        console.log("Upcoming schedule count:", upcomingSchedule);
+        
+        // Display the upcoming schedule count in the Schedule-fig element
+        const scheduleFigElement = document.getElementById('Schedule-fig'); // Ensure this element exists
+        scheduleFigElement.textContent = `Upcoming Schedule: ${upcomingSchedule}`; // Display the count
+    } else {
+        console.warn("No user found in session storage.");
+        const scheduleFigElement = document.getElementById('Schedule-fig');
+        scheduleFigElement.textContent = '0'; // Display 0 if no user found
     }
 })();
 
-// Schedule section
-const scheduleFig = document.getElementById('Schedule-fig');
-scheduleFig.innerHTML = '';
-
-const newElement = document.createElement('p');
-newElement.textContent = '1';
-newElement.classList.add('new-schedule-class');
-scheduleFig.appendChild(newElement);
-
-// User details section
-const nameElement = document.getElementById('name');
-nameElement.innerHTML = 'Johnson Williams';
-
-const monthElement = document.getElementById('month');
-const timeElement = document.getElementById('time');
-monthElement.innerHTML = "2024, 24 Oct";
-timeElement.innerHTML = "00:00 - 12:00";
-
-// Function to add an image
-function addImage() {
-    const container = document.getElementById('image-container');
-    const imageElement = document.createElement('img');
-
-    imageElement.src = "/aseeet/images/john-hopkins-hospital.jpeg";
-    imageElement.alt = 'Johns Hopkins Hospital';
-    imageElement.width = 50;
-    imageElement.height = 50;
-    imageElement.classList.add('my-image');
-
-    container.appendChild(imageElement);
-}
-
-// Call the function to add the image
-addImage();
-
-// Function to write user data to Firebase
-function writeUserData(userId, name, address) {
-    const userRef = ref(database, 'users/' + userId);
-    set(userRef, {
-        username: name,
-        address: address
-    });
-}
-
-// Call the function to write user data (example usage)
-writeUserData('user_123', 'Johnson Williams', '123 Main St, Anytown');
+// Rest of your code...

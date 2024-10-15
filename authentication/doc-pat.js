@@ -10,7 +10,7 @@
 
     patElement.addEventListener('click', function() {
         
-        window.location.href = "../authentication/patienAuth/patReg.html"; 
+        window.location.href = "../patienAuth/patReg.html"; 
     });
 
 
