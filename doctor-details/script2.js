@@ -671,7 +671,7 @@ function displayStatistics(doctorData) {
 const bookingForm = document.createElement('div');
 bookingForm.innerHTML = `
 <div class="container">
-    <h2 class="heading">Schedule an Appointment</h2>
+    <h2 class="appointment">Schedule an Appointment</h2>
     <form>
         <div class="form-group">
             <label for="appointmentDate" class="label">Appointment Date</label>
@@ -683,7 +683,7 @@ bookingForm.innerHTML = `
             <input type="time" id="appointmentTime" name="appointmentTime" class="input-time" required>
         </div>
 
-        <button type="submit" class="button">Schedule Appointment</button>
+        <button type="submit" class="app-bnt">Schedule Appointment</button>
     </form>
     <p class="note">We will contact you to confirm your appointment.</p>
 </div>
