@@ -49,12 +49,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function getDoctorDetails(name,specialty,location) {
-        // return {
-        //     name:"",
-        //     specialty: "",
-        //     location: "",
-        //     image: "path/to/image.jpg" // Placeholder for doctor image path
-        // };
+        return {
+            name:"",
+            specialty: "",
+            location: "",
+            image: "path/to/image.jpg" // Placeholder for doctor image path
+        };
     }
 
     function getBookingDetails(packageName, duration) {

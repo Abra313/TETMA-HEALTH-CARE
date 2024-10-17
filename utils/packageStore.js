@@ -1,4 +1,4 @@
-// storage.js
+
 
 // Function to store selected service, duration, payment details, doctor details, and booking details in sessionStorage
 export function storeSelection(service, duration, paymentDetails, doctorDetails, bookingDetails) {
