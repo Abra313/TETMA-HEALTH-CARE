@@ -1,0 +1,56 @@
+body{
+    display: flex;
+    flex-direction: column;
+    padding-left: 5px;
+    padding-right: 10px;
+    justify-content: center;
+    /* gap: 10px; */
+}
+
+.box{
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    gap: 10px;
+}
+
+.box1{
+    display: flex;
+    flex-direction: row;
+    
+    
+}
+
+.card{
+    height: 35px;
+    width: 350px;
+}
+
+.car {
+    height: 40px;
+    width: 150px; 
+}
+
+.ExpCVV{
+    display: flex;
+    flex-direction: column;
+    margin-left: 40px;
+}
+
+.radio{
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+}
+
+.add{
+    height: 60px;
+    width: 350px;
+    border-radius: 30px;
+    background-color: rgb(21, 36, 253);
+    color: white;
+}
+
+.bttn{
+    margin-top: 50px;
+}

@@ -1,0 +1,127 @@
+:root {
+    --primary-color: #66b5ff; /* Blue root color */
+    --secondary-color: white; /* White secondary color */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--secondary-color); /* White background for contrast */
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 40px auto; /* Centering the container */
+    padding: 20px;
+    background-color: var(--secondary-color); /* Use secondary color */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+h2, h3 {
+    color: #333; /* Darker color for headings */
+}
+
+.duration-selection {
+    margin-bottom: 20px; /* Space below the duration selection */
+    padding: 15px; /* Padding for the duration section */
+}
+
+.duration-selection select {
+    width: 100%; /* Full width */
+    padding: 10px; /* Padding for comfort */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 1em; /* Font size */
+}
+
+.service {
+    display: flex;
+    align-items: center; /* Center items vertically */
+    justify-content: space-between; /* Distribute space between items */
+    margin: 10px 0; /* Space between services */
+    padding: 8px; /* Add padding around the service item */
+    background-color: #ffffff; /* Background color for the service */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.service-icon {
+    width: 50px; /* Adjust size for better fit */
+    height: 50px; /* Adjust size for better fit */
+    margin-right: 10px; /* Space between icon and text */
+    flex-shrink: 0;
+    padding: 10px; /* Add padding inside the icon container */
+    background-color: #f9f9f9; /* Light background for the icon area */
+    border-radius: 50%; /* Makes the padding area circular */
+    display: flex; /* Use flexbox to center the icon */
+    align-items: center; /* Center the icon vertically */
+    justify-content: center; /* Center the icon horizontally */
+}
+
+.service-info {
+    display: flex;
+    justify-content: space-between; /* Distribute space between details and price */
+    align-items: center; /* Align items vertically */
+    width: 100%; /* Make sure it takes up the full width */
+}
+
+.service-details, .price {
+    display: flex;
+    flex-direction: column; /* Stack title and subtitle vertically */
+    justify-content: center; /* Center them vertically */
+    text-align: left; /* Ensure text alignment to the left */
+}
+
+.service-details {
+    flex-grow: 1; /* Allow details section to grow and take available space */
+    margin-right: 20px; /* Add some space between the details and price */
+}
+
+.price {
+    display: flex;
+    flex-direction: column; /* Stack price and subtitle vertically */
+    align-items: flex-end; /* Align price text to the right */
+}
+
+.subtitle {
+    font-size: 0.9em; /* Subtitle text size */
+    color: #666; /* Subtitle color */
+    margin: 0; /* Remove default margins */
+}
+
+input[type="radio"] {
+    transform: scale(1.5); /* Make radio buttons larger */
+    margin-left: 10px; /* Space to the left of the radio button */
+}
+
+.action-button {
+    margin-top: 20px; /* Space above the button */
+    text-align: center; /* Center the button */
+}
+
+button {
+    background-color: var(--primary-color); /* Use primary color */
+    color: var(--secondary-color); /* Use secondary color for text */
+    border: none; /* No border */
+    padding: 10px 20px; /* Padding for comfort */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer on hover */
+    font-size: 1em; /* Button text size */
+}
+
+button:hover {
+    background-color: #58a3e4; /* Button hover color */
+}
+
+
+.total-cost {
+    margin-top: 20px; /* Space above the total cost section */
+    font-size: 1.2em; /* Larger font for visibility */
+    text-align: center; /* Center the text */
+    color: #333; /* Dark color for contrast */
+    font-weight: bold; /* Bold to highlight the total */
+}
+
+

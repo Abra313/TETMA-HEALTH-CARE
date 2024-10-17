@@ -1,11 +1,15 @@
 import { getUser } from "../utils/getUser.js";
 import { db, collection, getDocs, query, where} from "../firebaseConfig.js";
 import { getDoctors, getSingleDoctor, getStoredDoctors } from "../doctor-details/getDoctors.js";
+import loader from "../utils/loader.js";
 
 const loggedInUser = getUser();
 const header = document.getElementById('header');
 const placeholderImg = 'https://avatar.iran.liara.run/public/boy?username=Ash'
 
+
+
+loader(document.body, "Loading your data");
 
 const doctors = getDoctors();
 
@@ -174,7 +178,9 @@ upcomingSchedule.appendChild(appointmentCount);
 // Fetch unique specialties from Firestore
 async function fetchSpecialties() {
     const specialtiesSet = new Set();
+
     const doctorData = getStoredDoctors();
+
 
 
     doctorData.forEach(doc => {
@@ -219,6 +225,7 @@ async function renderSpecialties() {
 // Fetch doctors by selected specialty
 async function fetchDoctorsBySpecialty(specialty) {
     const allDoctors =  getStoredDoctors();
+
     
     const doctors = allDoctors.filter(array => array.specialty == specialty);
     displayDoctorModal(doctors);
@@ -297,11 +304,11 @@ window.onload = moveMarquee;
 
 // Footer Icon Setup
 const icons = [
-    { src: '../aseeet/images/home.svg', text: 'Home', link: 'https://example.com/home' },
-    { src: '../aseeet/images/carbon--location-filled.png', text: 'About', link: 'https://example.com/about' },
-    { src: '../aseeet/images/mingcute-calendar-fill.svg', text: 'Services', link: 'https://example.com/services' },
-    { src: '../aseeet/images/chat.svg', text: 'Contact', link: 'https://example.com/contact' },
-    { src: '../aseeet/images/profile-footer.svg', text: 'Help', link: '/PROFILEPAGE/pro.html' }
+    { src: '../aseeet/images/home.svg', text: '', link: './home.html' },
+    { src: '../aseeet/images/carbon--location-filled.png', text: '', link: '' },
+    { src: '../aseeet/images/mingcute-calendar-fill.svg', text: '', link: '' },
+    { src: '../aseeet/images/chat.svg', text: '', link: '' },
+    { src: '../aseeet/images/profile-footer.svg', text: '', link: '' }
 ];
 
 const footer = document.getElementById('footer');

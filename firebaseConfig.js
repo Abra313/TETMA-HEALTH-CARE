@@ -7,7 +7,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstati
 const firebaseConfig = {
   apiKey: "AIzaSyDNjWv2TRRAHE8wfmIY8cfCRBGma1wUX3I",
   authDomain: "tetma-health-care.firebaseapp.com",
-  ucprojectId: "tetma-health-care",
+  projectId: "tetma-health-care",
   storageBket: "tetma-health-care.appspot.com",
   messagingSenderId: "132306558594",
   appId: "1:132306558594:web:fd0c3fd954ce2532d09e9b"

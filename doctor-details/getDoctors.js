@@ -39,7 +39,7 @@ async function getDoctors() {
         }));
 
         if (doctors.length > 0) {
-            console.log('Doctors data:', doctors); // Log doctors data to the console
+            console.log('Doctors data:', doctors); 
             sessionStorage.setItem('allDoctors', JSON.stringify(doctors));
         } else {
             console.log('No doctors found.');
@@ -50,16 +50,24 @@ async function getDoctors() {
 }
 
 // Function to get stored doctors from session storage
-const getStoredDoctors = () => {
-    const storedDoctors = sessionStorage.getItem("allDoctors");
-    if (storedDoctors) {
-        const result = JSON.parse(storedDoctors);
-        return result;
-    } else {
-        console.error('Doctors not found in session storage.');
-        alert('Doctors not found');
+
+
+    const getStoredDoctors = () => {
+        const storedDoctors = sessionStorage.getItem("allDoctors");
+        if (storedDoctors) {
+            const result = JSON.parse(storedDoctors);
+            console.log('calling....')
+            return result;
+        } else {
+            console.error('Doctors not found in session storage.');
+            console.log('Doctors not found');
+        }
+
     }
-};
+
+
+
+
 
 // Function to get a single doctor by email
 const getSingleDoctor = (email) => {
@@ -75,3 +83,5 @@ getDoctors();
 // Optional: Call to retrieve and log stored doctors
 const docs = getStoredDoctors();
 console.log("Stored doctors:", docs);
+
+export {getDoctors, getSingleDoctor, getStoredDoctors}

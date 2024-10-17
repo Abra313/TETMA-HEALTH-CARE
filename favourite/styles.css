@@ -1,0 +1,153 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background-color: #f8f9fa;
+  }
+  
+  .favorites-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .header h1 {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .search-bar input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    outline: none;
+  }
+  
+  .tab-menu {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .tab-menu button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background-color: #f0f0f0;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .tab-menu button.active {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .doctor-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .doctor-card {
+    display: flex;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    align-items: center;
+  }
+  
+  .doctor-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+  }
+  
+  .doctor-info {
+    flex: 1;
+  }
+  
+  .doctor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .badge {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+  }
+  
+  .favorite-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #ff6b6b;
+    cursor: pointer;
+  }
+  
+  .doctor-info h2 {
+    font-size: 18px;
+    margin: 5px 0;
+  }
+  
+  .specialty {
+    color: #888;
+  }
+  
+  .ratings {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+  }
+  
+  .stars {
+    color: #f5b301;
+    margin-right: 5px;
+  }
+  
+  .rating {
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  
+  .reviews {
+    color: #888;
+  }
+  
+  .appointment-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  .appointment-btn:hover {
+    background-color: #0056b3;
+  }
+  

@@ -1,15 +1,21 @@
 import { auth, db, storage, doc, updateDoc, getDoc, ref, uploadBytes, getDownloadURL, onAuthStateChanged } from "../firebaseConfig.js";
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Get the current user
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-            const doctorRef = doc(db, 'DOCTOR', user.uid);
-            const doctorDoc = await getDoc(doctorRef);
+            const userRole = sessionStorage.getItem('userRole');
+            const userRef = doc(db, 'USERS', user.uid);
+            const userDoc = await getDoc(userRef);
+            const data = userDoc.exists() ? userDoc.data() : {};
 
-            // Populate the form with existing data or create a new doctor profile
-            const data = doctorDoc.exists() ? doctorDoc.data() : {};
-            document.getElementById('specialtyInput').value = data.specialty || ''; 
+            if (userRole === 'DOCTOR') {
+                document.getElementById('specialtyInput').style.display = 'block';
+                document.getElementById('specialtyInput').value = data.specialty || '';
+            } else if (userRole === 'PATIENT') {
+                document.getElementById('medicalHistoryWrapper').style.display = 'block';
+                document.getElementById('medicalHistoryInput').value = data.medicalHistory || '';
+            }
+
             document.getElementById('phoneInput').value = data.phone || '';
             document.getElementById('genderInput').value = data.gender || '';
             document.getElementById('addressInput').value = data.address || '';
@@ -17,14 +23,14 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('countryInput').value = data.country || '';
             document.getElementById('aboutInput').value = data.about || '';
 
+            const imageInput = document.getElementById('imageInput');
             const preview = document.getElementById('preview');
+
             if (data.image) {
                 preview.src = data.image;
                 preview.style.display = 'block';
             }
 
-            // Image preview functionality
-            const imageInput = document.getElementById('imageInput');
             imageInput.addEventListener('change', (event) => {
                 const file = event.target.files[0];
                 if (file) {
@@ -37,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Form submission to update profile
             const form = document.getElementById('details');
             form.addEventListener('submit', async (event) => {
                 event.preventDefault();
@@ -49,11 +54,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 const city = formData.get('city');
                 const country = formData.get('country');
                 const about = formData.get('about');
-                const specialty = formData.get('specialty');
+                const specialty = userRole === 'DOCTOR' ? formData.get('specialty') : null;
+                const medicalHistory = userRole === 'PATIENT' ? formData.get('medicalHistory') : null;
                 const file = imageInput.files[0];
 
                 try {
-                    // Upload the image if a new file is selected
+                    const profileData = {
+                        phone,
+                        gender,
+                        address,
+                        city,
+                        country,
+                        about,
+                        ...(userRole === 'DOCTOR' && { specialty }),
+                        ...(userRole === 'PATIENT' && { medicalHistory }),
+                    };
+
+                    console.log('Profile Data:', profileData);
+                    sessionStorage.setItem('profileData', JSON.stringify(profileData));
+
                     let imageUrl;
                     if (file) {
                         const storageRef = ref(storage, `profileImages/${user.uid}/${file.name}`);
@@ -61,24 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         imageUrl = await getDownloadURL(storageRef);
                     }
 
-                    // Prepare the update data
-                    const updateData = {
-                        phone,
-                        gender,
-                        specialty,
-                        address,
-                        city,
-                        country,
-                        about,
-                    };
-
-                    // Include the imageUrl only if it was uploaded
                     if (imageUrl) {
-                        updateData.image = imageUrl;
+                        profileData.image = imageUrl;
                     }
 
-                    // Update the profile data in the "DOCTOR" collection
-                    await updateDoc(doctorRef, updateData);
+                    await updateDoc(userRef, profileData);
                     alert('Profile updated successfully!');
                 } catch (error) {
                     console.error("Error updating profile:", error);

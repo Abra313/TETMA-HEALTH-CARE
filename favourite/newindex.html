@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Favorites</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="favorites-container">
+    <div class="header">
+      <h1>Favorites</h1>
+      <div class="search-bar">
+        <input type="text" placeholder="Search">
+      </div>
+    </div>
+
+    <div class="tab-menu">
+      <a href="doctors.html" class="tab-button active">Doctors</a>
+      <a href="hospitals.html" class="tab-button">Hospitals</a>
+    </div>
+
+    <div class="doctor-list" id="doctor-list">
+      <!-- Doctor cards will be appended here by JavaScript -->
+    </div>
+  </div>
+
+  <script>
+    // Mock data for doctors
+    const doctors = [
+      {
+        name: "Dr. Jane Cooper",
+        specialty: "Dentist",
+        rating: 4.8,
+        reviews: 49,
+        image: "assets/doctor1.jpeg"
+      },
+      {
+        name: "Dr. John Smith",
+        specialty: "Cardiologist",
+        rating: 4.9,
+        reviews: 32,
+        image: "assets/doctor2.jpeg"
+      },
+      {
+        name: "Dr. Emily Brown",
+        specialty: "Pediatrician",
+        rating: 4.7,
+        reviews: 25,
+        image: "assets/doctor3.jpeg"
+      }
+    ];
+
+    // Function to render doctor cards
+    function renderDoctors() {
+      const doctorList = document.getElementById('doctor-list');
+      doctorList.innerHTML = ''; // Clear previous content
+      
+      doctors.forEach(doctor => {
+        const doctorCard = document.createElement('div');
+        doctorCard.classList.add('doctor-card');
+        
+        doctorCard.innerHTML = `
+          <img src="${doctor.image}" alt="${doctor.name}" class="doctor-img">
+          <div class="doctor-info">
+            <div class="doctor-header">
+              <span class="badge">Professional Doctor</span>
+              <button class="favorite-btn">&#10084;</button>
+            </div>
+            <h2>${doctor.name}</h2>
+            <p class="specialty">${doctor.specialty}</p>
+            <div class="ratings">
+              <span class="stars">${'⭐'.repeat(Math.round(doctor.rating))}</span>
+              <span class="rating">${doctor.rating}</span>
+              <span class="reviews">(${doctor.reviews} Reviews)</span>
+            </div>
+            <button class="appointment-btn">Make Appointment</button>
+          </div>
+        `;
+
+        doctorList.appendChild(doctorCard);
+      });
+    }
+
+    // Call the function to render doctors on page load
+    renderDoctors();
+  </script>
+</body>
+</html>

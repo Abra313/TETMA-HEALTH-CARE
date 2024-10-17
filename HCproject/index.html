@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Card</title>
+</head>
+<body>
+    <h3>Add Card</h3>
+    <img src="./Screenshot 2024-09-11 103631.png" alt="Card Image">
+
+    <div class="box">
+        Card Holder Name
+        <input class="card" type="text" id="cardHolderName1" placeholder="">
+    
+        Card Holder Name
+        <input class="card" type="text" id="cardHolderName2" placeholder="">
+    </div>
+
+    <div class="box1">
+        <div class="ExpCV">
+            <p>Expiry</p>
+            <input class="car" type="text" id="expiry" placeholder="">
+        </div>
+         
+        <div class="ExpCVV">
+            <p>CVV</p>
+            <input class="car" type="text" id="cvv" placeholder="">
+        </div>     
+    </div>
+
+    <div class="radio">
+        <input type="radio" id="cardType" name="cardType">
+        <label for="cardType">Card Holder Name</label>
+    </div>
+
+    <div class="bttn">
+        <button class="add" onclick="populateMockData()">Add Card</button>
+    </div>
+
+    <script src="./index.js"></script>
+</body>
+</html>
