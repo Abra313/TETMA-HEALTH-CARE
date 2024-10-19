@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const durationSelect = document.getElementById("duration");
     const serviceRadios = document.querySelectorAll('input[name="service"]');
     const totalCostDiv = document.getElementById("totalCost");
-    const nextButton = document.getElementById("nextButton");
+    const packageForm = document.getElementById("packageForm"); // Reference to the form
 
     // Listen for changes in duration and service selection
     durationSelect.addEventListener("change", updateTotalCost);
@@ -12,10 +12,12 @@ document.addEventListener('DOMContentLoaded', function() {
         radio.addEventListener("change", updateTotalCost);
     });
 
-    // Button click event
-    nextButton.addEventListener("click", handleNextButtonClick);
+    // Form submit event
+    packageForm.addEventListener("submit", handleFormSubmit);
 
-    function handleNextButtonClick() {
+    function handleFormSubmit(event) {
+        event.preventDefault(); // Prevent the default form submission
+
         const selectedService = document.querySelector('input[name="service"]:checked');
         
         if (!selectedService) {
@@ -31,7 +33,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const doctorDetails = getDoctorDetails(); // Fetch doctor details
         const bookingDetails = getBookingDetails(packageName, duration); // Fetch booking details
 
-        // Store all details in session storage
+        // Retrieve existing patientBooking from sessionStorage
+        const patientBookingString = sessionStorage.getItem('patientBooking');
+        let patientBooking = patientBookingString ? JSON.parse(patientBookingString) : {};
+
+        // Update the booking details with the selected duration and service amount
+        patientBooking.duration = duration;
+        patientBooking.amount = serviceCost;
+        console.log(patientBooking)
+
+        // Store updated booking details back to session storage
+        sessionStorage.setItem('patientBooking', JSON.stringify(patientBooking));
+
+        // Store other details in session storage
         storeSelection(selectedService.value, durationSelect.value, paymentDetails, doctorDetails, bookingDetails);
 
         // Redirect to the review page
@@ -48,9 +62,9 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    function getDoctorDetails(name,specialty,location) {
+    function getDoctorDetails() {
         return {
-            name:"",
+            name: "",
             specialty: "",
             location: "",
             image: "path/to/image.jpg" // Placeholder for doctor image path
@@ -75,10 +89,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const totalCost = serviceCost * (duration / 30);
             totalCostDiv.textContent = `Total Cost: $${totalCost.toFixed(2)}`;
 
-            nextButton.textContent = "Proceed to Pay";
+            document.getElementById("nextButton").textContent = "Proceed to Pay";
         } else {
             totalCostDiv.textContent = "Please select a service to book an appointment.";
-            nextButton.textContent = "NEXT"; // Revert button text if no service is selected
+            document.getElementById("nextButton").textContent = "NEXT"; // Revert button text if no service is selected
         }
     }
 });

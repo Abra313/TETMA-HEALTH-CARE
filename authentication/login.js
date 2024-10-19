@@ -60,7 +60,7 @@ loginForm.addEventListener("submit", async function (event) {
                 sessionStorage.setItem("userDetails", JSON.stringify(patientData));
 
                 // Redirect to the patient's home page
-                window.location.href = "../home-page/home.html";
+                window.location.href = "../user-location/rukky.html";
                 alert("Patient login is successful");
             } else {
                 console.log("No user found with the provided email in both collections.");

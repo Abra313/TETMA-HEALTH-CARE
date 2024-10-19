@@ -49,7 +49,7 @@ submitBtn.addEventListener("click", function (event) {
         setDoc(docRef, userData)
         .then(() => {
             hideLoading();
-            window.location.href = "patienAuth/patSig.html";
+            window.location.href = "../authentication/login.html";
         })
         .catch((error) => {
             hideLoading();

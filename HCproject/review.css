@@ -1,8 +1,24 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
+*{
     padding: 0;
-    background-color: white;
+    margin: 0;
+    box-sizing: border-box;
+
+}
+
+
+:root {
+    --primary-color: #3498db; /* Blue */
+    
+    --text-color1: #333; /* Dark gray */
+    --text-color2:#000000; /* black */
+    --background-color1: #f4f4f4; /* Light gray */
+    --background-color2: #ffffff; /* white */
+    
+}
+body {
+    background-color: var(--background-color1);
+    min-height: 100vh;
+  
 }
 
 .review-summary {
@@ -27,7 +43,7 @@ body {
 
 .summary-header h3 {
     font-size: 2em;
-    color: #0c3fca; /* Updated to a blue shade */
+    color: var(--primary-color); /* Updated to a blue shade */
 }
 
 .doctor-info {
@@ -47,12 +63,12 @@ body {
 .doctor-details h3 {
     margin: 0;
     font-size: 1.5em;
-    color: #333;
+    color: var(--text-color1);
 }
 
 .doctor-details p {
     margin: 5px 0;
-    color: #777;
+    color: var(--text-color1);
     display: flex;
     align-items: center;
 }
@@ -75,7 +91,7 @@ body {
     border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
     margin-bottom: 10px;
-    color: #0c3fca; /* Updated to a blue shade */
+    color: var(--primary-color); /* Updated to a blue shade */
     font-weight: bold;
 }
 
@@ -83,7 +99,7 @@ body {
     display: flex;
     justify-content: space-between;
     font-size: 1em;
-    color: #333;
+    color: var(--text-color1);
 }
 
 .payment-method {
@@ -91,13 +107,13 @@ body {
     justify-content: space-between;
     margin-top: 10px;
     font-weight: bold;
-    color: #555;
+    color: var(--text-color1);
 }
 
 .pay-now-button {
     display: block;
     width: 100%;
-    background-color: #0c3fca; /* Updated to a blue shade */
+    background-color: var(--primary-color); /* Updated to a blue shade */
     color: #fff;
     padding: 15px;
     font-size: 1em;
@@ -108,7 +124,7 @@ body {
 }
 
 .pay-now-button:hover {
-    background-color: #2980b9; /* Darker blue for hover */
+    background-color:var(--primary-color); /* Darker blue for hover */
 }
 
 @media (max-width: 768px) {

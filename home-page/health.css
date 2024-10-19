@@ -31,12 +31,12 @@ h3{
 
 /*styling of the header*/
 header {
-    position: fixed; /* Fixed position to stay on top of the viewport */
-    top: 0;           /* Stick to the top */
+    position: fixed; 
+    top: 0;          
     left: 0;
     width: 100%;      /* Ensure it spans the entire width of the screen */
-    border-color: transparent;
-    color: white;
+    border-color: white;
+    /* color: white; */
     padding: 5px 10px;
     text-align: center;
     font-size: 24px;
@@ -158,6 +158,11 @@ header {
     font-size: large;
     width: 100%;
  }
+
+ #input-search:focus{
+  border: var(--primary-color), 2px solid;
+  outline: none;
+ }
  #slider img {
     background-color: var(--primary-color);
     padding: 10px;
@@ -190,6 +195,7 @@ header {
             width: 300px;
             height: 100%;
             background-color: white;
+            color: rgba(255, 255, 255, 0.281);
             box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
             transition: transform 0.3s ease-in-out;
             transform: translateX(100%); /* Initially off-screen */
@@ -272,7 +278,8 @@ header {
     background-color: var(--primary-color);
     padding: 15px 15px;
     border-radius: 10px;
-    color: white;
+    margin-top: 3%;
+    color: #fff;
 }
 #doctor{
     display: flex;
@@ -361,6 +368,8 @@ header {
 
 .specialty-item text {
     overflow-x: hidden;
+    text-wrap: n;
+    width: 2px;
 }
 .dental img {
     height: 20px;
@@ -590,4 +599,100 @@ header {
     opacity: 0;
   }
 }
+.footer-nav {
+    display: flex;
+    justify-content: space-around;
+    background-color: #f8f9fa; /* Light background color */
+    color: var(--primary-color);
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.nav-icon {
+    text-align: center;
+    cursor: pointer;
+    font-size: 24px; /* Icon size */
+}
+
+.doctor-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+  };
+  .doctor-info2 {
+    flex: 1;
+  };
+
+  .doctor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  };
+
+  .badge {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+  };
+  
+  .favorite-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #ff6b6b;
+    cursor: pointer;
+  };
+
+  .doctor-info2 h2 {
+    font-size: 18px;
+    margin: 5px 0;
+  };
+
+  .specialty {
+    color: #888;
+  }
+  
+  .ratings {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+  }
+  
+  .stars {
+    color: #f5b301;
+    margin-right: 5px;
+  }
+  
+  .rating {
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  
+  .reviews {
+    color: #888;
+  }
+  
+  .appointment-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  .appointment-btn:hover {
+    background-color: #0056b3;
+  };
+
+  
+
 

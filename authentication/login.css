@@ -108,7 +108,7 @@ input[type="password"]{
 i{
    
     position: absolute;
-    margin-top: 1%;
+    margin-top: -5%;
     left: 87%;
     position: fixed;
 }
@@ -121,9 +121,9 @@ div{
     border: none;
 }
 
-
 .forgotPassword{
     cursor: pointer;
     color: var(--primary-color);
-    margin-left: 3%;
+    padding-left: 10%;
+
 }

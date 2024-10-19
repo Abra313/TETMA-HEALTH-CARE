@@ -1,347 +1,323 @@
 import { getUser } from "../utils/getUser.js";
-import { db, collection, getDocs, query, where} from "../firebaseConfig.js";
+import { db, collection, getDocs, query, where, doc } from "../firebaseConfig.js";
 import { getDoctors, getSingleDoctor, getStoredDoctors } from "../doctor-details/getDoctors.js";
 import loader from "../utils/loader.js";
 
 const loggedInUser = getUser();
 const header = document.getElementById('header');
-const placeholderImg = 'https://avatar.iran.liara.run/public/boy?username=Ash'
+const placeholderImg = 'https://avatar.iran.liara.run/public/boy?username=Ash';
 
-
-
-loader(document.body, "Loading your data");
+// Uncomment this if you need to display a loader
+// loader(document.body, "Loading your data");
 
 const doctors = getDoctors();
 
-console.log("here")
-
-if(doctors){
+if (doctors) {
     // Change header background on scroll
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        header.style.backgroundColor = 'rgba(0, 38, 255, 100)';
-        header.style.color = 'white';
-    } else {
-        header.style.backgroundColor = 'transparent';
+    window.addEventListener('scroll', () => {
+        header.style.backgroundColor = window.scrollY > 50 ? 'rgba(0, 38, 255, 100)' : 'transparent';
+        header.style.color = window.scrollY > 50 ? 'black' : '';
+    });
+
+    // Initialize dropdown functionality
+    document.addEventListener('DOMContentLoaded', () => {
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdownList = document.querySelector('.dropdown-list');
+        const chevron = document.querySelector('.chevron');
+
+        dropdownToggle.addEventListener('click', () => {
+            const isVisible = dropdownList.style.display === 'block';
+            dropdownList.style.display = isVisible ? 'none' : 'block';
+            chevron.classList.toggle('rotate');
+        });
+
+        dropdownList.addEventListener('click', (event) => {
+            if (event.target.tagName === 'LI') {
+                dropdownToggle.firstChild.textContent = event.target.textContent;
+                dropdownList.style.display = 'none';
+                chevron.classList.remove('rotate');
+            }
+        });
+
+        renderSpecialties();
+    });
+
+    // DOM Elements
+    const specialtyContainer = document.getElementById("DS-icon");
+    const upcomingSchedule = document.querySelector('.upcoming-schedule');
+    const docAppointmentProfile = document.getElementById('twodivs');
+    const location = document.querySelector('.location');
+
+    // Search functionality
+    const searchInput = document.getElementById('input-search');
+
+    // Function to get doctors from session storage
+    function getDoctorsFromSessionStorage() {
+        return JSON.parse(sessionStorage.getItem('doctors')) || [];
     }
-});
 
-// Initialize dropdown functionality
-document.addEventListener('DOMContentLoaded', () => {
-    const dropdownToggle = document.querySelector('.dropdown-toggle');
-    const dropdownList = document.querySelector('.dropdown-list');
-    const chevron = document.querySelector('.chevron');
-
-    dropdownToggle.addEventListener('click', () => {
-        dropdownList.style.display = dropdownList.style.display === 'block' ? 'none' : 'block';
-        chevron.classList.toggle('rotate');
-    });
-
-    dropdownList.addEventListener('click', (event) => {
-        if (event.target.tagName === 'LI') {
-            dropdownToggle.firstChild.textContent = event.target.textContent;
-            dropdownList.style.display = 'none';
-            chevron.classList.remove('rotate');
-        }
-    });
-
-    renderSpecialties();
-});
-// DOM Elements
-const specialtyContainer = document.getElementById("DS-icon");
-const upcomingSchedule = document.querySelector('.upcoming-schedule');
-const docAppointmentProfile = document.getElementById('twodivs');
-const location = document.querySelector('.location');
-
-        // Get the elements
-        const hamburgerIcon = document.getElementById("hamburger-icon");
-        const menuOverlay = document.getElementById("menu-overlay");
-        const closeBtn = document.getElementById("close-btn");
-        const menuOptions = document.getElementById("menu-options");
-
-
-        // Initial mode and notification state
-        let isLightMode = true;
-        let isNotificationsOn = false;
-
-        // Menu toggle functionality
-        function updateMenuOptions() {
-            menuOptions.innerHTML = ''; // Clear previous options
-
-            // Toggle light/dark mode options
-            if (isLightMode) {
-                addMenuOption('Turn on dark mode', toggleDarkMode);
-            } else {
-                addMenuOption('Turn on light mode', toggleLightMode);
+    // Event listener for search input
+    searchInput.addEventListener('input', (event) => {
+        const query = event.target.value.toLowerCase();
+        const allDocs = getStoredDoctors();
+        
+        // Check if the input is empty
+        if (query.length === 0) {
+            const existingDoctorElement = document.getElementById('doctor-results');
+            if (existingDoctorElement) {
+                existingDoctorElement.remove(); // Remove previous results
             }
-
-            // Toggle notification options
-            if (isNotificationsOn) {
-                addMenuOption('Turn off notifications', toggleNotifications);
-            } else {
-                addMenuOption('Turn on notifications', toggleNotifications);
-            }
+            return; // Exit the function
         }
 
-        // Function to add menu option
-        function addMenuOption(text, onClickHandler) {
-            const li = document.createElement('li');
-            const a = document.createElement('a');
-            a.textContent = text;
-            a.addEventListener('click', onClickHandler);
-            li.appendChild(a);
-            menuOptions.appendChild(li);
-        }
-
-        // Light mode function
-        function toggleLightMode() {
-            document.body.classList.remove('dark-mode');
-            document.body.classList.add('light-mode');
-            isLightMode = true;
-            updateMenuOptions();
-        }
-
-        // Dark mode function
-        function toggleDarkMode() {
-            document.body.classList.remove('light-mode');
-            document.body.classList.add('dark-mode');
-            isLightMode = false;
-            updateMenuOptions();
-        }
-
-        // Notification toggle function
-        function toggleNotifications() {
-            isNotificationsOn = !isNotificationsOn;
-            alert(isNotificationsOn ? 'Notifications are ON' : 'Notifications are OFF');
-            updateMenuOptions();
-        }
-
-        // Show the menu when the hamburger icon is clicked
-        hamburgerIcon.addEventListener("click", () => {
-            menuOverlay.classList.remove("hidden");  // Show the overlay
-            menuOverlay.classList.add("active");     // Trigger the slide-in effect
-            updateMenuOptions(); // Update the menu each time it's opened
+        const filteredDoctors = allDocs.filter((doctor) => {
+            const name = doctor.name?.toLowerCase() || ''; 
+            const specialty = doctor.specialty?.toLowerCase() || ''; 
+            return specialty.includes(query) || name.includes(query);
         });
 
-        // Close the menu when the "X" button is clicked
-        closeBtn.addEventListener("click", () => {
-            menuOverlay.classList.add("hidden");
-            menuOverlay.classList.remove("active");
-        });
-
-        // Initial menu update
-        updateMenuOptions();
-
-// Set appointment details
-console.log(loggedInUser);
-const doctorDetails = loggedInUser?.appointments?.[0]?.doctorDetails;
-const docImg = doctorDetails?.doctorImg || placeholderImg;
-const appointmentDate = loggedInUser?.appointments?.[0]?.date || 'Monday, 22 May';
-const appointmentTime = loggedInUser?.appointments?.[0]?.time || '10:00 AM';
-
-// location.textContent = loggedInUser.address;
-// if (loggedInUser && loggedInUser.address) {
-//     location.textContent = loggedInUser.address;
-// } else {
-//     location.textContent = 'Address not available'; // Fallback text
-// }
-// console.log(location.textContent)
-docAppointmentProfile.innerHTML = `
-    <div id="doctor">
-            <div id="dctrprofile">
-        <img src="${docImg}" alt="">
-        <div id="dctrtext">
-            <p style="font-weight: 500;">${doctorDetails?.name || 'Dr. Nosheen Khan'}</p>
-            <p style="font-weight: 300;">${doctorDetails?.specialty || 'Dentist Consultation'}</p>
-        </div>
-        </div>
-        <div id="dctrcnct">
-            <img src="../aseeet/images/telephone.png" alt="">
-        </div>
-    </div>
-    <div id="datetime">
-        <div id="date">
-            <img src="../aseeet/images/calendar.png" height="20px" width="20px" alt="calendar-icon">
-            <p id="date-time">${appointmentDate}</p>
-        </div>
-        <div id="timeIcon">
-            <img src="../aseeet/images/carbon--time.svg" alt="" height="20px" width="20px" alt="">
-            <p id="time">${appointmentTime}</p>
-        </div>
-    </div>
-`;
-
-const appointmentCount = document.createElement('p');
-appointmentCount.innerText = loggedInUser.appointments.length;
-upcomingSchedule.appendChild(appointmentCount);
-
-// Fetch unique specialties from Firestore
-async function fetchSpecialties() {
-    const specialtiesSet = new Set();
-
-    const doctorData = getStoredDoctors();
-
-
-
-    doctorData.forEach(doc => {
-        if (doc.specialty) {
-            specialtiesSet.add(doc.specialty);
-        }
-    });
-
-    return Array.from(specialtiesSet);
-}
-//
-
-
-//fetching specialties instantly
-const specialties = await fetchSpecialties();
-// Render specialties in the UI
-async function renderSpecialties() {
-    console.log(specialties)
-
-    specialties.forEach((specialty) => {
-        const specialtyDiv = document.createElement("div");
-        specialtyDiv.classList.add("specialty-item");
-        
-        const img = document.createElement("img");
-        img.src = placeholderImg; // Placeholder for specialty icons
-        img.className = "placeHolder"
-        img.style.height = "50px"
-        img.style.width = "50px"
-        const text = document.createElement("p");
-        text.innerHTML = specialty;
-        
-        specialtyDiv.appendChild(img);
-        specialtyDiv.appendChild(text);
-        specialtyContainer.appendChild(specialtyDiv);
-        
-        specialtyDiv.addEventListener('click', () => {
-            fetchDoctorsBySpecialty(specialty);
-        });
-    });
-}
-
-// Fetch doctors by selected specialty
-async function fetchDoctorsBySpecialty(specialty) {
-    const allDoctors =  getStoredDoctors();
-
-    
-    const doctors = allDoctors.filter(array => array.specialty == specialty);
-    displayDoctorModal(doctors);
-}
-
-// Display modal with doctor details
-function displayDoctorModal(doctors) {
-    const modal = document.getElementById("doctorModal");
-    const doctorContainer = document.createElement('div');
-    doctorContainer.setAttribute('id', 'doctorDetailsContainer');
-    document.body.appendChild(doctorContainer);
-    const detailsContainer = document.getElementById("doctorDetailsContainer");
-    console.log(doctors);
-
-    detailsContainer.innerHTML = ''; // Clear previous contents
-    
-    doctors.forEach(doctor => {
-        const doctorInfo = `
-            <div class="doctor-info">
-                <h3>${doctor.name}</h3>
-                <p><strong>Specialty:</strong> ${doctor.specialty}</p>
-                <p><strong>Address:</strong> ${doctor.address || "not available"}</p>
-                <p><strong>Years of Experience:</strong> ${doctor.yearsOfExperience}</p>
-                <p><strong>Rating:</strong> ${doctor.rating}</p>
-            </div>
-        `;
-        
         const doctorElement = document.createElement('div');
-        doctorElement.innerHTML = doctorInfo;
-        detailsContainer.appendChild(doctorElement);
-    
-        doctorElement.addEventListener('click', () => {
-            console.log(typeof doctor.email)
-            sessionStorage.setItem("selectedDoctor", doctor.email);
-            window.location.href = '../doctor-details/mob2.html';
+        doctorElement.id = 'doctor-results'; // Set an ID for easy access
+        doctorElement.style.position = 'absolute';
+        doctorElement.style.display = 'block'; // Show results by default
+        doctorElement.innerHTML = ''; // Clear previous results
+
+        // Display filtered results
+        if (filteredDoctors.length > 0) {
+            filteredDoctors.forEach(doctor => {
+                const doctorInfo = `
+                    <div class="doctor-info" style="background-color: white; color: black">
+                        <div class="doctor-info2">
+                            <img class="doctor-img" src="${doctor.profilePicture !== 'https://example.com/profile/default.jpg' ? doctor.profilePicture : '../favourite/assest/doctor 1.jpeg'}" alt="Doctor's Profile" />                    
+                            <div class="doctor-header">
+                                <span class="badge" style="
+                                    background-color: #007bff;
+                                    color: white;
+                                    padding: 5px 10px;
+                                    border-radius: 20px;
+                                    font-size: 12px;">Professional Doctor</span>
+                                <button id="favorite-btn" style="color: red" data-email="${doctor.email}">&#10084;</button>
+                            </div>
+                            <h2>${doctor.name}</h2>
+                            <p class="specialty">${doctor.specialty}</p>
+                            <div class="ratings">
+                                <span class="stars">⭐⭐⭐⭐⭐</span>
+                                <span class="rating">${doctor.rating}</span>
+                                <span class="reviews">${doctor.reviews.length}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                doctorElement.innerHTML += doctorInfo; // Append each doctor's info
+            });
+        } else {
+            doctorElement.innerHTML = '<p>No doctors found matching your search.</p>'; // Show no results message
+        }
+
+        document.body.prepend(doctorElement); // Add the results to the DOM
+
+        // Add click event to doctorElement after it's populated
+        doctorElement.addEventListener('click', (event) => {
+            const target = event.target.closest('.doctor-info'); // Get the clicked doctor info
+            if (target) {
+                const doctorEmail = target.querySelector('#favorite-btn').dataset.email; // Get email from the button's data attribute
+                sessionStorage.setItem("selectedDoctor", doctorEmail);
+                window.location.href = '../doctor-details/mob2.html';
+            }
         });
     });
-    
 
-    modal.style.display = "block";
+    // Set appointment details
+    const doctorDetails = loggedInUser?.appointments?.[0]?.doctorDetails;
+    const docImg = doctorDetails?.doctorImg || placeholderImg;
+    const appointmentDate = loggedInUser?.appointments?.[0]?.date || 'Monday, 22 May';
+    const appointmentTime = loggedInUser?.appointments?.[0]?.time || '10:00 AM';
 
-    const closeBtn = modal.querySelector(".close");
-    closeBtn.onclick = () => {
-        modal.style.display = "none";
-    };
+    docAppointmentProfile.innerHTML = `
+        <div id="doctor">
+            <div id="dctrprofile">
+                <img src="${docImg}" alt="">
+                <div id="dctrtext">
+                    <p style="font-weight: 500;">${doctorDetails?.name || 'Dr. Nosheen Khan'}</p>
+                    <p style="font-weight: 300;">${doctorDetails?.specialty || 'Dentist Consultation'}</p>
+                </div>
+            </div>
+            <div id="dctrcnct">
+                <img src="../aseeet/images/telephone.png" alt="">
+            </div>
+        </div>
+        <div id="datetime">
+            <div id="date">
+                <img src="../aseeet/images/calendar.png" height="20px" width="20px" alt="calendar-icon">
+                <p id="date-time">${appointmentDate}</p>
+            </div>
+            <div id="timeIcon">
+                <img src="../aseeet/images/carbon--time.svg" alt="" height="20px" width="20px" alt="">
+                <p id="time">${appointmentTime}</p>
+            </div>
+        </div>
+    `;
 
-    window.onclick = (event) => {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    };
-}
+    const appointmentCount = document.createElement('p');
+    appointmentCount.innerText = loggedInUser.appointments.length;
+    upcomingSchedule.appendChild(appointmentCount);
 
-//marquee
-const marquee = document.getElementById('marquee');
-const marqueeContainer = document.querySelector('.marquee-container');
+    // Fetch unique specialties from Firestore
+    async function fetchSpecialties() {
+        const specialtiesSet = new Set();
+        const doctorData = getStoredDoctors();
+
+        doctorData.forEach(doc => {
+            if (doc.specialty) {
+                specialtiesSet.add(doc.specialty);
+            }
+        });
+
+        return Array.from(specialtiesSet);
+    }
+
+    // Fetching specialties instantly
+    const specialties = await fetchSpecialties();
+
+    // Render specialties in the UI
+    async function renderSpecialties() {
+        specialties.forEach((specialty) => {
+            const specialtyDiv = document.createElement("div");
+            specialtyDiv.classList.add("specialty-item");
+            
+            const img = document.createElement("img");
+            img.src = placeholderImg; // Placeholder for specialty icons
+            img.className = "placeHolder";
+            img.style.height = "50px";
+            img.style.width = "50px";
+
+            const text = document.createElement("p");
+            text.innerHTML = specialty;
+            text.style.fontSize = '13px';
+            text.style.color = "#3396d9";
+            text.style.textOverflow = 'ellipsis';
+            text.style.whiteSpace = 'nowrap';
+            text.style.overflow = 'hidden';
+            
+            specialtyDiv.appendChild(img);
+            specialtyDiv.appendChild(text);
+            specialtyContainer.appendChild(specialtyDiv);
+            
+            specialtyDiv.addEventListener('click', () => {
+                fetchDoctorsBySpecialty(specialty);
+            });
+        });
+    }
+
+    // Fetch doctors by selected specialty
+    async function fetchDoctorsBySpecialty(specialty) {
+        const allDoctors = getStoredDoctors();
+        const filteredDoctors = allDoctors.filter(doctor => doctor.specialty === specialty);
+        displayDoctorModal(filteredDoctors);
+    }
+
+    // Display modal with doctor details
+    function displayDoctorModal(doctors) {
+        const modal = document.getElementById("doctorModal");
+        const doctorContainer = document.createElement('div');
+        doctorContainer.setAttribute('id', 'doctorDetailsContainer');
+        document.body.appendChild(doctorContainer);
+        const detailsContainer = document.getElementById("doctorDetailsContainer");
+
+        detailsContainer.innerHTML = ''; // Clear previous contents
         
-//marquee movement setting
-let position = 0;
-const speed = 1; // Speed of the movement
+        doctors.forEach(doctor => {
+            const doctorInfo = `
+                <div class="doctor-info">
+                    <div class="doctor-info2">
+                        <img class="doctor-img" src="${doctor.profilePicture !== 'https://example.com/profile/default.jpg' ? doctor.profilePicture : '../favourite/assest/doctor 1.jpeg'}" alt="Doctor's Profile" />                    
+                        <div class="doctor-header">
+                            <span class="badge" style="
+                                background-color: #007bff;
+                                color: white;
+                                padding: 5px 10px;
+                                border-radius: 20px;
+                                font-size: 12px;">Professional Doctor</span>
+                            <button id="favorite-btn" style="color: red">&#10084;</button>
+                        </div>
+                        <h2>${doctor.name}</h2>
+                        <p class="specialty">${doctor.specialty}</p>
+                        <div class="ratings">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating">${doctor.rating}</span>
+                            <span class="reviews">${doctor.reviews.length}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            const doctorElement = document.createElement('div');
+            doctorElement.innerHTML = doctorInfo;
+            detailsContainer.appendChild(doctorElement);
+        
+            doctorElement.addEventListener('click', () => {
+                sessionStorage.setItem("selectedDoctor", doctor.email);
+                window.location.href = '../doctor-details/mob2.html';
+            });
+        });
 
-function moveMarquee() {
-  position -= speed;
-  marquee.style.transform = `translateX(${position}px)`; // Apply the movement
+        modal.style.display = "block";
 
-  // Reset position when the entire first set of images is out of view
-  if (Math.abs(position) >= marquee.offsetWidth / 2) {
-    position = 0;
-  }
+        const closeBtn = modal.querySelector(".close");
+        closeBtn.onclick = () => {
+            modal.style.display = "none";
+        };
 
-  requestAnimationFrame(moveMarquee); // Continue the animation
+        window.onclick = (event) => {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        };
+    }
+
+    // Marquee functionality
+    const marquee = document.getElementById('marquee');
+    let position = 0;
+    const speed = 1; // Speed of the movement
+
+    function moveMarquee() {
+        position -= speed;
+        marquee.style.transform = `translateX(${position}px)`; // Apply the movement
+
+        if (Math.abs(position) >= marquee.offsetWidth / 2) {
+            position = 0;
+        }
+
+        requestAnimationFrame(moveMarquee); // Continue the animation
+    }
+
+    // Start the animation when the page loads
+    window.onload = moveMarquee;
+
+    // Footer Icon Setup
+    const icons = [
+        { src: '../aseeet/images/home.svg', text: '', link: './home.html' },
+        { src: '../aseeet/images/consultation.svg', text: '', link: './doctor-appointment.html' },
+        { src: '../aseeet/images/appointment.svg', text: '', link: './user-appointments.html' },
+        { src: '../aseeet/images/profile.svg', text: '', link: './user-profile.html' }
+    ];
+
+    icons.forEach(icon => {
+        const footerItem = document.createElement('div');
+        footerItem.className = 'footer-icon';
+
+        const img = document.createElement('img');
+        img.src = icon.src;
+        img.alt = icon.text;
+
+        const link = document.createElement('a');
+        link.href = icon.link;
+        link.appendChild(img);
+        footerItem.appendChild(link);
+        document.querySelector('.footer').appendChild(footerItem);
+    });
+
+} else {
+    console.log("No doctors found.");
+    alert("No doctors found.");
 }
-
-// Start the animation when the page loads
-window.onload = moveMarquee;
-
-// Footer Icon Setup
-const icons = [
-    { src: '../aseeet/images/home.svg', text: '', link: './home.html' },
-    { src: '../aseeet/images/carbon--location-filled.png', text: '', link: '' },
-    { src: '../aseeet/images/mingcute-calendar-fill.svg', text: '', link: '' },
-    { src: '../aseeet/images/chat.svg', text: '', link: '' },
-    { src: '../aseeet/images/profile-footer.svg', text: '', link: '' }
-];
-
-const footer = document.getElementById('footer');
-const footerContainer = document.createElement('div');
-footerContainer.className = 'footer-container';
-
-icons.forEach(icon => {
-    const iconDiv = document.createElement('div');
-    iconDiv.className = 'icon-container';
-
-    const iconLink = document.createElement('a');
-    iconLink.href = icon.link;
-
-    const iconImage = document.createElement('img');
-    iconImage.src = icon.src;
-    iconImage.alt = icon.text;
-    iconImage.className = "icon-svg"
-
-    iconLink.appendChild(iconImage);
-    
-    const textLink = document.createElement('a');
-    textLink.href = icon.link;
-    textLink.textContent = icon.text;
-
-    iconDiv.appendChild(iconLink);
-    iconDiv.appendChild(textLink);
-    footerContainer.appendChild(iconDiv);
-});
-
-footer.appendChild(footerContainer);
-
-}else{
-    console.log('calling doctors...')
-}
-
-

@@ -1,11 +1,13 @@
+const locationOutput = document.getElementById("location");
+const searchButton = document.querySelector("#searchButton");
+const addressInput = document.getElementById("address");
+const suggestionsContainer = document.querySelector(".suggestionBox");
+const deleteBtn = document.querySelector(".fa-circle-xmark ");
+const updateAddress = document.getElementById('update');
+
 
 document.addEventListener("DOMContentLoaded", () => {
-    const searchButton = document.querySelector("#searchButton");
-    const addressInput = document.getElementById("address");
-    const locationOutput = document.getElementById("location");
-    const suggestionsContainer = document.querySelector(".suggestionBox");
-    const deleteBtn = document.querySelector(".fa-circle-xmark ");
-    // const searchResult = document.querySelector(".recent-search");
+    
   
     let lat;
     let lon;
@@ -104,10 +106,9 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             sugArray.push(suggestionItem);
           });
-          if (sugArray.length > 3) {
+          if (sugArray.length > 0) {
             suggestionsContainer.appendChild(sugArray[0]);
-            suggestionsContainer.appendChild(sugArray[1]);
-            suggestionsContainer.appendChild(sugArray[3]);
+            
            
           }
         } catch (error) {
@@ -131,10 +132,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (address) {
           try {
             const result = await fetchLocation(address);
+            console.log(result);
             displayLocation(result);
             if (!searchResult.includes(address)) {
               searchResult.push(address);
-              updateRecentSearchesUI()
+              
             }
             suggestionsContainer.innerHTML = ""; 
             suggestionsContainer.style.display = "none";
@@ -148,26 +150,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     });
-    function updateRecentSearchesUI() {
-      const recentSearchesContainer = document.querySelector("#recent-search"); // Make sure you have this element in your HTML
-      recentSearchesContainer.innerHTML = ""; // Clear existing searches
   
-      recentSearches.forEach(search => {
-        const searchItem = document.createElement("div");
-        searchItem.classList.add("recentSearchItem");
-        searchItem.textContent = search;
-  
-        // Optionally, you can add an event listener to allow re-selecting recent searches
-        searchItem.addEventListener("click", () => {
-          addressInput.value = search;
-          // Optionally trigger search or fetch location again
-        });
-  
-        recentSearchesContainer.appendChild(searchItem);
-      });
-    }
-  
-    // ... existing code ...
+
   });
    
 
@@ -188,6 +172,13 @@ document.addEventListener("DOMContentLoaded", () => {
     function displayLocation(result) {
       if (result.features && result.features.length > 0) {
         const location = result.features[0];
+        const lon  = location.geometry.coordinates[0];
+        const lat  = location.geometry.coordinates[1];
+
+
+        
+
+        console.log([lon, lat]);
         const googleMapUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.2166913870437!2d${lon}!3d${lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1sen!2sng!5e0!3m2!1sen!2sng!4v1727099638184!5m2!1sen!2sng`;
   
         locationOutput.innerHTML = `
@@ -208,4 +199,32 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   ;
+
+  updateAddress.addEventListener( 'click', (e) => {
+    e.preventDefault();
+    if(addressInput.value.length === 0){
+      alert("Kindly input your adresss");
+    }else{
+
+      async function updatePatientAddress(patientId, newAddress) {
+        const patientRef = doc(db, 'PATIENT', patientId);
+      
+        try {
+          await updateDoc(patientRef, {
+            address: newAddress
+          });
+          console.log('Address updated successfully!');
+        } catch (error) {
+          console.error('Error updating address: ', error);
+        }
+      };
+      const logginPatient = JSON.parse(sessionStorage.getItem('tetma_user')).uid;
+      console.log(logginPatient)
+      updatePatientAddress(logginPatient, addressInput.value);
+      alert("address successfully updated");
+      window.location.href = '../home-page/home.html'
+    }
+  }
+
+  );
   

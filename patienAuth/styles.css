@@ -47,7 +47,7 @@ small{
 
 label {
     /* display: block; */
-    margin: 0.5rem 0.5rem;
+    margin: 1rem 1rem;
     font-family: sans-serif;
     font-weight: 600;
     font-size: 0.8rem;
@@ -109,7 +109,7 @@ input[type="password"]{
 i{
    
     position: absolute;
-    margin-top: -5%;
+    margin-top: 1%;
     left: 87%;
     position: fixed;
 }
@@ -126,4 +126,5 @@ div{
 .forgotPassword{
     cursor: pointer;
     color: var(--primary-color);
+   
 }

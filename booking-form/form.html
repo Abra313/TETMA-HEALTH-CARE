@@ -9,97 +9,100 @@
 <body>
     <div class="container">
         <h2>Select Package</h2>
+        <form id="packageForm">
+            <div class="duration-selection">
+                <h3>Select Duration</h3>
+                <select id="duration" name="duration">
+                    <option value="30">30 mins</option>
+                    <option value="60">1 hour</option>
+                    <option value="120">2 hours</option>
+                    <option value="180">3 hours</option>
+                </select>
+            </div>
 
-        <div class="duration-selection">
-            <h3>Select Duration</h3>
-            <select id="duration">
-                <option value="30">30 mins</option>
-                <option value="60">1 hour</option>
-                <option value="120">2 hours</option>
-                <option value="180">3 hours</option>
-            </select>
-        </div>
+            <div class="service">
+                <div class="service-icon">
+                    <img src="message.svg" alt="Messaging" style="width: 70%; height: 70%;">
+                </div>
+                <div class="service-info">
+                    <div class="service-details">
+                        <h3>Messaging</h3>
+                        <p class="subtitle">Chat with doctor</p>
+                    </div>
+                    <div class="price">
+                        <h3>$20</h3>
+                        <p class="subtitle">/30 mins</p>
+                    </div>
+                </div>
+                <input type="radio" name="service" value="20" id="serviceMessaging">
+                <label for="serviceMessaging"></label>
+            </div>
 
-        <div class="service">
-            <div class="service-icon">
-                <img src="message.svg" alt="Messaging" style="width: 70%; height: 70%;">
-            </div>
-            <div class="service-info">
-                <div class="service-details">
-                    <h3>Messaging</h3>
-                    <p class="subtitle">Chat with doctor</p>
+            <div class="service">
+                <div class="service-icon">
+                    <img src="voice.svg" alt="Voice Call" style="width: 70%; height: 70%;">
                 </div>
-                <div class="price">
-                    <h3>$20</h3>
-                    <p class="subtitle">/30 mins</p>
+                <div class="service-info">
+                    <div class="service-details">
+                        <h3>Voice Call</h3>
+                        <p class="subtitle">Call with doctor</p>
+                    </div>
+                    <div class="price">
+                        <h3>$40</h3>
+                        <p class="subtitle">/30 mins</p>
+                    </div>
                 </div>
+                <input type="radio" name="service" value="40" id="serviceVoiceCall">
+                <label for="serviceVoiceCall"></label>
             </div>
-            <input type="radio" name="service" value="20">
-        </div>
 
-        <div class="service">
-            <div class="service-icon">
-                <img src="voice.svg" alt="Voice Call" style="width: 70%; height: 70%;">
-            </div>
-            <div class="service-info">
-                <div class="service-details">
-                    <h3>Voice Call</h3>
-                    <p class="subtitle">Call with doctor</p>
+            <div class="service">
+                <div class="service-icon">
+                    <img src="video.svg" alt="Video Call" style="width: 70%; height: 70%;">
                 </div>
-                <div class="price">
-                    <h3>$40</h3>
-                    <p class="subtitle">/30 mins</p>
+                <div class="service-info">
+                    <div class="service-details">
+                        <h3>Video Call</h3>
+                        <p class="subtitle">Video call with doctor</p>
+                    </div>
+                    <div class="price">
+                        <h3>$60</h3>
+                        <p class="subtitle">/30 mins</p>
+                    </div>
                 </div>
+                <input type="radio" name="service" value="60" id="serviceVideoCall">
+                <label for="serviceVideoCall"></label>
             </div>
-            <input type="radio" name="service" value="40">
-        </div>
 
-        <div class="service">
-            <div class="service-icon">
-                <img src="video.svg" alt="Video Call" style="width: 70%; height: 70%;">
-            </div>
-            <div class="service-info">
-                <div class="service-details">
-                    <h3>Video Call</h3>
-                    <p class="subtitle">Video call with doctor</p>
+            <div class="service">
+                <div class="service-icon">
+                    <img src="inperson.svg" alt="In Person" style="width: 70%; height: 70%;">
                 </div>
-                <div class="price">
-                    <h3>$60</h3>
-                    <p class="subtitle">/30 mins</p>
+                <div class="service-info">
+                    <div class="service-details">
+                        <h3>In Person</h3>
+                        <p class="subtitle">In person with doctor</p>
+                    </div>
+                    <div class="price">
+                        <h3>$120</h3>
+                        <p class="subtitle">/30 mins</p>
+                    </div>
                 </div>
+                <input type="radio" name="service" value="120" id="serviceInPerson">
+                <label for="serviceInPerson"></label>
             </div>
-            <input type="radio" name="service" value="60">
-        </div>
 
-        <div class="service">
-            <div class="service-icon">
-                <img src="inperson.svg" alt="In Person" style="width: 70%; height: 70%;">
+            <div class="action-button">
+                <button type="submit" id="nextButton">NEXT</button>
             </div>
-            <div class="service-info">
-                <div class="service-details">
-                    <h3>In Person</h3>
-                    <p class="subtitle">In person with doctor</p>
-                </div>
-                <div class="price">
-                    <h3>$120</h3>
-                    <p class="subtitle">/30 mins</p>
-                </div>
+
+            <!-- Total cost section -->
+            <div id="totalCost" class="total-cost">
+                <!-- Total cost will be displayed here -->
             </div>
-            <input type="radio" name="service" value="120">
-        </div>
-
-        <div class="action-button">
-            <button id="nextButton">NEXT</button>
-        </div>
-
-        <!-- Total cost section -->
-        <div id="totalCost" class="total-cost">
-            <!-- Total cost will be displayed here -->
-        </div>
+        </form>
     </div>
     <script type="module" src="form.js"></script>
-
     <script src="https://js.stripe.com/v3/"></script>
-
 </body>
 </html>

@@ -17,60 +17,30 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const logginUser = JSON.parse(sessionStorage.getItem('userDetails'));
-console.log(logginUser)
-
 const doctorEmail = sessionStorage.getItem("selectedDoctor");
-console.log(doctorEmail);
-// Sample data for doctor and statistics
 const doctorDetails = getSingleDoctor(doctorEmail);
-console.log(doctorDetails)
-
-// Sample data for appointment days and times
-const appointmentData = [
-    {
-        day: 'Today',
-        date: '4 Oct',
-        times: ['7:00 PM', '7:30 PM', '8:00 PM']
-    },
-    {
-        day: 'Mon',
-        date: '5 Oct',
-        times: ['5:00 PM', '5:30 PM', '6:00 PM']
-    },
-    {
-        day: 'Tue',
-        date: '6 Oct',
-        times: ['6:30 PM', '7:00 PM', '7:30 PM']
-    },
-    {
-        day: 'Wed',
-        date: '7 Oct',
-        times: ['8:30 PM', '8:00 PM', '8:30 PM']
-    },
-];
 
 const patientBooking = {
-    patientDetails : {
+    patientDetails: {
         name: '',
         location: '',
         email: '',
         about: ''
     },
-    doctorDetails : {
+    doctorDetails: {
         name: '',
         specialty: '',
         location: '',
         rating: '',
         email: ''
     },
-    appointment :  {
+    appointment: {
         date: '',
         time: '',
-        amount: '70000'
+        amount: '',
+        duration: ''
     },
-
 }
-
 
 // Create and style elements function
 function createElement(tag, className, textContent, styles = {}) {
@@ -109,7 +79,7 @@ function displayDoctorDetails(doctorData) {
         height: '120px',
         width: '120px'
     });
-    img.src = doctorData.imageUrl || 'channel-1.jpeg'; // Use a default image if none provided
+    img.src = doctorData.imageUrl || 'channel-1.jpeg';
     
     const htext = createElement('div', 'htext');
     htext.appendChild(createElement('h1', '', doctorData.name));
@@ -132,7 +102,7 @@ function displayStatistics(doctorData) {
     const sec3 = createElement('div', 'sec3');
     const stats = [
         { icon: 'fa-users', value: doctorData.patients.length || "N/A", label: 'Patients' },
-        { icon: 'fa-briefcase', value: doctorData.yearsOfExperience            || "N/A", label: 'Years Exp' },
+        { icon: 'fa-briefcase', value: doctorData.yearsOfExperience || "N/A", label: 'Years Exp' },
         { icon: 'fa-star', value: doctorData.rating || "N/A", label: 'Rating' },
         { icon: 'fa-comment-dots', value: doctorData.reviews || "N/A", label: 'Reviews' }
     ];
@@ -147,8 +117,6 @@ function displayStatistics(doctorData) {
 
     document.body.appendChild(sec3);
 }
-
-
 
 // Create the booking form
 const bookingForm = document.createElement('div');
@@ -176,6 +144,63 @@ bookingForm.innerHTML = `
 const body = document.querySelector('body');
 body.insertAdjacentElement("afterend", bookingForm);
 
+// Style the appointment date input
+const appointmentDateInput = document.getElementById('appointmentDate');
+appointmentDateInput.style.width = '100%';
+appointmentDateInput.style.padding = '10px';
+appointmentDateInput.style.border = '1px solid #ccc';
+appointmentDateInput.style.borderRadius = '4px';
+appointmentDateInput.style.fontSize = '16px';
+appointmentDateInput.style.transition = 'border-color 0.3s';
+
+appointmentDateInput.addEventListener('focus', () => {
+    appointmentDateInput.style.borderColor = '#007bff';
+    appointmentDateInput.style.boxShadow = '0 0 5px rgba(0, 123, 255, 0.5)';
+});
+
+appointmentDateInput.addEventListener('blur', () => {
+    appointmentDateInput.style.borderColor = '#ccc';
+    appointmentDateInput.style.boxShadow = 'none';
+});
+
+// Style the appointment time input
+const appointmentTimeInput = document.getElementById('appointmentTime');
+appointmentTimeInput.style.width = '100%';
+appointmentTimeInput.style.padding = '10px';
+appointmentTimeInput.style.border = '1px solid #ccc';
+appointmentTimeInput.style.borderRadius = '4px';
+appointmentTimeInput.style.fontSize = '16px';
+appointmentTimeInput.style.transition = 'border-color 0.3s';
+
+appointmentTimeInput.addEventListener('focus', () => {
+    appointmentTimeInput.style.borderColor = '#007bff';
+    appointmentTimeInput.style.boxShadow = '0 0 5px rgba(0, 123, 255, 0.5)';
+});
+
+appointmentTimeInput.addEventListener('blur', () => {
+    appointmentTimeInput.style.borderColor = '#ccc';
+    appointmentTimeInput.style.boxShadow = 'none';
+});
+
+// Style the button
+const scheduleButton = document.querySelector('.app-bnt');
+scheduleButton.style.backgroundColor = '#007bff';
+scheduleButton.style.color = 'white';
+scheduleButton.style.border = 'none';
+scheduleButton.style.padding = '10px 20px';
+scheduleButton.style.borderRadius = '4px';
+scheduleButton.style.cursor = 'pointer';
+scheduleButton.style.fontSize = '16px';
+scheduleButton.style.transition = 'background-color 0.3s';
+
+scheduleButton.addEventListener('mouseover', () => {
+    scheduleButton.style.backgroundColor = '#0056b3';
+});
+
+scheduleButton.addEventListener('mouseout', () => {
+    scheduleButton.style.backgroundColor = '#007bff';
+});
+
 // Update the bookingForm submit event listener
 document.getElementById('appointmentForm').addEventListener('submit', (event) => {
     event.preventDefault(); // Prevent form submission
@@ -195,7 +220,8 @@ document.getElementById('appointmentForm').addEventListener('submit', (event) =>
     patientBooking.appointment = {
         date: inputDate,
         time: inputTime,
-        amount : 70000
+        amount: '',
+        duration: ''
     };
 
     patientBooking.patientDetails = {
@@ -203,42 +229,15 @@ document.getElementById('appointmentForm').addEventListener('submit', (event) =>
         location: logginUser.location,
         email: logginUser.email,
         about: logginUser.about
-    },
-    console.log(doctorDetails.email);
-    console.log('Patient Booking Details:', patientBooking);
+    };
 
     sessionStorage.setItem('patientBooking', JSON.stringify(patientBooking));
-    window.location.href = '../booking-form/form.html'
-    // Additional code to handle the booking (e.g., sending to a server) can be added here.
+    window.location.href = '../booking-form/form.html';
 });
-
-// Function to display appointments
-// function displayAppointments() {
-//     const appointmentSection = createElement('div', 'appointment-section');
-//     appointmentSection.innerHTML = '<h2>Available Appointments</h2>';
-    
-//     appointmentData.forEach(appointment => {
-//         const daySection = createElement('div', 'day-section');
-//         const dayTitle = createElement('h3', '', `${appointment.day} (${appointment.date})`);
-        
-//         const timeList = createElement('ul', 'time-list');
-//         appointment.times.forEach(time => {
-//             const timeItem = createElement('li', '', time);
-//             timeList.appendChild(timeItem);
-//         });
-        
-//         daySection.appendChild(dayTitle);
-//         daySection.appendChild(timeList);
-//         appointmentSection.appendChild(daySection);
-//     });
-
-//     document.body.appendChild(appointmentSection);
-// }
 
 // Function to find doctor details
 export async function findDoctor(uid) {
     try {
-        console.log(`Fetching details for doctor with UID: ${uid}`);
         const doctorRef = doc(db, 'DOCTOR', uid);
         const doctorDoc = await getDoc(doctorRef);
 
@@ -252,7 +251,6 @@ export async function findDoctor(uid) {
             ...doctorDoc.data()
         };
 
-        console.log('Doctor data:', doctorData);
         return doctorData;
     } catch (error) {
         console.error('Error retrieving doctor:', error);
@@ -269,12 +267,10 @@ async function initUI(email) {
         displayDoctorDetails(doctorData);
         displayHorizontalLine();
         displayStatistics(doctorData);
-        displayAppointments();
     } else {
         console.error('No doctor data to display.');
     }
 }
 
 // Call the initUI function with the specific UID
-
 initUI(doctorEmail);
