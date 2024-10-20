@@ -22,27 +22,23 @@ function getStoredData() {
             total: sessionStorage.getItem('paymentTotal') || ""
         }
     };
-}
+};
 
-function renderReview(data) {
-    document.getElementById('doctor-name').textContent = data.doctor.name;
-    document.getElementById('doctor-specialty').textContent = data.doctor.specialty;
-    document.getElementById('doctor-location').textContent = data.doctor.location;
-    document.getElementById('doctor-img').src = data.doctor.image;
+const bookingData = JSON.parse(sessionStorage.getItem('patientBooking'));
+console.log(bookingData)
 
-    document.getElementById('booking-datetime').textContent = data.booking.datetime;
-    document.getElementById('booking-package').textContent = data.booking.package;
-    document.getElementById('booking-duration').textContent = data.booking.duration;
-    document.getElementById('booking-for').textContent = data.booking.for;
+    document.getElementById('doctor-name').textContent = bookingData.doctorDetails.name;
+    document.getElementById('doctor-specialty').textContent = bookingData.doctorDetails.specialty;
+    document.getElementById('doctor-location').textContent = bookingData.doctorDetails.location;
+    document.getElementById('doctor-img').src = bookingData.doctorDetails.image;
 
-    document.getElementById('amount').textContent = data.payment.amount;
-    document.getElementById('rate').textContent = data.payment.rate;
-    document.getElementById('payment-duration').textContent = data.payment.duration;
-    document.getElementById('total').textContent = data.payment.total;
-}
+    document.getElementById('booking-datetime').textContent = `${bookingData.appointment.date} / ${bookingData.appointment.time}`;
+
+    document.getElementById('amount').textContent = `₦${bookingData.appointment.amount}`;
+    document.getElementById('payment-duration').textContent = bookingData.appointment.duration;
 
 function payNow() {
-    alert('Payment of ' + reviewData.payment.total + ' has been initiated.');
+    alert('Payment of ' + `₦${bookingData.appointment.amount}` + ' has been initiated.');
     window.location.href = "pay.html"; // Adjust to your payment page
 }
 
@@ -56,6 +52,3 @@ document.querySelector('.pay-now-button').addEventListener('click', payNow);
 // Event listener for the back button (if applicable)
 document.querySelector('.back-button').addEventListener('click', goBack);
 
-// Retrieve stored data and render it
-const reviewData = getStoredData();
-renderReview(reviewData);

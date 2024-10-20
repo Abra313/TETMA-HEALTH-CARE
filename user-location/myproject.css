@@ -242,4 +242,5 @@ hr{
        color: white; 
        font-family: sans-serif;
         border-radius: 5px;
+        border: none;
 }

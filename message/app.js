@@ -1,4 +1,4 @@
-import { getFirestore, doc, getDoc, setDoc, arrayUnion, onSnapshot } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, arrayUnion, onSnapshot, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 
@@ -20,24 +20,6 @@ const auth = getAuth(app);
 // Array to hold messages
 let messagesArray = [];
 
-// Initial message for testing
-messagesArray.push({
-    id: new Date().getTime() + 1,
-    text: "-i guess this works now?",
-    sender: "doctorUid1",
-    senderDetails: {
-        name: "Dr. Smith",
-        specialty: "Cardiology",
-        role: "doctor"
-    },
-    receiver: "patientUid1",
-    timestamp: formatTime(new Date().getTime()),
-    isRead: false,
-    isReceived: true
-});
-
-console.log(messagesArray);
-
 // Function to format timestamp to "hh:mm am/pm"
 function formatTime(timestamp) {
     const date = new Date(timestamp);
@@ -57,7 +39,7 @@ function renderMessages() {
         const displayText = msg.text.startsWith("-") ? msg.text.slice(1).trim() : msg.text;
 
         messageElement.innerHTML = `
-            <div class="message-info" style="display: ${msg.sender === "o8nWrJSa9BcLTY6VDTZjQgCMyLW2" ? 'none' : 'block'};">
+            <div class="message-info" style="display: ${msg.sender === auth.currentUser.uid ? 'none' : 'block'};">
                 <strong>${msg.senderDetails.name} (${msg.senderDetails.role})</strong>
                 ${msg.isRead ? '<span class="read-notice">✓ Viewed</span>' : ''}
             </div>
@@ -89,7 +71,7 @@ function renderMessages() {
 
 // Function to send a message
 async function sendMessage(receiverUid, text) {
-    const senderUid = "o8nWrJSa9BcLTY6VDTZjQgCMyLW2"; // Replace with auth.currentUser.uid in production
+    const senderUid = auth.currentUser.uid; // Use the logged-in user's UID
 
     if (text.trim() === "") return;
 
@@ -113,11 +95,17 @@ async function sendMessage(receiverUid, text) {
         isRead: false,
     };
 
+    // Only update the UI with the sent message
     messagesArray.push(messageData);
     renderMessages(); // Update UI
 
-    // Update the messages for the receiver in Firestore
-    await updateMessages(receiverUid, messageData, "PATIENT"); // Assuming receiver is a patient
+    // Push the message to the doctor's message array
+    const doctorEmail = sessionStorage.getItem('chatDoctor');
+    const doctorUid = await getDoctorUidByEmail(doctorEmail);
+    
+    if (doctorUid) {
+        await updateMessages(doctorUid, messageData, "DOCTOR"); // Send message to doctor's message array
+    }
 }
 
 // Function to get user details by UID
@@ -198,11 +186,20 @@ function deleteMessage(messageId) {
 }
 
 // Function to initialize the chat functionality when the user is logged in
-function initializeChat() {
+async function initializeChat() {
     const sendButton = document.getElementById('sendButton');
     const messageInput = document.getElementById("messageInput");
+
+    // Retrieve the doctor's email from session storage
+    const chatDoctorEmail = sessionStorage.getItem('chatDoctor');
     
-    const receiverUid = "1aJevnEoc5gfv0gSV4juvKVO3qa2"; // Replace with the actual receiver's UID
+    // Get the receiver UID based on the email
+    const receiverUid = await getDoctorUidByEmail(chatDoctorEmail);
+    
+    if (!receiverUid) {
+        console.error("No doctor found with the given email.");
+        return;
+    }
 
     sendButton.addEventListener('click', (e) => {
         e.preventDefault();
@@ -215,6 +212,19 @@ function initializeChat() {
 
     // Start listening for messages
     listenForMessages(receiverUid);
+}
+
+// Function to get the doctor UID by email
+async function getDoctorUidByEmail(email) {
+    const doctorsCollectionRef = collection(db, "DOCTOR");
+    const q = query(doctorsCollectionRef, where("email", "==", email));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+        return querySnapshot.docs[0].id; // Return the UID of the first matched document
+    } else {
+        return null; // No matching doctor found
+    }
 }
 
 // Listen for authentication state changes
@@ -237,7 +247,8 @@ function listenForMessages(loggedinUser) {
             const messages = docSnapshot.data().messages || [];
             const lastMessage = messages[messages.length - 1]; // Get the last message
 
-            if (lastMessage) {
+            // Only update the UI for messages that are replies from the doctor
+            if (lastMessage && lastMessage.sender !== loggedinUser) {
                 const modifiedText = `-${lastMessage.text}`; // Prepend "-" to the last message text
 
                 // Push the modified message to messagesArray
@@ -260,15 +271,3 @@ function listenForMessages(loggedinUser) {
         console.error("Error listening for messages:", error);
     });
 }
-
-
-
-// Example usage
-// auth.onAuthStateChanged((user) => {
-//     if (user) {
-//         const currentUserUid = user.uid;
-//         listenForMessages(currentUserUid); // Start listening for messages
-//     } else {
-//         console.log("No user is logged in.");
-//     }
-// });

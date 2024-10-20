@@ -25,14 +25,16 @@ const patientBooking = {
         name: '',
         location: '',
         email: '',
-        about: ''
+        about: '',
+        profilePic: '',
     },
     doctorDetails: {
         name: '',
         specialty: '',
         location: '',
         rating: '',
-        email: ''
+        email: '',
+        profilePic: '',
     },
     appointment: {
         date: '',
@@ -215,7 +217,9 @@ document.getElementById('appointmentForm').addEventListener('submit', (event) =>
         specialty: doctorDetails.specialty,
         location: doctorDetails.location,
         rating: doctorDetails.rating,
-        email: doctorDetails.email
+        email: doctorDetails.email,
+        email: doctorDetails.profilePicture,
+
     };
     patientBooking.appointment = {
         date: inputDate,
@@ -228,8 +232,11 @@ document.getElementById('appointmentForm').addEventListener('submit', (event) =>
         name: logginUser.name,
         location: logginUser.location,
         email: logginUser.email,
-        about: logginUser.about
+        about: logginUser.about,
+        email: logginUser.profilePicture,
+
     };
+    console.log(patientBooking)
 
     sessionStorage.setItem('patientBooking', JSON.stringify(patientBooking));
     window.location.href = '../booking-form/form.html';

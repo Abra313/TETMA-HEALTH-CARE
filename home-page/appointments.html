@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="appointments.css"> <!-- Link to your CSS -->
+    <title>Your Appointments</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Your Appointments</h2>
+        <div id="appointmentsList"></div>
+        <button id="backButton">Back</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
+            const appointmentsList = document.getElementById('appointmentsList');
+
+            if (userDetails && userDetails.appointments) {
+                const appointments = userDetails.appointments;
+
+                appointments.forEach((appointment, index) => {
+                    const { amount, date, duration, time, doctorDetails, patientDetails } = appointment;
+
+                    const appointmentHTML = `
+                        <div class="appointment-card">
+                            <h4>Appointment #${index + 1}</h4>
+                            <p><strong>Date:</strong> ${new Date(date).toLocaleDateString()}</p>
+                            <p><strong>Time:</strong> ${time}</p>
+                            <p><strong>Duration:</strong> ${duration} mins</p>
+                            <p><strong>Amount:</strong> ₦${amount}</p>
+                            <h5>Doctor Details:</h5>
+                            <p><strong>Name:</strong> ${doctorDetails.name}</p>
+                            <p><strong>Specialty:</strong> ${doctorDetails.specialty}</p>
+                            <p><strong>Location:</strong> ${doctorDetails.location}</p>
+                            <p><strong>Rating:</strong> ${doctorDetails.rating}</p>
+                            <h5>Patient Details:</h5>
+                            <p><strong>Name:</strong> ${patientDetails.name}</p>
+                            <p><strong>Email:</strong> ${patientDetails.email}</p>
+                            <button class="message-button" onclick="messageDoctor('${doctorDetails.email}')">
+                                Message Doctor
+                            </button>
+                        </div>
+                    `;
+                    appointmentsList.innerHTML += appointmentHTML;
+                });
+            } else {
+                appointmentsList.innerHTML = `<p style="text-align: center;">No appointments found.</p>`;
+            }
+
+            // Back button functionality
+            document.getElementById('backButton').onclick = function() {
+                window.history.back(); // Go back to the previous page
+            };
+        });
+
+        // Function to store doctor email and redirect
+        function messageDoctor(email) {
+            sessionStorage.setItem('chatDoctor', email); // Store the doctor's email
+            window.location.href = '../message'; // Redirect to the message page
+        }
+    </script>
+</body>
+</html>

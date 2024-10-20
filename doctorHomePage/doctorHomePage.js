@@ -1,70 +1,124 @@
-// Import Firebase modules
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
-import { getDatabase, ref, get } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js';
-import { getUser } from '../utils/getUser.js'; 
+import { auth, db, storage, doc, updateDoc, getDoc, ref, uploadBytes, getDownloadURL, onAuthStateChanged, query, where, getDocs } from "../firebaseConfig.js";
 
-// Firebase setup
-const firebaseConfig = {
-    apiKey: "AIzaSyDNjWv2TRRAHE8wfmIY8cfCRBGma1wUX3I",
-    authDomain: "tetma-health-care.firebaseapp.com",
-    projectId: "tetma-health-care",
-    storageBucket: "tetma-health-care.appspot.com",
-    messagingSenderId: "132306558594",
-    appId: "1:132306558594:web:fd0c3fd954ce2532d09e9b"
-};
+document.addEventListener('DOMContentLoaded', () => {
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            const userEmail = user.email; // Get the logged-in user's email
+            const userRef = doc(db, 'USERS', user.uid); // Reference to the user's document
+            const userDoc = await getDoc(userRef);
+            const data = userDoc.exists() ? userDoc.data() : {};
+            let userRole;
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
+            // Check if user is in the PATIENT collection
+            const patientQuery = query(collection(db, "PATIENT"), where("email", "==", userEmail));
+            const patientSnapshot = await getDocs(patientQuery);
 
-// Function to update user details section
-function updateUserDetails(userData) {
-    const nameElement = document.getElementById('name');
-    const profilePicElement = document.getElementById('profile-pic');
+            // Check if user is in the DOCTOR collection
+            const doctorQuery = query(collection(db, "DOCTOR"), where("email", "==", userEmail));
+            const doctorSnapshot = await getDocs(doctorQuery);
 
-    if (userData) {
-        nameElement.textContent = userData.username || 'No name available';
-        profilePicElement.src = userData.profilePic || '/path/to/default-pic.jpg'; // Set default image if none
-        console.log("User details updated:", userData);
-    } else {
-        nameElement.textContent = 'No name available';
-        profilePicElement.src = '/path/to/default-pic.jpg';
-        console.log("No user data available.");
-    }
-}
+            if (!patientSnapshot.empty) {
+                // User is a patient
+                userRole = 'PATIENT';
+                const patientData = patientSnapshot.docs[0].data();
+                Object.assign(data, patientData); // Merge patient data into existing data
+            } else if (!doctorSnapshot.empty) {
+                // User is a doctor
+                userRole = 'DOCTOR';
+                const doctorData = doctorSnapshot.docs[0].data();
+                Object.assign(data, doctorData); // Merge doctor data into existing data
+            }
 
-// Function to get upcoming schedule
-async function getUpcomingSchedule(userId) {
-    const scheduleRef = ref(database, 'appointments/' + userId); // Adjust this path as necessary
-    const snapshot = await get(scheduleRef);
+            // Update session storage with the user role
+            sessionStorage.setItem('userRole', userRole);
 
-    if (snapshot.exists() && snapshot.val().length > 0) {
-        return snapshot.val().length; // Return the number of upcoming schedules
-    } else {
-        return 0; // No upcoming schedules
-    }
-}
+            // Populate fields based on user role
+            if (userRole === 'DOCTOR') {
+                document.getElementById('specialtyInput').style.display = 'block';
+                document.getElementById('specialtyInput').value = data.specialty || '';
+            } else if (userRole === 'PATIENT') {
+                document.getElementById('medicalHistoryWrapper').style.display = 'block';
+                document.getElementById('medicalHistoryInput').value = data.medicalHistory || '';
+            }
 
-// Call the function to get user data from session storage
-(async () => {
-    const user = getUser(); // Use the getUser function
-    console.log("Retrieved user from session storage:", user);
-    
-    if (user) {
-        updateUserDetails(user);
-        
-        // Get upcoming schedule
-        const upcomingSchedule = await getUpcomingSchedule(user.id || 'xi1gFXzmfuSprt2MRIsTdXrDAst2'); // Use provided ID if no user ID
-        console.log("Upcoming schedule count:", upcomingSchedule);
-        
-        // Display the upcoming schedule count in the Schedule-fig element
-        const scheduleFigElement = document.getElementById('Schedule-fig'); // Ensure this element exists
-        scheduleFigElement.textContent = `Upcoming Schedule: ${upcomingSchedule}`; // Display the count
-    } else {
-        console.warn("No user found in session storage.");
-        const scheduleFigElement = document.getElementById('Schedule-fig');
-        scheduleFigElement.textContent = '0'; // Display 0 if no user found
-    }
-})();
+            // Populate common fields
+            document.getElementById('phoneInput').value = data.phone || '';
+            document.getElementById('genderInput').value = data.gender || '';
+            document.getElementById('addressInput').value = data.address || '';
+            document.getElementById('cityInput').value = data.city || '';
+            document.getElementById('countryInput').value = data.country || '';
+            document.getElementById('aboutInput').value = data.about || '';
 
-// Rest of your code...
+            const imageInput = document.getElementById('imageInput');
+            const preview = document.getElementById('preview');
+
+            if (data.image) {
+                preview.src = data.image;
+                preview.style.display = 'block';
+            }
+
+            imageInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            const form = document.getElementById('details');
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const formData = new FormData(form);
+                const phone = formData.get('phone');
+                const gender = formData.get('gender');
+                const address = formData.get('address');
+                const city = formData.get('city');
+                const country = formData.get('country');
+                const about = formData.get('about');
+                const specialty = userRole === 'DOCTOR' ? formData.get('specialty') : null;
+                const medicalHistory = userRole === 'PATIENT' ? formData.get('medicalHistory') : null;
+                const file = imageInput.files[0];
+
+                try {
+                    const profileData = {
+                        phone,
+                        gender,
+                        address,
+                        city,
+                        country,
+                        about,
+                        ...(userRole === 'DOCTOR' && { specialty }),
+                        ...(userRole === 'PATIENT' && { medicalHistory }),
+                    };
+
+                    console.log('Profile Data:', profileData);
+                    sessionStorage.setItem('profileData', JSON.stringify(profileData));
+
+                    let imageUrl;
+                    if (file) {
+                        const storageRef = ref(storage, `profileImages/${user.uid}/${file.name}`);
+                        await uploadBytes(storageRef, file);
+                        imageUrl = await getDownloadURL(storageRef);
+                    }
+
+                    if (imageUrl) {
+                        profileData.image = imageUrl;
+                    }
+
+                    await updateDoc(userRef, profileData);
+                    alert('Profile updated successfully!');
+                } catch (error) {
+                    console.error("Error updating profile:", error);
+                    alert('Failed to update profile: ' + error.message);
+                }
+            });
+        } else {
+            alert("No user is logged in. Please log in to update your profile.");
+        }
+    });
+});

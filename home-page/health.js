@@ -8,9 +8,11 @@ const header = document.getElementById('header');
 const placeholderImg = 'https://avatar.iran.liara.run/public/boy?username=Ash';
 
 // Uncomment this if you need to display a loader
-// loader(document.body, "Loading your data");
+loader(document.body, "Loading your data");
 
 const doctors = getDoctors();
+
+
 
 if (doctors) {
     // Change header background on scroll
@@ -47,6 +49,12 @@ if (doctors) {
     const upcomingSchedule = document.querySelector('.upcoming-schedule');
     const docAppointmentProfile = document.getElementById('twodivs');
     const location = document.querySelector('.location');
+
+    //route to all appoitment
+    docAppointmentProfile.onclick = function() {
+        window.location.href = 'appointments.html'; // Redirect to the appointments page
+    };
+
 
     // Search functionality
     const searchInput = document.getElementById('input-search');
@@ -86,28 +94,29 @@ if (doctors) {
         if (filteredDoctors.length > 0) {
             filteredDoctors.forEach(doctor => {
                 const doctorInfo = `
-                    <div class="doctor-info" style="background-color: white; color: black">
-                        <div class="doctor-info2">
-                            <img class="doctor-img" src="${doctor.profilePicture !== 'https://example.com/profile/default.jpg' ? doctor.profilePicture : '../favourite/assest/doctor 1.jpeg'}" alt="Doctor's Profile" />                    
-                            <div class="doctor-header">
-                                <span class="badge" style="
-                                    background-color: #007bff;
-                                    color: white;
-                                    padding: 5px 10px;
-                                    border-radius: 20px;
-                                    font-size: 12px;">Professional Doctor</span>
-                                <button id="favorite-btn" style="color: red" data-email="${doctor.email}">&#10084;</button>
-                            </div>
-                            <h2>${doctor.name}</h2>
-                            <p class="specialty">${doctor.specialty}</p>
-                            <div class="ratings">
-                                <span class="stars">⭐⭐⭐⭐⭐</span>
-                                <span class="rating">${doctor.rating}</span>
-                                <span class="reviews">${doctor.reviews.length}</span>
-                            </div>
+                <div class="doctor-info" style="background-color: white; color: black; width: 100%; position: relative; z-index: 10;">
+                    <div class="doctor-info2">
+                        <img class="doctor-img" src="${doctor.profilePicture !== 'https://example.com/profile/default.jpg' ? doctor.profilePicture : '../favourite/assest/doctor 1.jpeg'}" alt="Doctor's Profile" />
+                        <div class="doctor-header">
+                            <span class="badge" style="
+                                background-color: #007bff;
+                                color: white;
+                                padding: 5px 10px;
+                                border-radius: 20px;
+                                font-size: 12px;">Professional Doctor</span>
+                            <button id="favorite-btn" style="color: red" data-email="${doctor.email}">&#10084;</button>
+                        </div>
+                        <h2>${doctor.name}</h2>
+                        <p class="specialty">${doctor.specialty}</p>
+                        <div class="ratings">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating">${doctor.rating}</span>
+                            <span class="reviews">${doctor.reviews.length}</span>
                         </div>
                     </div>
-                `;
+                </div>
+            `;
+            
                 doctorElement.innerHTML += doctorInfo; // Append each doctor's info
             });
         } else {
@@ -274,6 +283,12 @@ if (doctors) {
             }
         };
     }
+
+
+    document.getElementById("profile-icon").addEventListener( 'click', ()=>{
+        window.location.href="../PROFILEPAGE/pro.html"
+
+    })
 
     // Marquee functionality
     const marquee = document.getElementById('marquee');

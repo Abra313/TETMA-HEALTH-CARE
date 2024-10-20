@@ -25,7 +25,7 @@ const loader = (element, text) => {
    
     spinner.style.height = '100vh';
     spinner.style.width = '150vw'; // Use 100vw for full width
-    spinner.style.backgroundColor = "rgba(255, 255, 255, 0.3)";
+    spinner.style.backgroundColor = "rgba(255, 255, 255, 0.9)";
     spinner.style.zIndex = "1000000";
     spinner.style.display = "flex"; // Use flexbox for centering
     spinner.style.flexDirection = "column"; // Use flexbox for centering
