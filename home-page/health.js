@@ -12,8 +12,6 @@ loader(document.body, "Loading your data");
 
 const doctors = getDoctors();
 
-
-
 if (doctors) {
     // Change header background on scroll
     window.addEventListener('scroll', () => {
@@ -50,11 +48,10 @@ if (doctors) {
     const docAppointmentProfile = document.getElementById('twodivs');
     const location = document.querySelector('.location');
 
-    //route to all appoitment
+    // Route to all appointments
     docAppointmentProfile.onclick = function() {
         window.location.href = 'appointments.html'; // Redirect to the appointments page
     };
-
 
     // Search functionality
     const searchInput = document.getElementById('input-search');
@@ -74,6 +71,7 @@ if (doctors) {
             const existingDoctorElement = document.getElementById('doctor-results');
             if (existingDoctorElement) {
                 existingDoctorElement.remove(); // Remove previous results
+                document.body.classList.remove('blur'); // Remove blur
             }
             return; // Exit the function
         }
@@ -94,16 +92,11 @@ if (doctors) {
         if (filteredDoctors.length > 0) {
             filteredDoctors.forEach(doctor => {
                 const doctorInfo = `
-                <div class="doctor-info" style="background-color: white; color: black; width: 100%; position: relative; z-index: 10;">
+                <div class="doctor-info" style="background-color: white; color: black; width: 144%; position: relative; z-index: 10; margin-left: 4%; margin-top: 23%; overflow-y: auto;">
                     <div class="doctor-info2">
                         <img class="doctor-img" src="${doctor.profilePicture !== 'https://example.com/profile/default.jpg' ? doctor.profilePicture : '../favourite/assest/doctor 1.jpeg'}" alt="Doctor's Profile" />
                         <div class="doctor-header">
-                            <span class="badge" style="
-                                background-color: #007bff;
-                                color: white;
-                                padding: 5px 10px;
-                                border-radius: 20px;
-                                font-size: 12px;">Professional Doctor</span>
+                            <span class="badge" style="background-color: #007bff; color: white; padding: 5px 10px; border-radius: 20px; font-size: 12px;">Professional Doctor</span>
                             <button id="favorite-btn" style="color: red" data-email="${doctor.email}">&#10084;</button>
                         </div>
                         <h2>${doctor.name}</h2>
@@ -115,8 +108,8 @@ if (doctors) {
                         </div>
                     </div>
                 </div>
-            `;
-            
+                `;
+                
                 doctorElement.innerHTML += doctorInfo; // Append each doctor's info
             });
         } else {
@@ -124,16 +117,7 @@ if (doctors) {
         }
 
         document.body.prepend(doctorElement); // Add the results to the DOM
-
-        // Add click event to doctorElement after it's populated
-        doctorElement.addEventListener('click', (event) => {
-            const target = event.target.closest('.doctor-info'); // Get the clicked doctor info
-            if (target) {
-                const doctorEmail = target.querySelector('#favorite-btn').dataset.email; // Get email from the button's data attribute
-                sessionStorage.setItem("selectedDoctor", doctorEmail);
-                window.location.href = '../doctor-details/mob2.html';
-            }
-        });
+        document.body.classList.add('blur'); // Add blur effect
     });
 
     // Set appointment details
@@ -241,12 +225,7 @@ if (doctors) {
                     <div class="doctor-info2">
                         <img class="doctor-img" src="${doctor.profilePicture !== 'https://example.com/profile/default.jpg' ? doctor.profilePicture : '../favourite/assest/doctor 1.jpeg'}" alt="Doctor's Profile" />                    
                         <div class="doctor-header">
-                            <span class="badge" style="
-                                background-color: #007bff;
-                                color: white;
-                                padding: 5px 10px;
-                                border-radius: 20px;
-                                font-size: 12px;">Professional Doctor</span>
+                            <span class="badge" style="background-color: #007bff; color: white; padding: 5px 10px; border-radius: 20px; font-size: 12px;">Professional Doctor</span>
                             <button id="favorite-btn" style="color: red">&#10084;</button>
                         </div>
                         <h2>${doctor.name}</h2>
@@ -284,11 +263,9 @@ if (doctors) {
         };
     }
 
-
-    document.getElementById("profile-icon").addEventListener( 'click', ()=>{
-        window.location.href="../PROFILEPAGE/pro.html"
-
-    })
+    document.getElementById("profile-icon").addEventListener('click', () => {
+        window.location.href="../PROFILEPAGE/pro.html";
+    });
 
     // Marquee functionality
     const marquee = document.getElementById('marquee');

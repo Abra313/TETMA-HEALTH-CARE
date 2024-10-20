@@ -79,6 +79,7 @@ h2 {
     transition: background-color 0.3s;
     display: block; /* Center the button */
     width: 100%; /* Full width */
+    
 }
 
 #backButton:hover {
