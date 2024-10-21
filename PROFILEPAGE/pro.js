@@ -130,3 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+const preview = document.createElement('img');
+preview.id = 'imagePreview';
+preview.style.display = 'none'; // Initially hide it
+document.getElementById('uploadimg').appendChild(preview);

@@ -1,3 +1,9 @@
+import { getDoctors} from "../doctor-details/getDoctors.js";
+
+const doctors = getDoctors();
+
+
+
 const locationOutput = document.getElementById("location");
 const searchButton = document.querySelector("#searchButton");
 const addressInput = document.getElementById("address");

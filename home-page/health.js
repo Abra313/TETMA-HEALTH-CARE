@@ -152,7 +152,8 @@ if (doctors) {
     `;
 
     const appointmentCount = document.createElement('p');
-    appointmentCount.innerText = loggedInUser.appointments.length;
+    // appointmentCount.innerText = loggedInUser.appointments.length || 5;
+    appointmentCount.innerText = 5;
     upcomingSchedule.appendChild(appointmentCount);
 
     // Fetch unique specialties from Firestore
